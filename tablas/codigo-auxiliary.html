@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Códigos Auxiliares</title>
+    <link rel="stylesheet" href="/style/layout.css" />
+    <link rel="stylesheet" href="/style/tabs.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      .container-aux {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+      }
+      .tab {
+        padding: 10px 15px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        background-color: #f0f0f0;
+        margin-right: 5px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .tab.active {
+        background-color: #fff;
+        border-bottom: 1px solid #fff;
+        margin-bottom: -1px;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        height: 30px;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px;
+      }
+      .col {
+        flex: 1;
+        padding: 0 10px;
+        min-width: 200px;
+      }
+      .sunat-button {
+        padding: 10px 20px;
+        background-color: #000000;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header">
+        <nav class="nav">
+          <button id="menuToggle" class="menu-toggle">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="menu-items">
+            <!-- Menu items will be dynamically inserted here -->
+          </div>
+        </nav>
+      </header>
+
+      <div class="toolbar">
+        <!-- Toolbar icons will be dynamically inserted here -->
+      </div>
+
+      <div class="main-content">
+        <aside class="sidebar">
+          <div class="sidebar-toggle">
+            <button id="sidebarToggle">
+              <i data-lucide="chevron-left"></i>
+            </button>
+          </div>
+          <nav class="sidebar-nav">
+            <!-- Sidebar items will be dynamically inserted here -->
+          </nav>
+        </aside>
+        <main class="content">
+          <div class="container-aux">
+            <h1>Códigos Auxiliares</h1>
+            <div class="container">
+              <!-- Tab Navigation -->
+              <div class="tabs">
+                <button class="tab-button active" data-tab="tab1">
+                  Datos Generales
+                </button>
+                <button class="tab-button active" data-tab="tab2">
+                  Datos Generales 2
+                </button>
+                <button class="tab-button active" data-tab="tab3">
+                  Datos Generales 3
+                </button>
+                <button class="tab-button active" data-tab="tab4">
+                  Datos Generales 4
+                </button>
+                <button class="tab-button" data-tab="tab5">
+                  Datos de Clientes
+                </button>
+                <button class="tab-button" data-tab="tab6">Lista</button>
+              </div>
+
+              <!-- Tab Content -->
+              <div class="tab-content">
+                <div id="tab1" class="tab-panel active">
+                  <div class="section">
+                    <h2>Datos Principales</h2>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="codigo">Código</label>
+                          <input type="text" id="codigo" value="2023646117" />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="clasificacion">Clasificación</label>
+                          <input
+                            type="text"
+                            id="clasificacion"
+                            value="Cliente"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="documento">Documento</label>
+                          <input type="text" id="documento" value="Jurídica" />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="tipo-doc">Tipo Doc</label>
+                          <input type="text" id="tipo-doc" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="ruc">RUC</label>
+                          <input
+                            type="text"
+                            id="ruc"
+                            value="CABLES ELECTRICOS BF"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="fecha-nac">Fecha Nac.</label>
+                          <input type="date" id="fecha-nac" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="estado">Estado</label>
+                          <input type="text" id="estado" />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="activo">Activo</label>
+                          <input type="text" id="activo" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="section">
+                    <h2>Dirección principal</h2>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="tipo-via">Tipo Vía</label>
+                          <input type="text" id="tipo-via" value="Jirón" />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="via">Vía</label>
+                          <input type="text" id="via" value="LONDRES" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="numero-via">Número Vía</label>
+                          <input type="text" id="numero-via" value="457" />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="tipo-zona">Tipo Zona</label>
+                          <input type="text" id="tipo-zona" value="Zona" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="zona">Zona</label>
+                          <input type="text" id="zona" />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="numero-interior">Número Interior</label>
+                          <input type="text" id="numero-interior" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="direccion">Dirección</label>
+                      <input
+                        type="text"
+                        id="direccion"
+                        value="JR. LONDRES NRO. 457"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="section">
+                    <h2>Ubigeo</h2>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="pais">País</label>
+                          <select id="pais">
+                            <option value="peru">PERU</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="departamento">Departamento</label>
+                          <select id="departamento">
+                            <option value="lima">LIMA</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="provincia">Provincia</label>
+                          <select id="provincia">
+                            <option value="lima">LIMA</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="distrito">Distrito</label>
+                          <select id="distrito">
+                            <option value="la-victoria">LA VICTORIA</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="ubigeo">Ubigeo</label>
+                          <input type="text" id="ubigeo" value="150115" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="text-align: right">
+                    <button id="sunat-button" class="sunat-button">
+                      SUNAT
+                    </button>
+                  </div>
+                </div>
+
+                <div id="tab2" class="tab-panel"></div>
+
+                <div id="tab3" class="tab-panel"></div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-item">
+            <i data-lucide="home"></i>
+            <span>001 EMPRESA DEMO</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="user"></i>
+            <span>ADM Administrador</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="calendar"></i>
+            <span>10/12/24</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="settings"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/js/layout.js"></script>
+    <script src="/js/tabs.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // SUNAT button functionality (placeholder)
+        const sunatButton = document.getElementById("sunat-button");
+        sunatButton.addEventListener("click", function () {
+          alert("SUNAT button clicked!");
+        });
+
+        // Date input default value (today's date)
+        const fechaNacInput = document.getElementById("fecha-nac");
+        const today = new Date().toISOString().split("T")[0];
+        fechaNacInput.value = today;
+      });
+    </script>
+  </body>
+</html>

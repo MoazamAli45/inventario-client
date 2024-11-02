@@ -13,7 +13,7 @@
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.5rem;
-  font-size: 1.15rem;
+  font-size: 14px;
   font-weight: 500;
   background: none;
   color: #666;
@@ -31,7 +31,6 @@
   background: white;
   border-radius: 0.5rem;
   padding: 1.5rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .tab-panel {
