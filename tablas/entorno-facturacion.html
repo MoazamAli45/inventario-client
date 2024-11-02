@@ -37,8 +37,33 @@
           </nav>
         </aside>
         <main class="content">
-          <h1>Main Content Area</h1>
-          <p>This is where the main content of your application would go.</p>
+          <div class="container">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+              <button class="tab-button active" data-tab="tab1">
+                Datos Generales
+              </button>
+              <button class="tab-button" data-tab="tab2">
+                Configuraciones
+              </button>
+              <button class="tab-button" data-tab="tab3">Lista</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+              <div id="tab1" class="tab-panel active">
+                <h2>Tab1 Content</h2>
+              </div>
+
+              <div id="tab2" class="tab-panel">
+                <h2>Tab2 Content</h2>
+              </div>
+
+              <div id="tab3" class="tab-panel">
+                <h2>Tab3 Content</h2>
+              </div>
+            </div>
+          </div>
         </main>
       </div>
 
