@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Converted Layout</title>
+    <link rel="stylesheet" href="/style/layout.css" />
+    <link rel="stylesheet" href="/style/tabs.css" />
+    <link rel="stylesheet" href="/style/tipos-cambio.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header">
+        <nav class="nav">
+          <button id="menuToggle" class="menu-toggle">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="menu-items">
+            <!-- Menu items will be dynamically inserted here -->
+          </div>
+        </nav>
+      </header>
+
+      <div class="toolbar">
+        <!-- Toolbar icons will be dynamically inserted here -->
+      </div>
+
+      <div class="main-content">
+        <aside class="sidebar">
+          <div class="sidebar-toggle">
+            <button id="sidebarToggle">
+              <i data-lucide="chevron-left"></i>
+            </button>
+          </div>
+          <nav class="sidebar-nav">
+            <!-- Sidebar items will be dynamically inserted here -->
+          </nav>
+        </aside>
+        <main class="content">
+          <div class="container">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+              <button class="tab-button" data-tab="tab1">
+                Datos Generales
+              </button>
+
+              <button class="tab-button active" data-tab="tab3">Lista</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+              <div id="tab1" class="tab-panel">
+                <div class="general-container">
+                  <h1 class="general-title">Datos Generales</h1>
+
+                  <form id="generalForm" class="general-form">
+                    <div class="general-form-group">
+                      <label class="general-label">Moneda</label>
+                      <div class="general-currency-group">
+                        <input
+                          type="text"
+                          class="general-input"
+                          name="monedaCodigo"
+                          value="02"
+                          readonly
+                        />
+                        <select class="general-select" name="moneda">
+                          <option value="USD">Dolares Americanos</option>
+                          <option value="EUR">Euros</option>
+                          <option value="GBP">Libras Esterlinas</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="general-form-group">
+                      <label class="general-label">Fecha</label>
+                      <input type="date" class="general-input" name="fecha" />
+                    </div>
+
+                    <div class="general-form-group">
+                      <label class="general-label">Tipo Cambio Compra</label>
+                      <input
+                        type="number"
+                        class="general-input"
+                        name="tipoCambioCompra"
+                        value="3.729"
+                        step="0.001"
+                      />
+                    </div>
+
+                    <div class="general-form-group">
+                      <label class="general-label">Tipo Cambio Venta</label>
+                      <input
+                        type="number"
+                        class="general-input"
+                        name="tipoCambioVenta"
+                        value="3.747"
+                        step="0.001"
+                      />
+                    </div>
+
+                    <div class="general-form-group">
+                      <label class="general-label">Tipo Cambio Comercial</label>
+                      <input
+                        type="number"
+                        class="general-input"
+                        name="tipoCambioComercial"
+                        value="4.3"
+                        step="0.001"
+                      />
+                    </div>
+
+                    <div class="general-form-group">
+                      <label class="general-label">Estado</label>
+                      <select class="general-select" name="estado">
+                        <option value="activo">Activo</option>
+                        <option value="inactivo" selected>Inactivo</option>
+                      </select>
+                    </div>
+
+                    <button type="submit" class="general-submit">
+                      Guardar
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <div id="tab3" class="tab-panel active">
+                <div class="exchange-container">
+                  <div class="exchange-filter">
+                    <input
+                      type="text"
+                      id="exchangeFilter"
+                      placeholder="Filtrar..."
+                    />
+                  </div>
+                  <table class="exchange-table">
+                    <thead>
+                      <tr>
+                        <th class="exchange-header">ID</th>
+                        <th class="exchange-header">Numero - Fecha</th>
+                        <th class="exchange-header">T.C.Compra</th>
+                        <th class="exchange-header">T.C.Venta</th>
+                        <th class="exchange-header">T.C.Comercial</th>
+                        <th class="exchange-header">Estado</th>
+                        <th class="exchange-header">U.Creacion</th>
+                        <th class="exchange-header">U.Modifica</th>
+                      </tr>
+                    </thead>
+                    <tbody id="exchangeTableBody">
+                      <!-- Table body will be populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-item">
+            <i data-lucide="home"></i>
+            <span>001 EMPRESA DEMO</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="user"></i>
+            <span>ADM Administrador</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="calendar"></i>
+            <span>10/12/24</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="settings"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/js/layout.js"></script>
+    <script src="/js/tabs.js"></script>
+    <script src="/js/tipos-cambio.js"></script>
+  </body>
+</html>
