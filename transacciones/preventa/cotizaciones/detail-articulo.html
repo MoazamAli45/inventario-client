@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Converted Layout</title>
+    <link rel="stylesheet" href="/style/layout.css" />
+    <link rel="stylesheet" href="/style/tabs.css" />
+    <link href="/style/modal.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/style/detail-articulo.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header">
+        <nav class="nav">
+          <button id="menuToggle" class="menu-toggle">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="menu-items">
+            <!-- Menu items will be dynamically inserted here -->
+          </div>
+        </nav>
+      </header>
+
+      <div class="toolbar">
+        <!-- Toolbar icons will be dynamically inserted here -->
+      </div>
+
+      <div class="main-content">
+        <aside class="sidebar">
+          <div class="sidebar-toggle">
+            <button id="sidebarToggle">
+              <i data-lucide="chevron-left"></i>
+            </button>
+          </div>
+          <nav class="sidebar-nav">
+            <!-- Sidebar items will be dynamically inserted here -->
+          </nav>
+        </aside>
+        <main class="content">
+          <div class="form_container_x92">
+            <div class="section_header_k31">Detalle del Artículo</div>
+            <div class="form_grid_j84">
+              <div class="form-row">
+                <div class="form_field_y62">
+                  <label class="input_label_m45">Artículo</label>
+                  <div class="input-with-button">
+                    <input type="text" class="input_field_p73" readonly />
+                    <button>...</button>
+                  </div>
+                </div>
+                <div class="form_field_y62">
+                  <input type="text" class="input_field_p73" readonly />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form_field_y62">
+                  <label class="input_label_m45">Almacen</label>
+                  <div class="input-with-button">
+                    <input type="text" class="input_field_p73" readonly />
+                    <button>...</button>
+                  </div>
+                </div>
+                <div class="form_field_y62">
+                  <input type="text" class="input_field_p73" readonly />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form_field_y62">
+                  <label class="input_label_m45">Modelo</label>
+                  <div class="input-with-button">
+                    <input type="text" class="input_field_p73" readonly />
+                    <button>...</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Marca</label>
+                <input type="text" class="input_field_p73" />
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Stock</label>
+                <input
+                  type="number"
+                  value="0"
+                  class="input_field_p73 number_input_h28"
+                />
+              </div>
+            </div>
+
+            <div class="section_header_k31">Datos de la Venta</div>
+            <div class="form_grid_j84">
+              <div class="form_field_y62">
+                <label class="input_label_m45">Cantidad</label>
+                <input type="number" class="input_field_p73 number_input_h28" />
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Precio</label>
+                <input
+                  type="number"
+                  value="0.00"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                />
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Moneda</label>
+                <select class="input_field_p73">
+                  <option value="">Seleccionar moneda</option>
+                </select>
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Fch Entrega</label>
+                <input type="date" class="input_field_p73 date_input_w91" />
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Percepción</label>
+                <input
+                  type="number"
+                  value="0.00"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                />
+              </div>
+            </div>
+
+            <div class="section_header_k31">Datos Contables</div>
+            <div class="form_grid_j84">
+              <div class="form_field_y62">
+                <label class="input_label_m45">Cod. Uso</label>
+                <select class="input_field_p73">
+                  <option value="">Seleccionar</option>
+                </select>
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">C.Costo</label>
+                <select class="input_field_p73">
+                  <option value="">AGPOVEN</option>
+                </select>
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Cod. Proy</label>
+                <select class="input_field_p73">
+                  <option value="">Seleccionar</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="button_container_v54">
+              <button class="button_n37">Nuevo</button>
+              <button class="button_n37">Guardar</button>
+              <button class="button_n37">Imprimir</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-item">
+            <i data-lucide="home"></i>
+            <span>001 EMPRESA DEMO</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="user"></i>
+            <span>ADM Administrador</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="calendar"></i>
+            <span>10/12/24</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="settings"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!--  MODAL -->
+    <!-- Add this modal HTML right before the closing body tag -->
+    <div id="selectionModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">Select Value</h3>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <table class="selection-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th id="nameHeader" style="display: none">Name</th>
+              </tr>
+            </thead>
+            <tbody id="modalTableBody">
+              <!-- Data will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/layout.js"></script>
+    <script src="/js/tabs.js"></script>
+    <!--  MODAL JAVASRCIPT -->
+    <!-- Add this script before closing body tag -->
+    <script>
+      const modal = document.getElementById("selectionModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalTableBody = document.getElementById("modalTableBody");
+      const closeBtn = document.querySelector(".close");
+      const nameHeader = document.getElementById("nameHeader");
+
+      // Sample data for different selection types
+      const selectionData = {
+        article: [
+          { code: "001", name: "Artículo 1" },
+          { code: "002", name: "Artículo 2" },
+        ],
+        warehouse: [
+          { code: "002", name: "AG AREQUIPA" },
+          { code: "003", name: "AG LIMA" },
+        ],
+        model: [{ code: "M001" }, { code: "M002" }],
+      };
+
+      // Function to open modal
+      function openModal(type, inputElement, descriptionElement) {
+        modalTitle.textContent = `Select ${type}`;
+        modalTableBody.innerHTML = "";
+
+        // Check if the first item in the data has a name property
+        const hasNameData = selectionData[type][0].hasOwnProperty("name");
+        nameHeader.style.display = hasNameData ? "table-cell" : "none";
+
+        selectionData[type].forEach((item) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+        <td>${item.code}</td>
+        ${item.name ? `<td>${item.name}</td>` : ""}
+      `;
+          row.onclick = () => {
+            inputElement.value = item.code;
+            if (descriptionElement) {
+              descriptionElement.value = item.name;
+            }
+            modal.style.display = "none";
+          };
+          modalTableBody.appendChild(row);
+        });
+
+        modal.style.display = "block";
+      }
+
+      // Close modal when clicking the close button or outside the modal
+      closeBtn.onclick = () => (modal.style.display = "none");
+      window.onclick = (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      // Add click handlers to all selection buttons
+      document
+        .querySelectorAll(".input-with-button button")
+        .forEach((button) => {
+          button.onclick = (e) => {
+            const container = e.target.closest(".form-row");
+            const inputElement = container.querySelector("input");
+            const label = container
+              .querySelector("label")
+              .textContent.toLowerCase();
+            const descriptionElement = container.querySelector(
+              ".description-field input"
+            );
+
+            if (label.includes("artículo")) {
+              openModal("article", inputElement, descriptionElement);
+            } else if (label.includes("almacen")) {
+              openModal("warehouse", inputElement, descriptionElement);
+            } else if (label.includes("modelo")) {
+              openModal("model", inputElement, null);
+            }
+          };
+        });
+    </script>
+  </body>
+</html>

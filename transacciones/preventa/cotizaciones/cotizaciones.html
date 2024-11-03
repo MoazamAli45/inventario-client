@@ -249,6 +249,9 @@
         border: 1px solid #ddd;
         background: white;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-items: center;
       }
       .icon {
         height: 16px;
@@ -558,7 +561,7 @@
                         <div id="doc-bienes-section" class="doc-detail-header">
                           <h3>Detalle del Documento - Bienes</h3>
                           <div class="doc-action-buttons">
-                            <button class="doc-btn-icon">
+                            <button class="doc-btn-icon" id="plus-button">
                               <i data-lucide="plus" class="icon"></i>
                             </button>
                             <button class="doc-btn-icon">
@@ -703,6 +706,10 @@
           { code: "001", name: "CONTADO EFECTIVO" },
           { code: "002", name: "CRÉDITO 30 DÍAS" },
         ],
+        client: [
+          { code: "10011472661", name: "ROJAS RUIZ EMILIO" },
+          { code: "2010947", name: "SERVICIOS GRAFIC" },
+        ],
       };
 
       // Function to open modal
@@ -742,13 +749,17 @@
         .querySelectorAll(".input-with-button button")
         .forEach((button) => {
           button.onclick = (e) => {
-            const container = e.target.closest(".form-row");
+            const container = e.target.closest(".form-group");
             const inputElement = container.querySelector("input");
             const descriptionElement =
               container.nextElementSibling?.querySelector("input");
 
             // Determine which type of selection to show
             if (
+              container.querySelector("label").textContent.includes("Cliente")
+            ) {
+              openModal("client", inputElement, descriptionElement);
+            } else if (
               container.querySelector("label").textContent.includes("Vendedor")
             ) {
               openModal("vendor", inputElement, descriptionElement);
@@ -786,6 +797,13 @@
           }
         });
       });
+
+      //    Redirecting to new pagge
+      const plusButton = document.getElementById("plus-button");
+      plusButton.onclick = () => {
+        window.location.href =
+          "/transacciones/preventa/cotizaciones/detail-articulo.html";
+      };
     </script>
 
     <script src="/js/layout.js"></script>

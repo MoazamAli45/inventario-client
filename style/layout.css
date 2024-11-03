@@ -12,6 +12,13 @@ body {
   min-height: 100vh;
 }
 
+option,
+select,
+input {
+  height: 30px;
+  border-radius: 5px;
+}
+
 /* Header styles */
 .header {
   background-color: black;
