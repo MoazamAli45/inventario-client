@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contabilizacio Ventas</title>
+    <link rel="stylesheet" href="/style/layout.css" />
+    <link rel="stylesheet" href="/style/tabs.css" />
+    <link rel="stylesheet" href="/style/contabilizacion-ventas.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header">
+        <nav class="nav">
+          <button id="menuToggle" class="menu-toggle">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="menu-items">
+            <!-- Menu items will be dynamically inserted here -->
+          </div>
+        </nav>
+      </header>
+
+      <div class="toolbar">
+        <!-- Toolbar icons will be dynamically inserted here -->
+      </div>
+
+      <div class="main-content">
+        <aside class="sidebar">
+          <div class="sidebar-toggle">
+            <button id="sidebarToggle">
+              <i data-lucide="chevron-left"></i>
+            </button>
+          </div>
+          <nav class="sidebar-nav">
+            <!-- Sidebar items will be dynamically inserted here -->
+          </nav>
+        </aside>
+        <main class="content">
+          <div class="container">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+              <button class="tab-button active" data-tab="tab1">
+                Datos Generales
+              </button>
+
+              <button class="tab-button" data-tab="tab3">Lista</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+              <div id="tab1" class="tab-panel active">
+                <div class="billing-container">
+                  <h2 class="billing-section-title">
+                    Parametros de Facturacion
+                  </h2>
+
+                  <form id="billingForm" class="billing-form">
+                    <div class="billing-section">
+                      <div class="billing-form-group">
+                        <label class="billing-label">Linea</label>
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="linea"
+                          value="26"
+                        />
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="lineaDescripcion"
+                          value="ENVASES Y EMBALAJES"
+                        />
+                      </div>
+
+                      <div class="billing-form-group">
+                        <label class="billing-label">Tipo de Factura</label>
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="tipoFactura"
+                          value="FVD"
+                        />
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="tipoFacturaDescripcion"
+                          value="FACTURA DE VENTA DOLARES"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="billing-section">
+                      <h2 class="billing-section-title">
+                        Parametros Contables
+                      </h2>
+
+                      <div class="billing-form-group">
+                        <label class="billing-label">Sub Diario</label>
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="subDiario"
+                          value="S05"
+                        />
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="subDiarioDescripcion"
+                          value="FACTURACION"
+                        />
+                      </div>
+
+                      <div class="billing-form-group">
+                        <label class="billing-label">N° de File</label>
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="numeroFile"
+                          value="F001"
+                        />
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="numeroFileDescripcion"
+                          value="REGISTRO VENTAS GENERAL"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="billing-columns">
+                      <div class="billing-column">
+                        <h3 class="billing-column-title">Cuenta Debe</h3>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label">Importe Bruto</label>
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeBrutoDebe"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label">Importe Descuento</label>
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeDescuentoDebe"
+                            value="741101"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe Descuento2</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeDescuento2Debe"
+                            value="741101"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe Descuento3</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeDescuento3Debe"
+                            value="741101"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe Impto. 1 - IVA</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeIVADebe"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe Impto. 2 - ISC</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeISCDebe"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label">Importe Total</label>
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeTotalDebe"
+                            value="121202"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe de Percepcion</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importePercepcionDebe"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="billing-column">
+                        <h3 class="billing-column-title">Cuenta Haber</h3>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label">Importe Bruto</label>
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeBrutoHaber"
+                            value="701111"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label">Importe Descuento</label>
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeDescuentoHaber"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe Descuento2</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeDescuento2Haber"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe Descuento3</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeDescuento3Haber"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe Impto. 1 - IVA</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeIVAHaber"
+                            value="401111"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe Impto. 2 - ISC</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeISCHaber"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label">Importe Total</label>
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importeTotalHaber"
+                          />
+                        </div>
+
+                        <div class="billing-form-group">
+                          <label class="billing-label"
+                            >Importe de Percepcion</label
+                          >
+                          <input
+                            type="text"
+                            class="billing-input"
+                            name="importePercepcionHaber"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="billing-submit">
+                      Guardar
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <div id="tab3" class="tab-panel">
+                <div class="container">
+                  <input
+                    type="text"
+                    id="filterInput"
+                    placeholder="Filtrar..."
+                  />
+                  <table id="dataTable">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Linea</th>
+                        <th>Descripción</th>
+                        <th>Clase Fact</th>
+                        <th>Descripción de Operación</th>
+                        <th>Descripción del Sub Diario</th>
+                        <th>KFUENTE</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Table body will be populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-item">
+            <i data-lucide="home"></i>
+            <span>001 EMPRESA DEMO</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="user"></i>
+            <span>ADM Administrador</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="calendar"></i>
+            <span>10/12/24</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="settings"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/js/layout.js"></script>
+    <script src="/js/tabs.js"></script>
+    <script src="/js/contabilizacion-ventas.js"></script>
+  </body>
+</html>

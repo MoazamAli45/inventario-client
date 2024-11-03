@@ -1,0 +1,131 @@
+.general-container {
+  text-align: left;
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.general-title {
+  font-size: 24px;
+  color: black;
+  margin-bottom: 30px;
+}
+
+.general-form-group {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.general-label {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.general-input,
+.general-select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.general-input:focus,
+.general-select:focus {
+  outline: none;
+  border-color: #666;
+}
+
+.general-submit {
+  background-color: #000;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.general-submit:hover {
+  background-color: #333;
+}
+
+.general-error {
+  border-color: red !important;
+}
+
+.general-error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  grid-column: 2;
+}
+
+/* Currency code input style */
+.general-currency-group {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 10px;
+}
+
+.exchange-container {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.exchange-filter {
+  margin-bottom: 20px;
+}
+
+.exchange-filter input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.exchange-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.exchange-header {
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: 500;
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.exchange-cell {
+  padding: 12px 15px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.exchange-row:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.exchange-row:hover {
+  background-color: #f2f2f2;
+}
+
+.exchange-number {
+  text-align: right;
+}
+
+.exchange-status {
+  text-align: center;
+}

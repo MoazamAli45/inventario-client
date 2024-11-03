@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clientes</title>
+    <link rel="stylesheet" href="/style/layout.css" />
+    <link rel="stylesheet" href="/style/tabs.css" />
+    <link rel="stylesheet" href="/style/clientes.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header">
+        <nav class="nav">
+          <button id="menuToggle" class="menu-toggle">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="menu-items">
+            <!-- Menu items will be dynamically inserted here -->
+          </div>
+        </nav>
+      </header>
+
+      <div class="toolbar">
+        <!-- Toolbar icons will be dynamically inserted here -->
+      </div>
+
+      <div class="main-content">
+        <aside class="sidebar">
+          <div class="sidebar-toggle">
+            <button id="sidebarToggle">
+              <i data-lucide="chevron-left"></i>
+            </button>
+          </div>
+          <nav class="sidebar-nav">
+            <!-- Sidebar items will be dynamically inserted here -->
+          </nav>
+        </aside>
+        <main class="content">
+          <div class="container">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+              <button class="tab-button" data-tab="tab1">
+                Datos Generales
+              </button>
+
+              <button class="tab-button active" data-tab="tab3">Lista</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+              <div id="tab1" class="tab-panel">
+                <div class="container1">
+                  <form id="addressForm">
+                    <div class="form-grid">
+                      <div class="left-section">
+                        <h2 class="section-title">Datos Principales</h2>
+
+                        <div class="form-group">
+                          <label class="form-label">Código</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="codigo"
+                            value="20294866117"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Clasificación</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="clasificacion"
+                            value="Cliente"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Documento</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="documento"
+                            value="RUC"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Tipo Persona</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="tipo_persona"
+                            value="Jurídica"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Tipo Doc.</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="tipo_doc"
+                            value="RUC"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Descripción</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="descripcion"
+                            value="CABLES ELECTRICOS BRANDE S.A.C"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">RUC</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="ruc"
+                            value="20294866117"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Fecha Nac.</label>
+                          <input
+                            type="date"
+                            class="form-input date-input"
+                            name="fecha_nac"
+                            value="2024-05-24"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Estado</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="estado"
+                            value="Activo"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div class="right-section">
+                        <h2 class="section-title">Dirección principal</h2>
+
+                        <div class="form-group">
+                          <label class="form-label">Tipo Vía</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="tipo_via"
+                            value="Jirón"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Vía</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="via"
+                            value="LONDRES"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Número Vía</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="numero_via"
+                            value="457"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Tipo Zona</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="tipo_zona"
+                            value="Zona"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Dirección</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="direccion"
+                            value="JR. LONDRES NRO. 457"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Nacionalidad</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="nacionalidad"
+                            value="Perú"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">País</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="pais"
+                            value="PERU"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Departamento</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="departamento"
+                            value="LIMA"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Provincia</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="provincia"
+                            value="LIMA"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Distrito</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="distrito"
+                            value="LA VICTORIA"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">Ubigeo</label>
+                          <input
+                            type="text"
+                            class="form-input"
+                            name="ubigeo"
+                            value="150115"
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="save-button">Guardar</button>
+                  </form>
+                </div>
+              </div>
+
+              <div id="tab3" class="tab-panel active">
+                <div class="container">
+                  <table id="dataTable">
+                    <thead>
+                      <tr>
+                        <th>Código</th>
+                        <th>Descripcion COA</th>
+                        <th>COA</th>
+                        <th>Clase</th>
+                        <th>Estado</th>
+                        <th>Tipo</th>
+                        <th>Código</th>
+                        <th>Distrito</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-item">
+            <i data-lucide="home"></i>
+            <span>001 EMPRESA DEMO</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="user"></i>
+            <span>ADM Administrador</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="calendar"></i>
+            <span>10/12/24</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="settings"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/js/layout.js"></script>
+    <script src="/js/tabs.js"></script>
+    <script src="/js/clientes.js"></script>
+  </body>
+</html>

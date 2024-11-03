@@ -21,6 +21,10 @@ input {
 
 /* Header styles */
 .header {
+  position: static;
+  top: 0%;
+  left: 0%;
+  width: 100%;
   background-color: black;
   color: white;
   padding: 1rem;
@@ -74,11 +78,13 @@ input {
   position: absolute;
   top: 100%;
   left: 0;
+  margin-top: 10px;
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+
   min-width: 200px;
+  border-radius: 5px;
 }
 
 .submenu .menu-item {
@@ -118,7 +124,8 @@ input {
 }
 
 .content {
-  padding: 20px;
+  margin-left: 260px;
+  margin-bottom: 20px;
 }
 
 .menu-items {
@@ -186,10 +193,15 @@ input {
 
 /* Toolbar styles */
 .toolbar {
+  position: fixed;
+  top: 70px;
+  left: 0%;
+  width: 100%;
   background-color: #e5e7eb;
   padding: 0.5rem;
   display: flex;
   gap: 0.5rem;
+  /* z-index: 2; */
 }
 
 .toolbar button {
@@ -212,7 +224,11 @@ input {
 }
 
 .sidebar {
+  position: fixed;
+  top: 121px;
+  left: 0%;
   width: 16rem;
+  height: 100%;
   background-color: white;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
   transition: width 0.3s ease-in-out;
@@ -283,6 +299,10 @@ input {
 
 /* Footer styles */
 .footer {
+  position: fixed;
+  bottom: 0%;
+  left: 0%;
+  width: 100%;
   background-color: white;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;
@@ -327,10 +347,10 @@ input {
 
   .sidebar {
     position: fixed;
-    top: 0;
+    top: 0%;
     left: -16rem;
     bottom: 0;
-    z-index: 20;
+    /* z-index: 1; */
     transition: left 0.3s ease-in-out;
   }
 
@@ -359,4 +379,81 @@ input {
 
 .sidebar-nav a:hover {
   background-color: #e9ecef;
+}
+
+.submenu .submenu {
+  top: 0;
+  left: 100%;
+  z-index: 1500;
+}
+
+.menu-item:hover > .submenu {
+  display: block;
+  z-index: 1500;
+}
+/* Header styles */
+.header {
+  /* position: fixed; */
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  background-color: black;
+  color: white;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* High z-index for header */
+}
+
+/* Submenu styles */
+.submenu {
+  display: none;
+  position: absolute;
+  top: 60%;
+  left: 0;
+  margin-top: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  border-radius: 5px;
+  min-height: auto;
+  z-index: 1500; /* Higher than header, toolbar, and sidebar */
+}
+
+/* Toolbar styles */
+.toolbar {
+  position: sticky;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  background-color: #e5e7eb;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 900; /* Lower than header but higher than sidebar */
+}
+
+/* Sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 121px;
+  left: 0%;
+  width: 16rem;
+  height: 100%;
+  background-color: white;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease-in-out;
+  z-index: 800; /* Lower than toolbar */
+}
+
+/* Footer styles */
+.footer {
+  position: fixed;
+  bottom: 0%;
+  left: 0%;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  z-index: 900; /* Same as header */
 }
