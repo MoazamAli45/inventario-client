@@ -111,6 +111,7 @@
                       </table>
                     </div>
                   </div>
+                  <div id="advancedSearchContent"></div>
                 </div>
 
                 <!--   TAB 4 TRANSPORT -->
@@ -186,7 +187,7 @@
                             name="transporte"
                             value="publico"
                           />
-                          Público
+                          <span> Público </span>
                         </label>
                         <label class="radio_label_w67">
                           <input
@@ -194,7 +195,7 @@
                             name="transporte"
                             value="privado"
                           />
-                          Privado
+                          <span> Privado </span>
                         </label>
                       </div>
                     </div>
@@ -236,7 +237,7 @@
                           <label class="field_label_h89"
                             >Nombres y Apellidos</label
                           >
-                          <select class="input_field_y45">
+                          <select class="input_field_y45 option-chofer">
                             <option>Seleccionar chofer</option>
                           </select>
                         </div>
@@ -264,15 +265,16 @@
                       <div class="checkbox_group_q34">
                         <label class="radio_label_w67">
                           <input type="radio" name="motivo" value="compra" />
-                          Compra
+                          <span> Compra</span>
                         </label>
+
                         <label class="radio_label_w67">
                           <input
                             type="radio"
                             name="motivo"
                             value="transformacion"
                           />
-                          Transformación
+                          <span> Transformación</span>
                         </label>
                         <label class="radio_label_w67">
                           <input
@@ -280,11 +282,14 @@
                             name="motivo"
                             value="devolucion"
                           />
-                          Devolución
+                          <span> Devolución </span>
                         </label>
                         <label class="radio_label_w67">
                           <input type="radio" name="motivo" value="traslado" />
-                          Traslado entre establecimientos de una misma empresa
+                          <span>
+                            Traslado entre establecimientos de una misma
+                            empresa</span
+                          >
                         </label>
                         <label class="radio_label_w67">
                           <input
@@ -292,7 +297,7 @@
                             name="motivo"
                             value="importacion"
                           />
-                          Importación
+                          <span> Importación </span>
                         </label>
                         <label class="radio_label_w67">
                           <input
@@ -300,15 +305,15 @@
                             name="motivo"
                             value="exportacion"
                           />
-                          Exportación
+                          <span> Exportación</span>
                         </label>
                         <label class="radio_label_w67">
                           <input type="radio" name="motivo" value="venta" />
-                          Venta con entrega a terceros
+                          <span> Venta con entrega a terceros</span>
                         </label>
                         <label class="radio_label_w67">
                           <input type="radio" name="motivo" value="otros" />
-                          Otros
+                          <span> Otros </span>
                         </label>
                       </div>
                     </div>

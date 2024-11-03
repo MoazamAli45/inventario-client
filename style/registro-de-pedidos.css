@@ -157,6 +157,12 @@
   border: 1px solid #ccc;
   border-radius: 3px;
   font-size: 14px;
+  height: 30px;
+}
+.option-chofer {
+  width: 95%;
+  font-size: 16px;
+  margin-inline: auto;
 }
 
 input[type="radio"] {
@@ -174,7 +180,15 @@ input[type="radio"] {
   align-items: center;
   justify-items: center;
   gap: 5px;
+  font-size: 16px;
   cursor: pointer;
+}
+.radio_label_w67 span {
+  margin-top: 3px;
+}
+
+.radio_label_w67 span {
+  margin-top: 3px;
 }
 
 .checkbox_group_q34 {
