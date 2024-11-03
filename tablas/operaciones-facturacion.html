@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Converted Layout</title>
+    <title>Operaciones Facturacion</title>
     <link rel="stylesheet" href="/style/layout.css" />
     <link rel="stylesheet" href="/style/tabs.css" />
     <link rel="stylesheet" href="/style/operaciones-facturacion.css" />
@@ -41,26 +41,225 @@
           <div class="container">
             <!-- Tab Navigation -->
             <div class="tabs">
-              <button class="tab-button active" data-tab="tab1">
+              <button class="tab-button" data-tab="tab1">
                 Datos Generales
               </button>
               <button class="tab-button" data-tab="tab2">
                 Configuraciones
               </button>
-              <button class="tab-button" data-tab="tab3">Lista</button>
+              <button class="tab-button active" data-tab="tab3">Lista</button>
             </div>
 
             <!-- Tab Content -->
             <div class="tab-content">
-              <div id="tab1" class="tab-panel active">
-                <h2>Tab1 Content</h2>
+              <div id="tab1" class="tab-panel">
+                <div class="container3">
+                  <h1 class="title1">Datos Principales</h1>
+
+                  <form id="mainDataForm">
+                    <div class="form-group1">
+                      <label class="form-label1">Código</label>
+                      <div class="form-inputs1">
+                        <input
+                          type="text"
+                          class="code-input1"
+                          name="codigo"
+                          value="FVS"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group1">
+                      <label class="form-label1">Descripción</label>
+                      <div class="form-inputs1">
+                        <input
+                          type="text"
+                          class="desc-input1"
+                          name="descripcion"
+                          value="FACTURA DE VENTA SOLES"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group1">
+                      <label class="form-label">Tipo Documento</label>
+                      <div class="form-inputs">
+                        <input
+                          type="text"
+                          class="code-input1"
+                          name="tipo_doc_code"
+                          value="FV"
+                          required
+                        />
+                        <input
+                          type="text"
+                          class="desc-input1"
+                          name="tipo_doc_desc"
+                          value="FACTURA VENTA"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group1">
+                      <label class="form-label1">Impuesto</label>
+                      <div class="form-inputs">
+                        <select name="impuesto" required>
+                          <option value="Según M/Venta">Según M/Venta</option>
+                          <option value="Según Artículo">Según Artículo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group1">
+                      <label class="form-label1">Moneda</label>
+                      <div class="form-inputs1">
+                        <input
+                          type="text"
+                          class="code-input1"
+                          name="moneda_code"
+                          value="01"
+                          required
+                        />
+                        <input
+                          type="text"
+                          class="desc-input1"
+                          name="moneda_desc"
+                          value="Soles"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group1">
+                      <label class="form-label1">Estado</label>
+                      <div class="form-inputs1">
+                        <select name="estado" required>
+                          <option value="Activo">Activo</option>
+                          <option value="Inactivo">Inactivo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="save-button1">Guardar</button>
+                  </form>
+                </div>
               </div>
 
               <div id="tab2" class="tab-panel">
-                <h2>Tab2 Content</h2>
+                <div class="container2">
+                  <form id="operationForm">
+                    <div class="form-group">
+                      <div class="form-row">
+                        <label class="form-label">Oper Facturación</label>
+                        <div class="form-inputs">
+                          <input
+                            type="text"
+                            class="code-input"
+                            name="facturacion_code"
+                            value="FVS"
+                            required
+                          />
+                          <input
+                            type="text"
+                            class="desc-input"
+                            name="facturacion_desc"
+                            value="FACTURA DE VENTA SOLES"
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <h2 class="section-title">Parámetros</h2>
+
+                      <div class="form-row">
+                        <label class="form-label">Operación Log Salida</label>
+                        <div class="form-inputs">
+                          <input
+                            type="text"
+                            class="code-input"
+                            name="log_salida_code"
+                            value="SVT"
+                            required
+                          />
+                          <input
+                            type="text"
+                            class="desc-input"
+                            name="log_salida_desc"
+                            value="SALIDA POR VENTA LOCAL"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <label class="form-label"
+                          >Operación Log Anulación</label
+                        >
+                        <div class="form-inputs">
+                          <input
+                            type="text"
+                            class="code-input"
+                            name="log_anulacion_code"
+                            value="IAV"
+                            required
+                          />
+                          <input
+                            type="text"
+                            class="desc-input"
+                            name="log_anulacion_desc"
+                            value="INGRESO ANULACION DE VENTA"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <label class="form-label"
+                          >Operación Fact Nota Crédito</label
+                        >
+                        <div class="form-inputs">
+                          <input
+                            type="text"
+                            class="code-input"
+                            name="nota_credito_code"
+                            value="NCS"
+                            required
+                          />
+                          <input
+                            type="text"
+                            class="desc-input"
+                            name="nota_credito_desc"
+                            value="NOTA DE CREDITO SOLES"
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="checkbox-group">
+                        <input
+                          type="checkbox"
+                          id="showInApp"
+                          name="show_in_app"
+                        />
+                        <label for="showInApp"
+                          >Mostrar en el app (Datacont Mobile)</label
+                        >
+                      </div>
+                    </div>
+
+                    <button type="submit" class="save-button">Guardar</button>
+                  </form>
+                </div>
               </div>
 
-              <div id="tab3" class="tab-panel">
+              <div id="tab3" class="tab-panel active">
                 <div class="container1">
                   <table id="documentTable">
                     <thead>
