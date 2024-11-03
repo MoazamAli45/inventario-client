@@ -1,7 +1,6 @@
 .container1 {
   text-align: left;
   padding: 0%;
-  max-width: 100%;
   margin: 0 auto;
   background-color: white;
   border-radius: 8px;
@@ -137,13 +136,6 @@ tr:hover {
   font-size: 12px;
   margin-top: 5px;
   display: none;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
 }
 
 .title1 {
