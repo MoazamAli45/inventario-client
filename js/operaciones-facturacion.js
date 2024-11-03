@@ -39,3 +39,104 @@ function generateTable() {
 
 // Generate table on page load
 document.addEventListener("DOMContentLoaded", generateTable);
+
+document
+  .getElementById("operationForm")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Reset any previous error states
+    const inputs = this.querySelectorAll('input[type="text"]');
+    inputs.forEach((input) => {
+      input.classList.remove("error");
+    });
+
+    // Check for empty fields
+    let hasError = false;
+    inputs.forEach((input) => {
+      if (!input.value.trim()) {
+        input.classList.add("error");
+        hasError = true;
+      }
+    });
+
+    if (hasError) {
+      alert("Por favor, complete todos los campos requeridos.");
+      return;
+    }
+
+    // Collect form data
+    const formData = {
+      facturacion: {
+        code: this.facturacion_code.value,
+        description: this.facturacion_desc.value,
+      },
+      logSalida: {
+        code: this.log_salida_code.value,
+        description: this.log_salida_desc.value,
+      },
+      logAnulacion: {
+        code: this.log_anulacion_code.value,
+        description: this.log_anulacion_desc.value,
+      },
+      notaCredito: {
+        code: this.nota_credito_code.value,
+        description: this.nota_credito_desc.value,
+      },
+      showInApp: this.show_in_app.checked,
+    };
+
+    // Show confirmation
+    if (confirm("¿Desea guardar los cambios?")) {
+      console.log("Form Data:", formData);
+      alert("Datos guardados exitosamente");
+    }
+  });
+
+document
+  .getElementById("mainDataForm")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Reset any previous error states
+    const inputs = this.querySelectorAll("input, select");
+    inputs.forEach((input) => {
+      input.classList.remove("error");
+    });
+
+    // Check for empty fields
+    let hasError = false;
+    inputs.forEach((input) => {
+      if (!input.value.trim()) {
+        input.classList.add("error");
+        hasError = true;
+      }
+    });
+
+    if (hasError) {
+      alert("Por favor, complete todos los campos requeridos.");
+      return;
+    }
+
+    // Collect form data
+    const formData = {
+      codigo: this.codigo.value,
+      descripcion: this.descripcion.value,
+      tipoDocumento: {
+        code: this.tipo_doc_code.value,
+        description: this.tipo_doc_desc.value,
+      },
+      impuesto: this.impuesto.value,
+      moneda: {
+        code: this.moneda_code.value,
+        description: this.moneda_desc.value,
+      },
+      estado: this.estado.value,
+    };
+
+    // Show confirmation
+    if (confirm("¿Desea guardar los cambios?")) {
+      console.log("Form Data:", formData);
+      alert("Datos guardados exitosamente");
+    }
+  });
