@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guía de Remisión de Pedidos</title>
+    <link rel="stylesheet" href="/style/layout.css" />
+    <link rel="stylesheet" href="/style/tabs.css" />
+    <link rel="stylesheet" href="/style/registro-de-pedidos.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header">
+        <nav class="nav">
+          <button id="menuToggle" class="menu-toggle">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="menu-items">
+            <!-- Menu items will be dynamically inserted here -->
+          </div>
+        </nav>
+      </header>
+
+      <div class="toolbar">
+        <!-- Toolbar icons will be dynamically inserted here -->
+      </div>
+
+      <div class="main-content">
+        <aside class="sidebar">
+          <div class="sidebar-toggle">
+            <button id="sidebarToggle">
+              <i data-lucide="chevron-left"></i>
+            </button>
+          </div>
+          <nav class="sidebar-nav">
+            <!-- Sidebar items will be dynamically inserted here -->
+          </nav>
+        </aside>
+        <main class="content">
+          <div class="container_x47">
+            <h1 class="title_k92">Guía de Remisión de Pedidos</h1>
+
+            <!--  TABS -->
+
+            <div class="container">
+              <!-- Tab Navigation -->
+              <div class="tabs">
+                <button class="tab-button active" data-tab="tab1">
+                  Datos del Documento
+                </button>
+                <button class="tab-button" data-tab="tab2">
+                  Detalle del Documento
+                </button>
+                <button class="tab-button" data-tab="tab3">
+                  Datos Complementarios
+                </button>
+                <button class="tab-button" data-tab="tab4">
+                  Datos de Transporte
+                </button>
+                <button class="tab-button" data-tab="tab5">Lista</button>
+              </div>
+
+              <!-- Tab Content -->
+              <div class="tab-content">
+                <!-- Datos del Documento -->
+                <div id="tab1" class="tab-panel active">
+                  <div class="search_section_p23">
+                    <div class="search_options_y67">
+                      <div class="search_option_w89 active_h78">
+                        Búsqueda Simple
+                      </div>
+                      <div class="search_option_w89">Búsqueda Avanzada</div>
+                    </div>
+                  </div>
+                  <!--  SIMPLE CONTENT -->
+                  <div class="content_simple" id="simpleSearchContent">
+                    <div class="search_controls_t45">
+                      <span class="search_label_q12">Buscar por:</span>
+                      <select class="search_select_v34">
+                        <option>Ult. 50 Registros</option>
+                        <option>Fecha</option>
+                        <option>Número</option>
+                      </select>
+                      <input
+                        type="text"
+                        class="search_input_r78"
+                        placeholder="Buscar..."
+                      />
+                    </div>
+
+                    <div class="table_container_s56">
+                      <table class="data_table_f89">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>GR</th>
+                            <th>T001</th>
+                            <th>Número</th>
+                            <th>Fecha Doc</th>
+                            <th>Mon</th>
+                            <th>T. Cambio</th>
+                            <th>Oper</th>
+                            <th>Cliente</th>
+                            <th>Dirección</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tableBody_k45">
+                          <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="tab4" class="tab-panel">
+                  <h2>Tab4 Content</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-item">
+            <i data-lucide="home"></i>
+            <span>001 EMPRESA DEMO</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="user"></i>
+            <span>ADM Administrador</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="calendar"></i>
+            <span>10/12/24</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="settings"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/js/layout.js"></script>
+    <script src="/js/tabs.js"></script>
+    <!--   JS REGISTRO DE PEDIDOS -->
+    <script>
+      // Sample data
+      const orderData = [
+        {
+          id: "1163",
+          gr: "GR",
+          t001: "T001",
+          numero: "00000810",
+          fecha: "09/11/2022",
+          mon: "02",
+          cambio: "3.9360",
+          oper: "F/D",
+          cliente: "10012185261 ARCE MERMA ANDRES AV",
+          direccion: "JR AREQUIPA 654 - PUNO",
+        },
+        {
+          id: "1163",
+          gr: "GR",
+          t001: "T001",
+          numero: "00000809",
+          fecha: "09/11/2022",
+          mon: "02",
+          cambio: "3.9360",
+          oper: "F/D",
+          cliente: "10012185261 ARCE MERMA ANDRES AV",
+          direccion: "JR AREQUIPA 654 - PUNO",
+        },
+        {
+          id: "1163",
+          gr: "GR",
+          t001: "T001",
+          numero: "00000808",
+          fecha: "09/11/2022",
+          mon: "02",
+          cambio: "3.9360",
+          oper: "F/D",
+          cliente: "10012185261 ARCE MERMA ANDRES AV",
+          direccion: "JR AREQUIPA 654 - PUNO",
+        },
+        {
+          id: "1162",
+          gr: "GR",
+          t001: "T001",
+          numero: "00000773",
+          fecha: "12/11/2022",
+          mon: "02",
+          cambio: "3.8600",
+          oper: "F/D",
+          cliente: "10043389171 NICHO MATTO ROCIO PAU",
+          direccion: "AV ALFONSO UGARTE 1412 1",
+        },
+      ];
+
+      // Populate table
+      function populateTable(data) {
+        const tbody = document.getElementById("tableBody_k45");
+        tbody.innerHTML = "";
+
+        data.forEach((row) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+                    <td>${row.id}</td>
+                    <td>${row.gr}</td>
+                    <td>${row.t001}</td>
+                    <td>${row.numero}</td>
+                    <td>${row.fecha}</td>
+                    <td class="number_cell_h23">${row.mon}</td>
+                    <td class="number_cell_h23">${row.cambio}</td>
+                    <td>${row.oper}</td>
+                    <td>${row.cliente}</td>
+                    <td>${row.direccion}</td>
+                `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Search option switching with content toggle
+      document
+        .querySelectorAll(".search_option_w89")
+        .forEach((option, index) => {
+          option.addEventListener("click", () => {
+            // Remove active class from current active option
+            document
+              .querySelector(".search_option_w89.active_h78")
+              .classList.remove("active_h78");
+
+            // Add active class to clicked option
+            option.classList.add("active_h78");
+
+            // Toggle content visibility based on which tab is clicked
+            const simpleContent = document.getElementById(
+              "simpleSearchContent"
+            );
+            const advancedContent = document.getElementById(
+              "advancedSearchContent"
+            );
+
+            if (index === 0) {
+              simpleContent.style.display = "block";
+              advancedContent.style.display = "none";
+            } else {
+              simpleContent.style.display = "none";
+              advancedContent.style.display = "block";
+            }
+          });
+        });
+
+      // Initialize table
+      document.addEventListener("DOMContentLoaded", () => {
+        populateTable(orderData);
+      });
+    </script>
+  </body>
+</html>
