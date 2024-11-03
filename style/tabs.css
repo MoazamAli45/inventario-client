@@ -34,10 +34,12 @@
 }
 
 .tab-panel {
+  text-align: center;
   display: none;
 }
 
 .tab-panel.active {
+  text-align: center;
   display: block;
 }
 
