@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Converted Layout</title>
+    <link rel="stylesheet" href="/style/layout.css" />
+    <link rel="stylesheet" href="/style/tabs.css" />
+    <link rel="stylesheet" href="/style/vendedores.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header">
+        <nav class="nav">
+          <button id="menuToggle" class="menu-toggle">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="menu-items">
+            <!-- Menu items will be dynamically inserted here -->
+          </div>
+        </nav>
+      </header>
+
+      <div class="toolbar">
+        <!-- Toolbar icons will be dynamically inserted here -->
+      </div>
+
+      <div class="main-content">
+        <aside class="sidebar">
+          <div class="sidebar-toggle">
+            <button id="sidebarToggle">
+              <i data-lucide="chevron-left"></i>
+            </button>
+          </div>
+          <nav class="sidebar-nav">
+            <!-- Sidebar items will be dynamically inserted here -->
+          </nav>
+        </aside>
+        <main class="content">
+          <div class="container">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+              <button class="tab-button active" data-tab="tab1">
+                Datos Generales
+              </button>
+
+              <button class="tab-button" data-tab="tab3">Lista</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+              <div id="tab1" class="tab-panel active">
+                <div class="container1">
+                  <form id="dataForm">
+                    <h2 class="section-title">Datos Principales</h2>
+
+                    <div class="form-group">
+                      <label class="form-label">Código</label>
+                      <div class="form-inputs">
+                        <input
+                          type="text"
+                          class="code-input"
+                          name="codigo"
+                          value="334"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Descripción</label>
+                      <div class="form-inputs">
+                        <input
+                          type="text"
+                          class="desc-input"
+                          name="descripcion"
+                          value="Ag. Pre Prensa Trujillo"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Dirección</label>
+                      <div class="form-inputs">
+                        <input
+                          type="text"
+                          class="desc-input"
+                          name="direccion"
+                          value="Trujillo"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Teléfono(s)</label>
+                      <div class="form-inputs">
+                        <input
+                          type="text"
+                          class="code-input"
+                          name="telefono"
+                          value="4419600"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Estado</label>
+                      <div class="form-inputs">
+                        <input
+                          type="text"
+                          class="code-input"
+                          name="estado"
+                          value="Activo"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <h2 class="section-title">Datos Comerciales</h2>
+
+                    <div class="form-group">
+                      <label class="form-label">Clasificación</label>
+                      <div class="form-inputs">
+                        <input
+                          type="text"
+                          class="desc-input"
+                          name="clasificacion"
+                          value="Vendedores"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">% de Comisión</label>
+                      <div class="form-inputs">
+                        <input
+                          type="number"
+                          step="0.01"
+                          class="code-input"
+                          name="comision"
+                          value="0.00"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">% de Descuento Max</label>
+                      <div class="form-inputs">
+                        <input
+                          type="number"
+                          step="0.01"
+                          class="code-input"
+                          name="descuento"
+                          value="0.00"
+                          required
+                        />
+                        <div class="checkbox-group">
+                          <input
+                            type="checkbox"
+                            id="validacionDescuento"
+                            name="validacion_descuento"
+                          />
+                          <label for="validacionDescuento"
+                            >Activar Validación Descuento</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Clave de Autoriz. Dcto.</label>
+                      <div class="form-inputs">
+                        <input
+                          type="password"
+                          class="desc-input"
+                          name="clave_autorizacion"
+                          value="********"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Zona de Venta</label>
+                      <div class="form-inputs">
+                        <input
+                          type="text"
+                          class="code-input"
+                          name="zona_venta_codigo"
+                          value="016"
+                          required
+                        />
+                        <input
+                          type="text"
+                          class="desc-input"
+                          name="zona_venta_desc"
+                          value="Ag Pre Prensa Trujillo"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <button type="submit" class="save-button">Guardar</button>
+                  </form>
+                </div>
+              </div>
+
+              <div id="tab3" class="tab-panel">
+                <div class="container">
+                  <table id="dataTable">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Código</th>
+                        <th>Descripción o Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Estado</th>
+                        <th>cod_cia</th>
+                        <th>dfch_crea</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-item">
+            <i data-lucide="home"></i>
+            <span>001 EMPRESA DEMO</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="user"></i>
+            <span>ADM Administrador</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="calendar"></i>
+            <span>10/12/24</span>
+          </div>
+          <div class="footer-item">
+            <i data-lucide="settings"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/js/layout.js"></script>
+    <script src="/js/tabs.js"></script>
+    <script src="/js/vendedores.js"></script>
+  </body>
+</html>
