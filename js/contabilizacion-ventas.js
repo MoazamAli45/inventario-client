@@ -1,143 +1,59 @@
-const tableData = [
-  {
-    id: 10180,
-    linea: 1,
-    descripcion: "ENVASES Y EMBALAJES",
-    claseFact: "FVD",
-    descripcionOperacion: "FACTURA DE VENTA",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-  {
-    id: 178,
-    linea: 12,
-    descripcion: "ANTICIPOS CLIENTES",
-    claseFact: "NCS",
-    descripcionOperacion: "NOTA DE CREDITO S",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-  {
-    id: 177,
-    linea: 12,
-    descripcion: "ANTICIPOS CLIENTES",
-    claseFact: "FVS",
-    descripcionOperacion: "FACTURA DE VENTA",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-  {
-    id: 173,
-    linea: 77,
-    descripcion: "FINANCIEROS",
-    claseFact: "BVS",
-    descripcionOperacion: "BOLETA DE VENTA S",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-  {
-    id: 172,
-    linea: 76,
-    descripcion: "ENAJENACION DE ACTIVO",
-    claseFact: "BVD",
-    descripcionOperacion: "BOLETA DE VENTA D",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-  {
-    id: 171,
-    linea: 21,
-    descripcion: "PRODUCTO TERMINADO",
-    claseFact: "CFD",
-    descripcionOperacion: "CREDITO EXTERIOR",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-  {
-    id: 168,
-    linea: 25,
-    descripcion: "SUMINISTROS DIVERSOS",
-    claseFact: "FGD",
-    descripcionOperacion: "FACTURA GRATUITA",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-  {
-    id: 166,
-    linea: 77,
-    descripcion: "FINANCIEROS",
-    claseFact: "BVD",
-    descripcionOperacion: "BOLETA DE VENTA D",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-  {
-    id: 164,
-    linea: 77,
-    descripcion: "FINANCIEROS",
-    claseFact: "NCS",
-    descripcionOperacion: "NOTA DE CREDITO S",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-  {
-    id: 163,
-    linea: 70,
-    descripcion: "SERVICIOS",
-    claseFact: "GIS",
-    descripcionOperacion: "GUIA INTERNA SOL",
-    descripcionSubDiario: "FACTURACION",
-    kfuente: "F001",
-  },
-];
+// JavaScript
 
 const table = document.getElementById("dataTable");
 const tbody = table.querySelector("tbody");
 const filterInput = document.getElementById("filterInput");
 let sortColumn = "";
 let sortDirection = "asc";
+let tableData = [];
 
+// Fetch data from the backend
+async function fetchBillingData() {
+  try {
+    const response = await fetch("http://localhost:3000/api/billing");
+    tableData = await response.json();
+    renderTable(tableData);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
+// Render table data
 function renderTable(data) {
   tbody.innerHTML = "";
   data.forEach((row) => {
     const tr = document.createElement("tr");
-    Object.values(row).forEach((value) => {
-      const td = document.createElement("td");
-      td.textContent = value;
-      tr.appendChild(td);
-    });
+    tr.innerHTML = `
+      <td>${row.id}</td>
+      <td>${row.line}</td>
+      <td>${row.lineDescription}</td>
+      <td>${row.invoiceType}</td>
+      <td>${row.invoiceTypeDescription}</td>
+      <td>${row.subDiary}</td>
+      <td>${row.subDiaryDescription}</td>
+      <td>${row.fileNumber}</td>
+      <td>${row.grossAmountDebit}</td>
+      <td>${row.discountAmountDebit}</td>
+      <td>${row.discountAmount2Debit}</td>
+      <td>${row.discountAmount3Debit}</td>
+      <td>${row.taxAmountDebit}</td>
+      <td>${row.exciseTaxAmountDebit}</td>
+      <td>${row.totalAmountDebit}</td>
+      <td>${row.perceptionAmountDebit}</td>
+      <td>${row.grossAmountCredit}</td>
+      <td>${row.discountAmountCredit}</td>
+      <td>${row.discountAmount2Credit}</td>
+      <td>${row.discountAmount3Credit}</td>
+      <td>${row.taxAmountCredit}</td>
+      <td>${row.exciseTaxAmountCredit}</td>
+      <td>${row.totalAmountCredit}</td>
+      <td>${row.perceptionAmountCredit}</td>
+    `;
     tbody.appendChild(tr);
   });
 }
 
-function sortData(column) {
-  if (sortColumn === column) {
-    sortDirection = sortDirection === "asc" ? "desc" : "asc";
-  } else {
-    sortColumn = column;
-    sortDirection = "asc";
-  }
-
-  const sortedData = [...tableData].sort((a, b) => {
-    if (a[column] < b[column]) return sortDirection === "asc" ? -1 : 1;
-    if (a[column] > b[column]) return sortDirection === "asc" ? 1 : -1;
-    return 0;
-  });
-
-  renderTable(sortedData);
-  updateSortIcons();
-}
-
-function updateSortIcons() {
-  const headers = table.querySelectorAll("th");
-  headers.forEach((header) => {
-    header.classList.remove("sort-icon", "asc", "desc");
-    if (header.textContent.toLowerCase() === sortColumn) {
-      header.classList.add("sort-icon", sortDirection);
-    }
-  });
-}
-
+// Filter table data based on the input value
 function filterTable() {
   const filterValue = filterInput.value.toLowerCase();
   const filteredData = tableData.filter((row) =>
@@ -148,10 +64,12 @@ function filterTable() {
   renderTable(filteredData);
 }
 
-// Initialize table
-renderTable(tableData);
+// Sort and filter functions remain the same
 
-// Add event listeners
+// Initialize table by fetching data
+fetchBillingData();
+
+// Add event listeners for sorting and filtering
 table.querySelector("thead").addEventListener("click", (e) => {
   if (e.target.tagName === "TH") {
     const column = e.target.textContent.toLowerCase();

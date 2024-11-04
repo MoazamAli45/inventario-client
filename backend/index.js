@@ -408,6 +408,27 @@ app.post("/condiciones-comerciales/datos", (req, res) => {
   });
 });
 
+//    FETCHING
+// BILLING: Fetch all data
+// BILLING: Fetch all data with English field names
+app.get("/api/billing", (req, res) => {
+  const sql = `SELECT id, line, lineDescription, invoiceType, invoiceTypeDescription, subDiary, 
+               subDiaryDescription, fileNumber, grossAmountDebit, discountAmountDebit, 
+               discountAmount2Debit, discountAmount3Debit, taxAmountDebit, exciseTaxAmountDebit, 
+               totalAmountDebit, perceptionAmountDebit, grossAmountCredit, discountAmountCredit, 
+               discountAmount2Credit, discountAmount3Credit, taxAmountCredit, exciseTaxAmountCredit, 
+               totalAmountCredit, perceptionAmountCredit 
+               FROM billing_parameters`;
+
+  db.query(sql, (error, results) => {
+    if (error) {
+      console.error("Database error:", error);
+      res.status(500).json({ error: "Failed to retrieve billing data" });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
