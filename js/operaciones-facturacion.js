@@ -120,23 +120,33 @@ document
 
     // Collect form data
     const formData = {
-      codigo: this.codigo.value,
-      descripcion: this.descripcion.value,
-      tipoDocumento: {
-        code: this.tipo_doc_code.value,
-        description: this.tipo_doc_desc.value,
-      },
-      impuesto: this.impuesto.value,
-      moneda: {
-        code: this.moneda_code.value,
-        description: this.moneda_desc.value,
-      },
-      estado: this.estado.value,
+      code: this.codigo.value,
+      description: this.descripcion.value,
+      document_type_code: this.tipo_doc_code.value,
+      document_type: this.tipo_doc_desc.value,
+      tax: this.impuesto.value,
+      currency_code: this.moneda_code.value,
+      currency: this.moneda_desc.value,
+      state: this.estado.value,
     };
-
-    // Show confirmation
-    if (confirm("¿Desea guardar los cambios?")) {
-      console.log("Form Data:", formData);
-      alert("Datos guardados exitosamente");
-    }
+    //API CALL
+    fetch("http://localhost:3000/operaciones-facturacion/datos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((result) => {
+        console.log("Success:", result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   });
