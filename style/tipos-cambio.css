@@ -13,6 +13,17 @@
   margin-bottom: 30px;
 }
 
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  margin-bottom: 1rem; /* Optional spacing below the table */
+}
+
+.exchange-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px; /* Set minimum width if needed */
+}
 .general-form-group {
   display: grid;
   grid-template-columns: 200px 1fr;
