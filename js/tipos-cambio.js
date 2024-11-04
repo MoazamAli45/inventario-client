@@ -1,5 +1,6 @@
+// Add event listener for form submission
 document.getElementById("generalForm").addEventListener("submit", function (e) {
-  e.preventDefault();
+  e.preventDefault(); // Prevent default form submission
 
   // Remove any existing error messages
   document
@@ -9,7 +10,7 @@ document.getElementById("generalForm").addEventListener("submit", function (e) {
     .querySelectorAll(".general-error")
     .forEach((field) => field.classList.remove("general-error"));
 
-  // Get all form fields
+  // Define required fields
   const fields = [
     "moneda",
     "fecha",
@@ -18,9 +19,9 @@ document.getElementById("generalForm").addEventListener("submit", function (e) {
     "tipoCambioComercial",
     "estado",
   ];
-  let hasError = false;
+  let hasError = false; // Flag to track errors
 
-  // Validate each field
+  // Validate each required field
   fields.forEach((fieldName) => {
     const field = document.querySelector(`[name="${fieldName}"]`);
     const value = field.value.trim();
@@ -29,14 +30,15 @@ document.getElementById("generalForm").addEventListener("submit", function (e) {
       hasError = true;
       field.classList.add("general-error");
 
+      // Display error message
       const errorMsg = document.createElement("div");
       errorMsg.className = "general-error-message";
-      errorMsg.textContent = "Este campo es requerido";
+      errorMsg.textContent = "This field is required";
       field.parentNode.appendChild(errorMsg);
     }
   });
 
-  // Validate exchange rates are positive numbers
+  // Validate that exchange rates are positive numbers
   const rateFields = [
     "tipoCambioCompra",
     "tipoCambioVenta",
@@ -46,17 +48,20 @@ document.getElementById("generalForm").addEventListener("submit", function (e) {
     const field = document.querySelector(`[name="${fieldName}"]`);
     const value = parseFloat(field.value);
 
-    if (value <= 0) {
+    if (value <= 0 || isNaN(value)) {
+      // Check if the value is positive and a number
       hasError = true;
       field.classList.add("general-error");
 
+      // Display error message for invalid exchange rate
       const errorMsg = document.createElement("div");
       errorMsg.className = "general-error-message";
-      errorMsg.textContent = "El tipo de cambio debe ser mayor que 0";
+      errorMsg.textContent = "Exchange rate must be greater than 0";
       field.parentNode.appendChild(errorMsg);
     }
   });
 
+  // If no validation errors, proceed to collect data
   if (!hasError) {
     // Collect form data
     const formData = new FormData(e.target);
@@ -65,10 +70,28 @@ document.getElementById("generalForm").addEventListener("submit", function (e) {
     // Log form data to console
     console.log("Form Data:", data);
 
-    // Here you would typically send the data to a server
-    alert("Formulario guardado exitosamente!");
+    // Send data to server (or perform other actions)
+    fetch("http://localhost:3000/api/saveGeneralData", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("Form successfully saved!");
+        } else {
+          alert("Failed to save form.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Connection error.");
+      });
   }
 });
+
 // Sample data
 const exchangeData = [
   {
