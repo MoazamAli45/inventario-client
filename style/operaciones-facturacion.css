@@ -75,7 +75,7 @@ tr:hover {
 
 .code-input {
   width: 120px;
-  padding: 8px 12px;
+  padding: 0px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
@@ -83,7 +83,7 @@ tr:hover {
 
 .desc-input {
   flex: 1;
-  padding: 8px 12px;
+  padding: 0px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
@@ -165,7 +165,7 @@ tr:hover {
 
 .code-input1 {
   width: 120px;
-  padding: 8px 12px;
+  padding: 0px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
@@ -174,7 +174,7 @@ tr:hover {
 
 .desc-input1 {
   flex: 1;
-  padding: 8px 12px;
+  padding: 0px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
@@ -182,7 +182,7 @@ tr:hover {
 }
 
 select {
-  padding: 8px 12px;
+  padding: 0px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
