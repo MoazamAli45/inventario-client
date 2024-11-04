@@ -161,55 +161,36 @@ table.querySelector("thead").addEventListener("click", (e) => {
 
 filterInput.addEventListener("input", filterTable);
 
-document.getElementById("billingForm").addEventListener("submit", function (e) {
-  e.preventDefault();
+document
+  .getElementById("billingForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
 
-  // Remove any existing error messages
-  document
-    .querySelectorAll(".billing-error-message")
-    .forEach((msg) => msg.remove());
-  document
-    .querySelectorAll(".billing-error")
-    .forEach((field) => field.classList.remove("billing-error"));
+    // Form validation
+    const formData = new FormData(this);
 
-  // Required fields
-  const requiredFields = [
-    "linea",
-    "lineaDescripcion",
-    "tipoFactura",
-    "tipoFacturaDescripcion",
-    "subDiario",
-    "subDiarioDescripcion",
-    "numeroFile",
-    "numeroFileDescripcion",
-  ];
-  let hasError = false;
-
-  // Validate required fields
-  requiredFields.forEach((fieldName) => {
-    const field = document.querySelector(`[name="${fieldName}"]`);
-    const value = field.value.trim();
-
-    if (!value) {
-      hasError = true;
-      field.classList.add("billing-error");
-
-      const errorMsg = document.createElement("div");
-      errorMsg.className = "billing-error-message";
-      errorMsg.textContent = "Este campo es requerido";
-      field.parentNode.appendChild(errorMsg);
-    }
-  });
-
-  if (!hasError) {
-    // Collect form data
-    const formData = new FormData(e.target);
+    // Convert FormData to a regular object
     const data = Object.fromEntries(formData.entries());
 
-    // Log form data to console
-    console.log("Form Data:", data);
-
-    // Here you would typically send the data to a server
-    alert("Formulario guardado exitosamente!");
-  }
-});
+    // Sending data to Node.js API
+    fetch("http://localhost:3000/api/billing", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.error) {
+          alert("Failed to save billing data.");
+          console.error("Error:", result.error);
+        } else {
+          alert("Billing data saved successfully!");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("There was an error sending data.");
+      });
+  });

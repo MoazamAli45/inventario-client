@@ -342,19 +342,6 @@
 
     <script src="/js/layout.js"></script>
     <script src="/js/tabs.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // SUNAT button functionality (placeholder)
-        const sunatButton = document.getElementById("sunat-button");
-        sunatButton.addEventListener("click", function () {
-          alert("SUNAT button clicked!");
-        });
-
-        // Date input default value (today's date)
-        const fechaNacInput = document.getElementById("fecha-nac");
-        const today = new Date().toISOString().split("T")[0];
-        fechaNacInput.value = today;
-      });
-    </script>
+    <script src="/js/codigo-auxiliary.js"></script>
   </body>
 </html>
