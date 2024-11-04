@@ -206,40 +206,65 @@ const exchangeData = [
   },
 ];
 
+// Utility function to format date as DD/MM/YYYY
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+const tbody = document.getElementById("exchangeTableBody");
+const filterInput = document.getElementById("exchangeFilter");
+console.log("filterInput", filterInput);
+let tableData = []; // Store the data globally for filtering
+
+// Fetch data from the API
+async function fetchGeneralData() {
+  try {
+    const response = await fetch("http://localhost:3000/api/getGeneralData");
+    tableData = await response.json();
+    renderTable(tableData);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
+// Render table data
 function renderTable(data) {
-  const tbody = document.getElementById("exchangeTableBody");
-  tbody.innerHTML = "";
+  tbody.innerHTML = ""; // Clear existing table rows
 
   data.forEach((row) => {
     const tr = document.createElement("tr");
     tr.className = "exchange-row";
 
     tr.innerHTML = `
-            <td class="exchange-cell">${row.id}</td>
-            <td class="exchange-cell">${row.numero}</td>
-            <td class="exchange-cell exchange-number">${row.compra.toFixed(
-              4
-            )}</td>
-            <td class="exchange-cell exchange-number">${row.venta.toFixed(
-              4
-            )}</td>
-            <td class="exchange-cell exchange-number">${row.comercial.toFixed(
-              4
-            )}</td>
-            <td class="exchange-cell exchange-status">${row.estado}</td>
-            <td class="exchange-cell">${row.creacion}</td>
-            <td class="exchange-cell">${row.modifica}</td>
-        `;
+      <td class="exchange-cell">${row.id}</td>
+      <td class="exchange-cell">${row.monedaCodigo} - ${formatDate(
+      row.fecha
+    )}</td>
+      <td class="exchange-cell exchange-number">${row.tipoCambioCompra.toFixed(
+        4
+      )}</td>
+      <td class="exchange-cell exchange-number">${row.tipoCambioVenta.toFixed(
+        4
+      )}</td>
+      <td class="exchange-cell exchange-number">${row.tipoCambioComercial.toFixed(
+        4
+      )}</td>
+      <td class="exchange-cell exchange-status">${row.estado}</td>
+   
+    `;
 
     tbody.appendChild(tr);
   });
 }
 
+// Filter table based on input value
 function filterTable() {
-  const filterValue = document
-    .getElementById("exchangeFilter")
-    .value.toLowerCase();
-  const filteredData = exchangeData.filter((row) =>
+  const filterValue = filterInput.value.toLowerCase();
+  const filteredData = tableData.filter((row) =>
     Object.values(row).some((value) =>
       value.toString().toLowerCase().includes(filterValue)
     )
@@ -247,29 +272,8 @@ function filterTable() {
   renderTable(filteredData);
 }
 
-// Initialize table
-renderTable(exchangeData);
+// Initialize table by fetching data
+fetchGeneralData();
 
-// Add event listener for filter input
-document
-  .getElementById("exchangeFilter")
-  .addEventListener("input", filterTable);
-
-// Add click event listener to rows
-document.getElementById("exchangeTableBody").addEventListener("click", (e) => {
-  const row = e.target.closest(".exchange-row");
-  if (row) {
-    const cells = row.cells;
-    const rowData = {
-      id: cells[0].textContent,
-      numero: cells[1].textContent,
-      compra: cells[2].textContent,
-      venta: cells[3].textContent,
-      comercial: cells[4].textContent,
-      estado: cells[5].textContent,
-      creacion: cells[6].textContent,
-      modifica: cells[7].textContent,
-    };
-    console.log("Selected Row:", rowData);
-  }
-});
+// Add event listener for filtering
+filterInput.addEventListener("input", filterTable);
