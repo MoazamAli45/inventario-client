@@ -122,3 +122,38 @@ tr:nth-child(even) {
 .error {
   border-color: #dc3545 !important;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.clientes-title {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+}
+
+.clientes-filter-container {
+  width: 80%;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+}
+
+.clientes-filter-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.clientes-filter-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.main-cont {
+  margin-top: 40px;
+  overflow-x: auto;
+}

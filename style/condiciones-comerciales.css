@@ -136,3 +136,33 @@ tr:nth-child(even) {
   margin-top: 4px;
   grid-column: 2;
 }
+
+.condiciones-title {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+}
+
+.condiciones-filter-container {
+  width: 80%;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+}
+
+.condiciones-filter-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.condiciones-filter-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.main-cont {
+  margin-top: 40px;
+  overflow-x: auto;
+}

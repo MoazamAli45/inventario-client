@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 const db = mysql.createConnection({
   host: "localhost",
-  port: 3310,
+  port: 3306,
   user: "root",
   password: "",
   database: "inventory",
@@ -67,6 +67,25 @@ app.post("/operaciones-facturacion/datos", (req, res) => {
   });
 });
 
+//GET Operation
+app.get("/operaciones-facturacion/datos", (req, res) => {
+  const selectQuery = "SELECT * FROM billing_operation_data";
+
+  db.query(selectQuery, (err, result) => {
+    if (err) {
+      console.error("Error retrieving data from MySQL:", err);
+      res.status(500).json({
+        error:
+          "Internal Server Error while retrieving data from billing_operation_data",
+      });
+    } else {
+      console.log(res);
+      res.status(200).json(result);
+    }
+  });
+});
+
+//POST Auxilary
 app.post("/api/saveAuxData", (req, res) => {
   const {
     code,
@@ -257,7 +276,7 @@ app.post("/operaciones-facturacion/configuration", (req, res) => {
   });
 });
 
-//Vendores Datos
+//POST Vendores Datos
 app.post("/vendedores/datos", (req, res) => {
   const {
     datosPrincipales_codigo,
@@ -305,7 +324,24 @@ app.post("/vendedores/datos", (req, res) => {
   });
 });
 
-//Clients Datos
+// GET Vendores
+
+app.get("/vendedores/datos", (req, res) => {
+  const selectQuery = "SELECT * FROM sellers_data";
+
+  db.query(selectQuery, (err, result) => {
+    if (err) {
+      console.error("Error retrieving data from MySQL:", err);
+      res.status(500).json({
+        error: "Internal Server Error while retrieving data from sellers_data",
+      });
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
+//POST Clients Datos
 app.post("/clientes/datos", (req, res) => {
   const {
     codigo,
@@ -369,7 +405,23 @@ app.post("/clientes/datos", (req, res) => {
   });
 });
 
-//Clients Datos
+//GET Client Datos
+app.get("/clientes/datos", (req, res) => {
+  const selectQuery = "SELECT * FROM clients_data";
+
+  db.query(selectQuery, (selectErr, selectResult) => {
+    if (selectErr) {
+      console.error("Error retrieving data from MySQL:", selectErr);
+      res.status(500).json({
+        error: "Internal Server Error while retrieving data from clients_data",
+      });
+    } else {
+      res.status(200).json(selectResult); // Return the retrieved data
+    }
+  });
+});
+
+//Post Commercial Condition Datos
 app.post("/condiciones-comerciales/datos", (req, res) => {
   const {
     codigo,
@@ -407,6 +459,25 @@ app.post("/condiciones-comerciales/datos", (req, res) => {
     }
   });
 });
+
+//GET Commercial Condition
+app.get("/condiciones-comerciales/datos", (req, res) => {
+  const selectQuery = "SELECT * FROM commercial_conditions_data";
+
+  db.query(selectQuery, (selectErr, selectResult) => {
+    if (selectErr) {
+      console.error("Error retrieving data from MySQL:", selectErr);
+      res.status(500).json({
+        error:
+          "Internal Server Error while retrieving data from commercial_conditions_data",
+      });
+    } else {
+      res.status(200).json(selectResult); // Return the retrieved data
+    }
+  });
+});
+
+//GET OPERATION
 
 //    FETCHING
 // BILLING: Fetch all data

@@ -260,16 +260,35 @@
               </div>
 
               <div id="tab3" class="tab-panel active">
-                <div class="container1">
-                  <table id="documentTable">
+                <!-- Filter input field -->
+                <div class="billing-filter-container">
+                  <input
+                    type="text"
+                    id="billing-filter"
+                    class="billing-filter-input"
+                    placeholder="Buscar en todos los campos..."
+                  />
+                </div>
+
+                <div class="table-main-container">
+                  <table class="billing-table">
                     <thead>
                       <tr>
-                        <th class="codigo">Código</th>
-                        <th>Descripción</th>
-                        <th class="tipo-doc">Tipo Doc</th>
+                        <th class="billing-table-heading">Código</th>
+                        <th class="billing-table-heading">Descripción</th>
+                        <th class="billing-table-heading">
+                          Código de Tipo de Documento
+                        </th>
+                        <th class="billing-table-heading">Tipo de Documento</th>
+                        <th class="billing-table-heading">Impuesto</th>
+                        <th class="billing-table-heading">Código de Moneda</th>
+                        <th class="billing-table-heading">Moneda</th>
+                        <th class="billing-table-heading">Estado</th>
                       </tr>
                     </thead>
-                    <tbody id="tableBody"></tbody>
+                    <tbody id="billing-data">
+                      <!-- Data will be inserted here -->
+                    </tbody>
                   </table>
                 </div>
               </div>

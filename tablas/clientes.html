@@ -289,21 +289,45 @@
               </div>
 
               <div id="tab3" class="tab-panel active">
-                <div class="container">
-                  <table id="dataTable">
+                <!-- Filter input field -->
+                <div class="clientes-filter-container">
+                  <input
+                    type="text"
+                    id="clientes-filter"
+                    class="clientes-filter-input"
+                    placeholder="Buscar en todos los campos..."
+                  />
+                </div>
+
+                <div class="main-cont">
+                  <table class="clientes-table">
                     <thead>
                       <tr>
                         <th>Código</th>
-                        <th>Descripcion COA</th>
-                        <th>COA</th>
-                        <th>Clase</th>
+                        <th>Clasificación</th>
+                        <th>Documento</th>
+                        <th>Tipo de Persona</th>
+                        <th>Tipo de Documento</th>
+                        <th>Descripción</th>
+                        <th>RUC</th>
+                        <th>Fecha de Nacimiento</th>
                         <th>Estado</th>
-                        <th>Tipo</th>
-                        <th>Código</th>
+                        <th>Tipo de Vía</th>
+                        <th>Vía</th>
+                        <th>Número de Vía</th>
+                        <th>Tipo de Zona</th>
+                        <th>Dirección</th>
+                        <th>Nacionalidad</th>
+                        <th>País</th>
+                        <th>Departamento</th>
+                        <th>Provincia</th>
                         <th>Distrito</th>
+                        <th>Ubigeo</th>
                       </tr>
                     </thead>
-                    <tbody id="tableBody"></tbody>
+                    <tbody id="clientes-data">
+                      <!-- Data will be inserted here -->
+                    </tbody>
                   </table>
                 </div>
               </div>

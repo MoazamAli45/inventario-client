@@ -208,3 +208,33 @@ select {
 .error1 {
   border-color: #dc3545 !important;
 }
+
+.billing-filter-container {
+  width: 100%;
+  text-align: left;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+}
+
+.billing-filter-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.billing-filter-input {
+  width: 100%;
+
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.billing-table {
+  text-align: left;
+  overflow-x: auto;
+  min-width: 1000px;
+}
+
+.table-main-container {
+  overflow-x: auto;
+}

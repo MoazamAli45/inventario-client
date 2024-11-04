@@ -159,3 +159,52 @@ document
         console.error("Error:", error);
       });
   });
+
+document.addEventListener("DOMContentLoaded", () => {
+  let tableData = []; // Array to store all data
+
+  // Fetch data and display in table
+  fetch("http://localhost:3000/operaciones-facturacion/datos")
+    .then((response) => response.json())
+    .then((data) => {
+      tableData = data; // Save data to filter later
+      displayTableData(tableData);
+    })
+    .catch((error) => console.error("Error fetching data:", error));
+
+  // Display table data
+  function displayTableData(data) {
+    const tableBody = document.getElementById("billing-data");
+    tableBody.innerHTML = "";
+
+    data.forEach((row) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+          <td>${row.Code}</td>
+          <td>${row.Description}</td>
+          <td>${row.DocumentTypeCode}</td>
+          <td>${row.DocumentType}</td>
+          <td>${row.Tax}</td>
+          <td>${row.CurrencyCode}</td>
+          <td>${row.Currency}</td>
+          <td>${row.State}</td>
+        `;
+      tableBody.appendChild(tr);
+    });
+  }
+
+  // Filter table data based on input
+  document
+    .getElementById("billing-filter")
+    .addEventListener("input", (event) => {
+      const filterValue = event.target.value.toLowerCase();
+
+      const filteredData = tableData.filter((row) => {
+        return Object.values(row).some((value) =>
+          value.toString().toLowerCase().includes(filterValue)
+        );
+      });
+
+      displayTableData(filteredData);
+    });
+});
