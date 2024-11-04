@@ -212,21 +212,45 @@
               </div>
 
               <div id="tab3" class="tab-panel">
-                <div class="container">
-                  <table id="dataTable">
+                <!-- Filter input field -->
+                <div class="sellers-filter-container">
+                  <input
+                    type="text"
+                    id="sellers-filter"
+                    class="sellers-filter-input"
+                    placeholder="Buscar en todos los campos..."
+                  />
+                </div>
+
+                <div class="main-cont">
+                  <table class="sellers-table">
                     <thead>
                       <tr>
-                        <th>Id</th>
-                        <th>Código</th>
-                        <th>Descripción o Nombre</th>
-                        <th>Dirección</th>
-                        <th>Teléfono</th>
-                        <th>Estado</th>
-                        <th>cod_cia</th>
-                        <th>dfch_crea</th>
+                        <th class="sellers-table-heading">Código</th>
+                        <th class="sellers-table-heading">Descripción</th>
+                        <th class="sellers-table-heading">Dirección</th>
+                        <th class="sellers-table-heading">Teléfono</th>
+                        <th class="sellers-table-heading">Estado</th>
+                        <th class="sellers-table-heading">Clasificación</th>
+                        <th class="sellers-table-heading">Comisión</th>
+                        <th class="sellers-table-heading">Descuento Máximo</th>
+                        <th class="sellers-table-heading">
+                          Validación de Descuento
+                        </th>
+                        <th class="sellers-table-heading">
+                          Clave de Autorización
+                        </th>
+                        <th class="sellers-table-heading">
+                          Código de Zona de Venta
+                        </th>
+                        <th class="sellers-table-heading">
+                          Descripción de Zona de Venta
+                        </th>
                       </tr>
                     </thead>
-                    <tbody id="tableBody"></tbody>
+                    <tbody id="sellers-data">
+                      <!-- Data will be inserted here -->
+                    </tbody>
                   </table>
                 </div>
               </div>

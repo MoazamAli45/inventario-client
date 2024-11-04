@@ -126,3 +126,24 @@ tr:nth-child(even) {
 .error {
   border-color: #dc3545 !important;
 }
+
+.sellers-filter-container {
+  width: 100%;
+}
+.sellers-filter-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+
+  font-size: 0.9rem;
+}
+
+.sellers-filter-input::placeholder {
+  color: #999;
+}
+
+.main-cont {
+  margin-top: 40px;
+  overflow-x: auto;
+}

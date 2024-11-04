@@ -199,3 +199,49 @@ document.getElementById("addressForm").addEventListener("submit", function (e) {
       console.error("Error:", error);
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const filterInput = document.getElementById("clientes-filter");
+  const tableBody = document.getElementById("clientes-data");
+
+  // Function to fetch data from the server
+  const fetchClientData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/clientes/datos");
+      const data = await response.json();
+      populateTable(data);
+    } catch (error) {
+      console.error("Error fetching client data:", error);
+    }
+  };
+
+  // Function to populate the table with data
+  const populateTable = (data) => {
+    tableBody.innerHTML = ""; // Clear existing table data
+    data.forEach((client) => {
+      const row = document.createElement("tr");
+      for (const key in client) {
+        const cell = document.createElement("td");
+        cell.textContent = client[key];
+        row.appendChild(cell);
+      }
+      tableBody.appendChild(row);
+    });
+  };
+
+  // Filter functionality
+  filterInput.addEventListener("input", function () {
+    const filterValue = filterInput.value.toLowerCase();
+    const rows = tableBody.querySelectorAll("tr");
+    rows.forEach((row) => {
+      const cells = row.querySelectorAll("td");
+      const rowText = Array.from(cells)
+        .map((cell) => cell.textContent.toLowerCase())
+        .join(" ");
+      row.style.display = rowText.includes(filterValue) ? "" : "none";
+    });
+  });
+
+  // Fetch data when the page loads
+  fetchClientData();
+});

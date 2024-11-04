@@ -187,3 +187,56 @@ document.getElementById("dataForm").addEventListener("submit", function (e) {
       console.error("Error:", error);
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  let tableData = []; // Array to store all data
+
+  // Fetch data and display in table
+  fetch("http://localhost:3000/vendedores/datos")
+    .then((response) => response.json())
+    .then((data) => {
+      tableData = data; // Save data to filter later
+      displayTableData(tableData);
+    })
+    .catch((error) => console.error("Error fetching data:", error));
+
+  // Display table data
+  function displayTableData(data) {
+    const tableBody = document.getElementById("sellers-data");
+    tableBody.innerHTML = "";
+
+    data.forEach((row) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${row.code}</td>
+        <td>${row.description}</td>
+        <td>${row.address}</td>
+        <td>${row.telephone}</td>
+        <td>${row.state}</td>
+        <td>${row.classification}</td>
+        <td>${row.commission}</td>
+        <td>${row.discountMax}</td>
+        <td>${row.validationDiscount}</td>
+        <td>${row.claveAuthorization}</td>
+        <td>${row.zoneSaleCode}</td>
+        <td>${row.zoneSaleDescription}</td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+
+  // Filter table data based on input
+  document
+    .getElementById("sellers-filter")
+    .addEventListener("input", (event) => {
+      const filterValue = event.target.value.toLowerCase();
+
+      const filteredData = tableData.filter((row) => {
+        return Object.values(row).some((value) =>
+          value.toString().toLowerCase().includes(filterValue)
+        );
+      });
+
+      displayTableData(filteredData);
+    });
+});
