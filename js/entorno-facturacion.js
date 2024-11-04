@@ -1,96 +1,99 @@
-// Dynamic table generation
-const tableData = [
-  { id: 34, ejercicio: "EJ2017" },
-  { id: 56, ejercicio: "EJ2018" },
-  { id: 78, ejercicio: "EJ2019" },
-];
+document.addEventListener("DOMContentLoaded", function () {
+  const saveButton = document.getElementById("save-button");
+  const fiscalYearSelect = document.getElementById("fiscal-year");
+  const checkboxes = document.querySelectorAll(
+    '.checkbox-grid input[type="checkbox"]'
+  );
 
-const periods = 12;
+  saveButton.addEventListener("click", function () {
+    const selectedYear = fiscalYearSelect.value;
+    const monthsData = {};
 
-function generateTable() {
-  const table = document.createElement("table");
-  const thead = document.createElement("thead");
-  const tbody = document.createElement("tbody");
+    // Iterate over each month checkbox to get its checked status as boolean
+    checkboxes.forEach((checkbox, index) => {
+      monthsData[`m${index + 1}`] = checkbox.checked;
+    });
 
-  // Create header row
-  const headerRow = document.createElement("tr");
-  [
-    "Id",
-    "Ejercicio",
-    ...Array(periods)
-      .fill()
-      .map((_, i) => `Periodo_${i + 1}`),
-  ].forEach((text) => {
-    const th = document.createElement("th");
-    th.textContent = text;
-    headerRow.appendChild(th);
+    const data = {
+      year: selectedYear,
+      ...monthsData,
+    };
+
+    // Send POST request to the endpoint
+    fetch("http://localhost:3000/entorno-facturacion/datos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((error) => {
+            throw new Error(
+              error.error || "Failed to insert data into the database"
+            );
+          });
+        }
+        return response.json();
+      })
+      .then((result) => {
+        console.log("Success:", result);
+        alert("Data saved successfully!");
+      })
+      .catch((error) => {
+        // Check for unique constraint violation
+        if (error.message.includes("Duplicate entry")) {
+          alert(
+            "Data for this fiscal year already exists. Please select a different year."
+          );
+        } else {
+          console.error("Error:", error);
+          alert("An error occurred while saving the data.");
+        }
+      });
   });
-  thead.appendChild(headerRow);
+});
 
-  // Create data rows
-  tableData.forEach((row) => {
-    const tr = document.createElement("tr");
-    const idCell = document.createElement("td");
-    idCell.textContent = row.id;
-    tr.appendChild(idCell);
+document.addEventListener("DOMContentLoaded", function () {
+  const environmentTableBody = document.querySelector(
+    "#environmentTable tbody"
+  );
 
-    const ejercicioCell = document.createElement("td");
-    ejercicioCell.textContent = row.ejercicio;
-    tr.appendChild(ejercicioCell);
+  // Fetch environment data from the server
+  fetch("http://localhost:3000/entorno-facturacion/datos")
+    .then((response) => {
+      if (!response.ok) throw new Error("Error al obtener los datos");
+      return response.json();
+    })
+    .then((data) => {
+      data.forEach((row) => {
+        const tr = document.createElement("tr");
 
-    for (let i = 1; i <= periods; i++) {
-      const td = document.createElement("td");
-      td.className = "checkbox-cell";
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.name = row.ejercicio;
-      checkbox.dataset.period = i;
-      checkbox.addEventListener("change", updateCheckboxStatus);
-      td.appendChild(checkbox);
-      tr.appendChild(td);
-    }
+        // Add Year column
+        const yearCell = document.createElement("td");
+        yearCell.textContent = row.year;
+        tr.appendChild(yearCell);
 
-    tbody.appendChild(tr);
-  });
+        // Add checkboxes for each month
+        for (let i = 1; i <= 12; i++) {
+          const monthCell = document.createElement("td");
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = row[`month${i}`] === 1; // Check if value is true (1)
 
-  table.appendChild(thead);
-  table.appendChild(tbody);
-  document.getElementById("tableContainer").appendChild(table);
-}
+          // Disable the checkbox to make it read-only
+          checkbox.disabled = true;
 
-// Checkbox status tracking
-function updateCheckboxStatus() {
-  const status = {};
+          monthCell.appendChild(checkbox);
+          tr.appendChild(monthCell);
+        }
 
-  document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-    const year = checkbox.name;
-    const period = checkbox.dataset.period;
-
-    if (!status[year]) {
-      status[year] = {};
-    }
-
-    status[year][`Periodo_${period}`] = checkbox.checked
-      ? "Checked"
-      : "Not checked";
-  });
-
-  // Display status
-  const statusDiv = document.getElementById("checkboxStatus");
-  statusDiv.innerHTML =
-    "<h3>Checkbox Status:</h3>" +
-    Object.entries(status)
-      .map(
-        ([year, periods]) =>
-          `<p><strong>${year}:</strong> ` +
-          Object.entries(periods)
-            .map(([period, state]) => `${period}: ${state}`)
-            .join(", ") +
-          "</p>"
-      )
-      .join("");
-}
-
-// Generate table on page load
-generateTable();
-updateCheckboxStatus();
+        environmentTableBody.appendChild(tr);
+      });
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Ocurrió un error al obtener los datos.");
+    });
+});

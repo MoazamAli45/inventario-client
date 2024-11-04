@@ -1,10 +1,5 @@
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  overflow-x: auto;
 }
 
 .tabs {
@@ -91,4 +86,67 @@ th {
   padding: 15px;
   background-color: #f8f8f8;
   border-radius: 4px;
+}
+
+.container-1 {
+  text-align: left;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+#fiscal-year {
+  width: 100%;
+  padding: 0px 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.checkbox-grid div {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-grid input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.checkbox-grid label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+#save-button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
