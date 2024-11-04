@@ -41,7 +41,10 @@
           <div class="container">
             <!-- Tab Navigation -->
             <div class="tabs">
-              <button class="tab-button active" data-tab="tab2">
+              <button class="tab-button active" data-tab="tab1">
+                Datos Generales
+              </button>
+              <button class="tab-button" data-tab="tab2">
                 Configuración de entomo
               </button>
               <button class="tab-button" data-tab="tab3">Lista</button>
@@ -49,13 +52,126 @@
 
             <!-- Tab Content -->
             <div class="tab-content">
-              <div id="tab2" class="tab-panel active">
+              <div id="tab1" class="tab-panel active">
+                <div class="container-1">
+                  <div class="form-group">
+                    <label for="fiscal-year">Año Fiscal</label>
+                    <select id="fiscal-year">
+                      <option value="EJ2014">EJ2014</option>
+                      <option value="EJ2015">EJ2015</option>
+                      <option value="EJ2016">EJ2016</option>
+                      <option value="EJ2017">EJ2017</option>
+                      <option value="EJ2018">EJ2018</option>
+                      <option value="EJ2019">EJ2019</option>
+                      <option value="EJ2020">EJ2020</option>
+                      <option value="EJ2021">EJ2021</option>
+                      <option value="EJ2022">EJ2022</option>
+                      <option value="EJ2023">EJ2023</option>
+                      <option value="EJ2024">EJ2024</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Períodos de Bloqueo</label>
+                    <div class="checkbox-grid">
+                      <div>
+                        <input type="checkbox" id="enero" /><label for="enero"
+                          >Enero</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="febrero" /><label
+                          for="febrero"
+                          >Febrero</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="marzo" /><label for="marzo"
+                          >Marzo</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="abril" /><label for="abril"
+                          >Abril</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="mayo" /><label for="mayo"
+                          >Mayo</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="junio" /><label for="junio"
+                          >Junio</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="julio" /><label for="julio"
+                          >Julio</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="agosto" /><label for="agosto"
+                          >Agosto</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="septiembre" /><label
+                          for="septiembre"
+                          >Septiembre</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="octubre" /><label
+                          for="octubre"
+                          >Octubre</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="noviembre" /><label
+                          for="noviembre"
+                          >Noviembre</label
+                        >
+                      </div>
+                      <div>
+                        <input type="checkbox" id="diciembre" /><label
+                          for="diciembre"
+                          >Diciembre</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <button id="save-button">Guardar</button>
+                </div>
+              </div>
+              <div id="tab2" class="tab-panel">
                 <h4>Requisitos aún no aclarados</h4>
               </div>
 
               <div id="tab3" class="tab-panel">
-                <div class="table-container" id="tableContainer"></div>
-                <div class="checkbox-status" id="checkboxStatus"></div>
+                <div class="container">
+                  <table id="environmentTable">
+                    <thead>
+                      <tr>
+                        <th>Año</th>
+                        <th>Enero</th>
+                        <th>Febrero</th>
+                        <th>Marzo</th>
+                        <th>Abril</th>
+                        <th>Mayo</th>
+                        <th>Junio</th>
+                        <th>Julio</th>
+                        <th>Agosto</th>
+                        <th>Septiembre</th>
+                        <th>Octubre</th>
+                        <th>Noviembre</th>
+                        <th>Diciembre</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

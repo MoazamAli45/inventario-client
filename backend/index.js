@@ -494,6 +494,60 @@ app.get("/condiciones-comerciales/datos", (req, res) => {
   });
 });
 
+app.post("/entorno-facturacion/datos", (req, res) => {
+  const { year, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12 } = req.body;
+
+  const insertQuery = `
+    INSERT INTO environment_data (year, month1, month2, month3, month4, month5, month6, month7, month8, month9, month10, month11, month12) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const insertValues = [
+    year,
+    m1,
+    m2,
+    m3,
+    m4,
+    m5,
+    m6,
+    m7,
+    m8,
+    m9,
+    m10,
+    m11,
+    m12,
+  ];
+
+  db.query(insertQuery, insertValues, (insertErr, insertResult) => {
+    if (insertErr) {
+      console.error("Error inserting data into MySQL:", insertErr);
+      res.status(500).json({
+        error: "Internal Server Error while inserting data to environment_data",
+      });
+    } else {
+      res.status(200).json({
+        message: "Insertion successful in environment_data",
+      });
+    }
+  });
+});
+
+// Get Environment Data
+app.get("/entorno-facturacion/datos", (req, res) => {
+  const selectQuery = "SELECT * FROM environment_data";
+
+  db.query(selectQuery, (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error:
+          "Internal Server Error while retrieving data from environment_data",
+      });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 //GET OPERATION
 
 //    FETCHING
