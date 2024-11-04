@@ -67,30 +67,38 @@ document
 
     // Collect form data
     const formData = {
-      facturacion: {
-        code: this.facturacion_code.value,
-        description: this.facturacion_desc.value,
-      },
-      logSalida: {
-        code: this.log_salida_code.value,
-        description: this.log_salida_desc.value,
-      },
-      logAnulacion: {
-        code: this.log_anulacion_code.value,
-        description: this.log_anulacion_desc.value,
-      },
-      notaCredito: {
-        code: this.nota_credito_code.value,
-        description: this.nota_credito_desc.value,
-      },
+      facturacion_code: this.facturacion_code.value,
+      facturacion: this.facturacion_desc.value,
+      logSalida_code: this.log_salida_code.value,
+      logSalida: this.log_salida_desc.value,
+      logAnulacion_code: this.log_anulacion_code.value,
+      logAnulacion: this.log_anulacion_desc.value,
+      notaCredito_code: this.nota_credito_code.value,
+      notaCredito: this.nota_credito_desc.value,
       showInApp: this.show_in_app.checked,
     };
 
-    // Show confirmation
-    if (confirm("¿Desea guardar los cambios?")) {
-      console.log("Form Data:", formData);
-      alert("Datos guardados exitosamente");
-    }
+    //API CALL
+    fetch("http://localhost:3000/operaciones-facturacion/configuration", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((result) => {
+        alert("Configurationes guardados exitosamente");
+        console.log("Success:", result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   });
 
 document
@@ -144,6 +152,7 @@ document
         return response.json();
       })
       .then((result) => {
+        alert("Datos guardados exitosamente");
         console.log("Success:", result);
       })
       .catch((error) => {

@@ -167,12 +167,6 @@ document.getElementById("saleForm").addEventListener("submit", function (e) {
       diasTolerancia: document.getElementById("diasTolerancia").value,
       generarPlanilla: document.getElementById("generarPlanilla").checked,
     };
-
-    // Log form data to console
-    console.log("Form Data:", formData);
-
-    // Here you would typically send the data to a server
-    alert("Formulario guardado exitosamente!");
   }
 });
 document.getElementById("saleForm").addEventListener("submit", function (e) {
@@ -226,10 +220,25 @@ document.getElementById("saleForm").addEventListener("submit", function (e) {
       generarPlanilla: document.getElementById("generarPlanilla").checked,
     };
 
-    // Log form data to console
-    console.log("Form Data:", formData);
-
-    // Here you would typically send the data to a server
-    alert("Formulario guardado exitosamente!");
+    fetch("http://localhost:3000/condiciones-comerciales/datos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((result) => {
+        alert("Configurationes guardados exitosamente");
+        console.log("Success:", result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 });
