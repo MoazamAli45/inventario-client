@@ -16,6 +16,14 @@ h1 {
   margin-bottom: 1rem; /* Optional spacing below the table */
 }
 
+.dot-button {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+
+  cursor: pointer;
+}
 #dataTable {
   width: 100%;
   min-width: 900px; /* Set minimum width if needed */
@@ -91,6 +99,13 @@ tr:hover {
   gap: 15px;
   margin-bottom: 15px;
   align-items: center;
+}
+
+.form-group-new {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 15px;
 }
 
 .billing-label {

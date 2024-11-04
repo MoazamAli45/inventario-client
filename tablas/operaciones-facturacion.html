@@ -6,6 +6,7 @@
     <title>Operaciones Facturacion</title>
     <link rel="stylesheet" href="/style/layout.css" />
     <link rel="stylesheet" href="/style/tabs.css" />
+    <link rel="stylesheet" href="/style/modal.css" />
     <link rel="stylesheet" href="/style/operaciones-facturacion.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
@@ -85,6 +86,7 @@
 
                     <div class="form-group1">
                       <label class="form-label1">Tipo Documento</label>
+
                       <div class="form-inputs1">
                         <input
                           type="text"
@@ -93,6 +95,13 @@
                           value="FV"
                           required
                         />
+                        <button
+                          type="button"
+                          class="dot-button"
+                          onclick="openModal('documentType', this.previousElementSibling, this.nextElementSibling)"
+                        >
+                          ...
+                        </button>
                         <input
                           type="text"
                           class="desc-input1"
@@ -123,6 +132,13 @@
                           value="01"
                           required
                         />
+                        <button
+                          type="button"
+                          class="dot-button"
+                          onclick="openModal('monedaType', this.previousElementSibling, this.nextElementSibling)"
+                        >
+                          ...
+                        </button>
                         <input
                           type="text"
                           class="desc-input1"
@@ -318,9 +334,89 @@
         </div>
       </footer>
     </div>
+    <!--  MODAL -->
+    <!-- Add this modal HTML right before the closing body tag -->
+    <div id="selectionModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">Select Value</h3>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <table class="selection-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th id="nameHeader" style="display: none">Name</th>
+              </tr>
+            </thead>
+            <tbody id="modalTableBody">
+              <!-- Data will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
     <script src="/js/layout.js"></script>
     <script src="/js/tabs.js"></script>
     <script src="/js/operaciones-facturacion.js"></script>
+    <!--  FOR MODAL -->
+    <script>
+      const modal = document.getElementById("selectionModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalTableBody = document.getElementById("modalTableBody");
+      const closeBtn = document.querySelector(".close");
+      const nameHeader = document.getElementById("nameHeader");
+
+      // Sample data for different selection types
+      const selectionData = {
+        documentType: [
+          { code: "FV", name: "FACTURA VENTA" },
+          { code: "NC", name: "NOTA CREDITO" },
+          { code: "ND", name: "NOTA DEBITO" },
+        ],
+        monedaType: [
+          { code: "01", name: "Soles" },
+          { code: "02", name: "Dólares" },
+        ],
+      };
+
+      // Function to open modal
+      function openModal(type, inputElement, descriptionElement) {
+        modalTitle.textContent = `Select ${type}`;
+        modalTableBody.innerHTML = "";
+
+        // Check if the first item in the data has a name property
+        const hasNameData = selectionData[type][0].hasOwnProperty("name");
+        nameHeader.style.display = hasNameData ? "table-cell" : "none";
+
+        selectionData[type].forEach((item) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                <td>${item.code}</td>
+                ${item.name ? `<td>${item.name}</td>` : ""}
+            `;
+          row.onclick = () => {
+            inputElement.value = item.code;
+            if (descriptionElement) {
+              descriptionElement.value = item.name;
+            }
+            modal.style.display = "none";
+          };
+          modalTableBody.appendChild(row);
+        });
+
+        modal.style.display = "block";
+      }
+
+      // Close modal when clicking the close button or outside the modal
+      closeBtn.onclick = () => (modal.style.display = "none");
+      window.onclick = (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
   </body>
 </html>

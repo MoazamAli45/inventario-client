@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/style/layout.css" />
     <link rel="stylesheet" href="/style/tabs.css" />
     <link rel="stylesheet" href="/style/vendedores.css" />
+    <link rel="stylesheet" href="/style/modal.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -196,6 +197,14 @@
                           value="016"
                           required
                         />
+                        <button
+                          type="button"
+                          class="dot-button"
+                          onclick="openModal('documentType', this.previousElementSibling, this.nextElementSibling)"
+                        >
+                          ...
+                        </button>
+
                         <input
                           type="text"
                           class="desc-input"
@@ -280,9 +289,87 @@
         </div>
       </footer>
     </div>
+    <!--  MODAL -->
+    <!-- Add this modal HTML right before the closing body tag -->
+    <div id="selectionModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">Select Value</h3>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <table class="selection-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th id="nameHeader" style="display: none">Name</th>
+              </tr>
+            </thead>
+            <tbody id="modalTableBody">
+              <!-- Data will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
     <script src="/js/layout.js"></script>
     <script src="/js/tabs.js"></script>
     <script src="/js/vendedores.js"></script>
+    <!--  MODAL -->
+    <script>
+      const modal = document.getElementById("selectionModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalTableBody = document.getElementById("modalTableBody");
+      const closeBtn = document.querySelector(".close");
+      const nameHeader = document.getElementById("nameHeader");
+
+      // Sample data for different selection types
+      const selectionData = {
+        documentType: [
+          { code: "001", name: "DNI" },
+          { code: "002", name: "RUC" },
+          { code: "003", name: "Pasaporte" },
+          { code: "004", name: "Carnet de Extranjería" },
+          { code: "005", name: "Otros" },
+        ],
+      };
+
+      // Function to open modal
+      function openModal(type, inputElement, descriptionElement) {
+        console.log(type, inputElement, descriptionElement);
+        modalTitle.textContent = `Select ${type}`;
+        modalTableBody.innerHTML = "";
+
+        const hasNameData = selectionData[type][0].hasOwnProperty("name");
+        nameHeader.style.display = hasNameData ? "table-cell" : "none";
+
+        selectionData[type].forEach((item) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                <td>${item.code}</td>
+                ${item.name ? `<td>${item.name}</td>` : ""}
+            `;
+          row.onclick = () => {
+            inputElement.value = item.code;
+            if (descriptionElement) {
+              descriptionElement.value = item.name;
+            }
+            modal.style.display = "none";
+          };
+          modalTableBody.appendChild(row);
+        });
+
+        modal.style.display = "block";
+      }
+
+      // Close modal when clicking the close button or outside the modal
+      closeBtn.onclick = () => (modal.style.display = "none");
+      window.onclick = (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
   </body>
 </html>

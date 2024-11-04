@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Mobile menu toggle
   const menuToggle = document.getElementById("menuToggle");
   menuToggle.addEventListener("click", () => {
-    menuItemsContainer.classList.toggle("active");
+    // menuItemsContainer.classList.toggle("active");
   });
 
   // Sidebar toggle
@@ -410,7 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Close mobile menu and sidebar when clicking outside
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".nav") && !e.target.closest(".sidebar")) {
-      menuItemsContainer.classList.remove("active");
+      // menuItemsContainer.classList.remove("active");
       sidebar.classList.remove("active");
     }
   });

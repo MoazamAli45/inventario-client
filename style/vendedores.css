@@ -13,6 +13,14 @@ table {
   white-space: nowrap;
 }
 
+.dot-button {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+}
+
 th {
   background-color: #fff;
   padding: 12px 15px;

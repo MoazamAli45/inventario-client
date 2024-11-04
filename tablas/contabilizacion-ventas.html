@@ -6,6 +6,7 @@
     <title>Contabilizacio Ventas</title>
     <link rel="stylesheet" href="/style/layout.css" />
     <link rel="stylesheet" href="/style/tabs.css" />
+    <link rel="stylesheet" href="/style/modal.css" />
     <link rel="stylesheet" href="/style/contabilizacion-ventas.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
@@ -57,7 +58,7 @@
                   </h2>
 
                   <form id="billingForm" class="billing-form">
-                    <div class="billing-section">
+                    <!-- <div class="billing-section">
                       <div class="billing-form-group">
                         <label class="billing-label">Linea</label>
                         <input
@@ -127,8 +128,99 @@
                           value="REGISTRO VENTAS GENERAL"
                         />
                       </div>
+                    </div> -->
+
+                    <div class="billing-section">
+                      <div class="form-group-new">
+                        <label class="billing-label">Linea</label>
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="linea"
+                          value="26"
+                        />
+                        <span
+                          class="dot-button"
+                          onclick="openModal('linea', this.previousElementSibling, this.nextElementSibling)"
+                          >...</span
+                        >
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="lineaDescripcion"
+                          value="ENVASES Y EMBALAJES"
+                        />
+                      </div>
+
+                      <div class="form-group-new">
+                        <label class="billing-label">Tipo de Factura</label>
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="tipoFactura"
+                          value="FVD"
+                        />
+                        <span
+                          class="dot-button"
+                          onclick="openModal('tipoFactura', this.previousElementSibling, this.nextElementSibling)"
+                          >...</span
+                        >
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="tipoFacturaDescripcion"
+                          value="FACTURA DE VENTA DOLARES"
+                        />
+                      </div>
                     </div>
 
+                    <div class="billing-section">
+                      <h2 class="billing-section-title">
+                        Parametros Contables
+                      </h2>
+
+                      <div class="form-group-new">
+                        <label class="billing-label">Sub Diario</label>
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="subDiario"
+                          value="S05"
+                        />
+                        <span
+                          class="dot-button"
+                          onclick="openModal('subDiario', this.previousElementSibling, this.nextElementSibling)"
+                          >...</span
+                        >
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="subDiarioDescripcion"
+                          value="FACTURACION"
+                        />
+                      </div>
+
+                      <div class="form-group-new">
+                        <label class="billing-label">N° de File</label>
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="numeroFile"
+                          value="F001"
+                        />
+                        <span
+                          class="dot-button"
+                          onclick="openModal('numeroFile',this.previousElementSibling, this.nextElementSibling)"
+                          >...</span
+                        >
+                        <input
+                          type="text"
+                          class="billing-input"
+                          name="numeroFileDescripcion"
+                          value="REGISTRO VENTAS GENERAL"
+                        />
+                      </div>
+                    </div>
                     <div class="billing-columns">
                       <div class="billing-column">
                         <h3 class="billing-column-title">Cuenta Debe</h3>
@@ -318,27 +410,6 @@
 
               <div id="tab3" class="tab-panel">
                 <div class="table-container">
-                  <!-- <input
-                    type="text"
-                    id="filterInput"
-                    placeholder="Filtrar..."
-                  />
-                  <table id="dataTable">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Linea</th>
-                        <th>Descripción</th>
-                        <th>Clase Fact</th>
-                        <th>Descripción de Operación</th>
-                        <th>Descripción del Sub Diario</th>
-                        <th>KFUENTE</th>
-                      </tr>
-                    </thead>
-                    <tbody> -->
-                  <!-- Table body will be populated dynamically -->
-                  <!-- </tbody>
-                  </table> -->
                   <!-- HTML -->
                   <input type="text" id="filterInput" placeholder="Filter..." />
                   <table id="dataTable">
@@ -403,8 +474,96 @@
       </footer>
     </div>
 
+    <!--  MODAL -->
+    <!-- Add this modal HTML right before the closing body tag -->
+    <div id="selectionModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">Select Value</h3>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <table class="selection-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th id="nameHeader" style="display: none">Name</th>
+              </tr>
+            </thead>
+            <tbody id="modalTableBody">
+              <!-- Data will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <script src="/js/layout.js"></script>
     <script src="/js/tabs.js"></script>
     <script src="/js/contabilizacion-ventas.js"></script>
+    <!--  MODAL -->
+    <script>
+      const modal = document.getElementById("selectionModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalTableBody = document.getElementById("modalTableBody");
+      const closeBtn = document.querySelector(".close");
+      const nameHeader = document.getElementById("nameHeader");
+
+      // Sample data for different selection types
+      const selectionData = {
+        linea: [
+          { code: "26", name: "ENVASES Y EMBALAJES" },
+          { code: "27", name: "PRODUCTO B" },
+        ],
+        tipoFactura: [
+          { code: "FVD", name: "FACTURA DE VENTA DOLARES" },
+          { code: "FVN", name: "FACTURA DE VENTA NUEVOS" },
+        ],
+        subDiario: [
+          { code: "S05", name: "FACTURACION" },
+          { code: "S06", name: "DEVOLUCIONES" },
+        ],
+        numeroFile: [
+          { code: "F001", name: "REGISTRO VENTAS GENERAL" },
+          { code: "F002", name: "REGISTRO VENTAS ESPECIALES" },
+        ],
+      };
+
+      // Function to open modal
+      function openModal(type, inputElement, descriptionElement) {
+        console.log(type, inputElement, descriptionElement);
+        modalTitle.textContent = `Select ${type}`;
+        modalTableBody.innerHTML = "";
+
+        const hasNameData = selectionData[type][0].hasOwnProperty("name");
+        nameHeader.style.display = hasNameData ? "table-cell" : "none";
+
+        selectionData[type].forEach((item) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                <td>${item.code}</td>
+                ${item.name ? `<td>${item.name}</td>` : ""}
+            `;
+          row.onclick = () => {
+            inputElement.value = item.code;
+            if (descriptionElement) {
+              descriptionElement.value = item.name;
+            }
+            modal.style.display = "none";
+          };
+          modalTableBody.appendChild(row);
+        });
+
+        modal.style.display = "block";
+      }
+
+      // Close modal when clicking the close button or outside the modal
+      closeBtn.onclick = () => (modal.style.display = "none");
+      window.onclick = (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
   </body>
 </html>

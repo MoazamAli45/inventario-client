@@ -12,6 +12,14 @@ table {
   border-collapse: collapse;
 }
 
+.dot-button {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+}
+
 th {
   background-color: #f8f9fa;
   color: #666;
