@@ -152,29 +152,38 @@ document.getElementById("dataForm").addEventListener("submit", function (e) {
 
   // Collect form data
   const formData = {
-    datosPrincipales: {
-      codigo: this.codigo.value,
-      descripcion: this.descripcion.value,
-      direccion: this.direccion.value,
-      telefono: this.telefono.value,
-      estado: this.estado.value,
-    },
-    datosComerciales: {
-      clasificacion: this.clasificacion.value,
-      comision: this.comision.value,
-      descuentoMax: this.descuento.value,
-      validacionDescuento: this.validacion_descuento.checked,
-      claveAutorizacion: this.clave_autorizacion.value,
-      zonaVenta: {
-        codigo: this.zona_venta_codigo.value,
-        descripcion: this.zona_venta_desc.value,
-      },
-    },
+    datosPrincipales_codigo: this.codigo.value,
+    datosPrincipales_descripcion: this.descripcion.value,
+    direccion: this.direccion.value,
+    telefono: this.telefono.value,
+    estado: this.estado.value,
+    clasificacion: this.clasificacion.value,
+    comision: this.comision.value,
+    descuentoMax: this.descuento.value,
+    validacionDescuento: this.validacion_descuento.checked,
+    claveAutorizacion: this.clave_autorizacion.value,
+    zonaVenta_codigo: this.zona_venta_codigo.value,
+    zonaVenta_descripcion: this.zona_venta_desc.value,
   };
 
-  // Show confirmation
-  if (confirm("¿Desea guardar los cambios?")) {
-    console.log("Form Data:", formData);
-    alert("Datos guardados exitosamente");
-  }
+  fetch("http://localhost:3000/vendedores/datos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((result) => {
+      alert("Configurationes guardados exitosamente");
+      console.log("Success:", result);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 });

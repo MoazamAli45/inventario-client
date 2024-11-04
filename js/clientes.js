@@ -156,37 +156,46 @@ document.getElementById("addressForm").addEventListener("submit", function (e) {
 
   // Collect form data
   const formData = {
-    datosPrincipales: {
-      codigo: this.codigo.value,
-      clasificacion: this.clasificacion.value,
-      documento: this.documento.value,
-      tipoPersona: this.tipo_persona.value,
-      tipoDoc: this.tipo_doc.value,
-      descripcion: this.descripcion.value,
-      ruc: this.ruc.value,
-      fechaNac: this.fecha_nac.value,
-      estado: this.estado.value,
-    },
-    direccionPrincipal: {
-      tipoVia: this.tipo_via.value,
-      via: this.via.value,
-      numeroVia: this.numero_via.value,
-      tipoZona: this.tipo_zona.value,
-      direccion: this.direccion.value,
-      nacionalidad: this.nacionalidad.value,
-      ubicacion: {
-        pais: this.pais.value,
-        departamento: this.departamento.value,
-        provincia: this.provincia.value,
-        distrito: this.distrito.value,
-        ubigeo: this.ubigeo.value,
-      },
-    },
+    codigo: this.codigo.value,
+    clasificacion: this.clasificacion.value,
+    documento: this.documento.value,
+    tipoPersona: this.tipo_persona.value,
+    tipoDoc: this.tipo_doc.value,
+    descripcion: this.descripcion.value,
+    ruc: this.ruc.value,
+    fechaNac: this.fecha_nac.value,
+    estado: this.estado.value,
+    tipoVia: this.tipo_via.value,
+    via: this.via.value,
+    numeroVia: this.numero_via.value,
+    tipoZona: this.tipo_zona.value,
+    direccion: this.direccion.value,
+    nacionalidad: this.nacionalidad.value,
+    pais: this.pais.value,
+    departamento: this.departamento.value,
+    provincia: this.provincia.value,
+    distrito: this.distrito.value,
+    ubigeo: this.ubigeo.value,
   };
 
-  // Show confirmation
-  if (confirm("¿Desea guardar los cambios?")) {
-    console.log("Form Data:", formData);
-    alert("Datos guardados exitosamente");
-  }
+  fetch("http://localhost:3000/clientes/datos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((result) => {
+      alert("Configurationes guardados exitosamente");
+      console.log("Success:", result);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 });
