@@ -189,6 +189,23 @@ app.post("/api/saveGeneralData", (req, res) => {
   });
 });
 
+// API to fetch general data
+app.get("/api/getGeneralData", (req, res) => {
+  const query = `
+    SELECT id, monedaCodigo, moneda, fecha, tipoCambioCompra, tipoCambioVenta, tipoCambioComercial, estado
+    FROM general_data
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Error retrieving data");
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 //  BILLING
 app.post("/api/billing", (req, res) => {
   // Mapping Spanish field names to English for database insertion
