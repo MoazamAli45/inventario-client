@@ -231,6 +231,9 @@
         gap: 10px;
       }
 
+      label {
+        text-align: left;
+      }
       .doc-btn {
         padding: 8px 16px;
         border-radius: 4px;
@@ -243,6 +246,9 @@
         color: white;
       }
 
+      .section-title {
+        text-align: left;
+      }
       .doc-btn-icon {
         padding: 8px;
         border-radius: 5px;
@@ -338,12 +344,21 @@
                           <input type="text" value="CO" readonly />
                         </div>
                         <div class="form-group">
+                            <button id="customButton" class="btn btn-primary">
+                            1 2<br />3 4
+                          </button>
+                        </div>
+                        <div class="form-group">
                           <label>Moneda</label>
                           <input
                             type="text"
                             value="Dolares Americanos"
                             readonly
                           />
+                        </div>
+                         <div class="form-group">
+                          <label>Serie</label>
+                          <input type="text" value="001" />
                         </div>
                         <div class="form-group">
                           <label>Fch Emisión</label>
@@ -352,10 +367,7 @@
                       </div>
 
                       <div class="form-row">
-                        <div class="form-group">
-                          <label>Serie</label>
-                          <input type="text" value="001" />
-                        </div>
+                       
                         <div class="form-group">
                           <label>T. Cambio</label>
                           <input type="text" value="3.8470" />
@@ -365,6 +377,10 @@
                           <input type="date" value="2022-12-31" />
                         </div>
                       </div>
+                   
+                      </div>
+
+                   
 
                       <div class="form-row">
                         <div class="form-group">
@@ -373,25 +389,38 @@
                         </div>
                         <div class="form-group">
                           <label>Almacén</label>
-                          <input type="text" value="001" />
+                          <div class="input-with-button">
+                            <input type="text" value="001" />
+                            <button>...</button>
+                          </div>
                         </div>
+                        <div class="form-group">
+                          <input type="text" style="margin-top: 22px" />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
                         <div class="form-group">
                           <label>Prioridad</label>
-                          <input type="text" value="Baja" />
+                          <select>
+                            <option value="baja">Baja</option>
+                            <option value="media">Media</option>
+                            <option value="alta">Alta</option>
+                          </select>
                         </div>
-                      </div>
-
-                      <div class="form-row">
-                        <div class="form-group full-width">
-                          <label>Glosa</label>
-                          <textarea></textarea>
-                        </div>
-                      </div>
-
-                      <div class="form-row">
                         <div class="form-group">
                           <label>Estado</label>
-                          <input type="text" value="Pendiente" />
+                          <select>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="aprobado">Aprobado</option>
+                            <option value="rechazado">Rechazado</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label>Glosa</label>
+                          <input type="text" />
                         </div>
                       </div>
                     </div>
@@ -477,14 +506,11 @@
                     </div>
 
                     <div class="buttons">
-                      <button class="btn btn-primary">
-                        <i data-lucide="Save" class="icon"></i>
-                        Guardar
-                      </button>
-                      <button class="btn btn-secondary">
-                        <i data-lucide="printer" class="icon"></i>
-                        Imprimir
-                      </button>
+                     
+                      <button id="saveButton" class="btn btn-primary">
+  <i data-lucide="Save" class="icon"></i>
+  Guardar
+</button>
                     </div>
                   </div>
                 </div>
@@ -687,6 +713,46 @@
 
     <!-- Add this script before closing body tag -->
     <script>
+document.getElementById("saveButton").addEventListener("click", async () => {
+ 
+    const data = {
+      documentCode: document.querySelector("input[value='CO']").value,
+      currency: document.querySelector("input[value='Dolares Americanos']").value,
+      series: document.querySelector("input[value='001']").value,
+      issueDate: document.querySelector("input[type='date'][value='2022-11-31']").value,
+      exchangeRate: document.querySelector("input[value='3.8470']").value,
+      expiryDate: document.querySelector("input[type='date'][value='2022-12-31']").value,
+      documentNumber: document.querySelector("input[value='000000030']").value,
+      warehouse: document.querySelector("input[value='001']").value,
+      priority: document.querySelector("select").value,
+      status: document.querySelectorAll("select")[1].value,
+      description: document.querySelector("input[type='text']").value,
+      customer: document.querySelector("input[value='10011472661']").value,
+      customerName: document.querySelector("input[value='ROJAS RUIZ EMILIO']").value,
+      address: document.querySelector("input[value='JR CABO ALBERTO LEVEAU NRO. 340 CHACN SAN']").value,
+      vendor: document.querySelector("input[value='014']").value,
+      vendorName: document.querySelector("input[value='Jua Pita Pineda']").value,
+      condition: document.querySelector("input[value='001']").value,
+      conditionDescription: document.querySelector("input[value='CONTADO EFECTIVO']").value,
+      taxReg: document.querySelector("input[value='10011472661']").value,
+      conditionType: document.querySelector("input[value='Crédito']").value,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/api/quotes-data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      alert( "Data saved successfully!");
+    } catch (error) {
+      console.error("Error saving data:", error);
+      alert("An error occurred while saving data.");
+    }
+  });
+
+
       const modal = document.getElementById("selectionModal");
       const modalTitle = document.getElementById("modalTitle");
       const modalTableBody = document.getElementById("modalTableBody");
@@ -709,6 +775,18 @@
         client: [
           { code: "10011472661", name: "ROJAS RUIZ EMILIO" },
           { code: "2010947", name: "SERVICIOS GRAFIC" },
+        ],
+        almacen: [
+          { code: "001", name: "AG ARECUPA" },
+          {
+            code: "002",
+            name: "AG ARECUPA",
+          },
+        ],
+        //  doc serie
+        docSerie: [
+          { code: "CO", name: "Cotización" },
+          { code: "FA", name: "Factura" },
         ],
       };
 
@@ -773,9 +851,22 @@
               container.querySelector("label").textContent.includes("Condición")
             ) {
               openModal("condition", inputElement, descriptionElement);
+            } else if (
+              container.querySelector("label").textContent.includes("Almacén")
+            ) {
+              openModal("almacen", inputElement, descriptionElement);
             }
           };
         });
+
+
+//   DOC SERIE
+ document.getElementById("customButton").onclick = () => {
+                          const docInput = document.querySelector('input[value="CO"]');
+                          const serieInput = document.querySelector('input[value="001"]');
+                          openModal("docSerie", docInput, serieInput);
+                        };
+
 
       //   2nd Documento durther tabs
       const tabs = document.querySelectorAll(".doc-tab");
@@ -804,6 +895,92 @@
         window.location.href =
           "/transacciones/preventa/cotizaciones/detail-articulo.html";
       };
+      async function fetchClientData() {
+        try {
+          const response = await fetch('http://localhost:3000/clientes/datos'); // Send GET request to the endpoint
+          
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+
+          const data = await response.json(); // Parse the JSON response
+          const uniqueClients = Array.from(new Set(data.map(client => client.code)))
+            .map(code => data.find(client => client.code === code));
+          const clients = uniqueClients.map(client => ({ code: client.code, name: client.description, address: client.address }));
+          selectionData.client = clients;
+        } catch (error) {
+          console.error('Error fetching client data:', error);
+        }
+      }
+
+      // Call the function
+      fetchClientData();
+
+      async function fetchSellerData() {
+        try {
+          const response = await fetch('http://localhost:3000/vendedores/datos'); // Send GET request to the endpoint
+          
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+
+          const data = await response.json(); // Parse the JSON response
+          const uniqueSellers = Array.from(new Set(data.map(seller => seller.code)))
+            .map(code => data.find(seller => seller.code === code));
+          const sellers = uniqueSellers.map(seller => ({ code: seller.code, name: seller.description }));
+          selectionData.vendor = sellers;
+        } catch (error) {
+          console.error('Error fetching seller data:', error);
+        }
+      }
+
+      // Call the function
+      fetchSellerData();
+
+      async function fetchOperationalData() {
+        try {
+          const response = await fetch('http://localhost:3000/operaciones-facturacion/datos'); // Send GET request to the endpoint
+          
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+
+          const data = await response.json(); // Parse the JSON response
+          const uniqueOperations = Array.from(new Set(data.map(operation => operation.Code)))
+            .map(code => data.find(operation => operation.Code === code));
+          const operations = uniqueOperations.map(operation => ({ code: operation.Code, name: operation.Description }));
+          selectionData.operFacil = operations;
+        } catch (error) {
+          console.error('Error fetching operational data:', error);
+        }
+      }
+
+      // Call the function
+      fetchOperationalData();
+
+
+
+       async function fetchConditionalData() {
+        try {
+          const response = await fetch('http://localhost:3000/condiciones-comerciales/datos'); // Send GET request to the endpoint
+          
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+
+          const data = await response.json(); // Parse the JSON response
+          const uniqueConditions = Array.from(new Set(data.map(operation => operation.Code)))
+            .map(code => data.find(operation => operation.Code === code));
+          const conditions = uniqueConditions.map(operation => ({ code: operation.code, name: operation.description,type:operation.type }));
+          selectionData.condition = conditions;
+        } catch (error) {
+          console.error('Error fetching operational data:', error);
+        }
+      }
+
+      // Call the function
+      fetchConditionalData();
+
     </script>
 
     <script src="/js/layout.js"></script>
