@@ -446,6 +446,7 @@
                           <label>Dirección</label>
                           <input
                             type="text"
+                            id="address"
                             value="JR CABO ALBERTO LEVEAU NRO. 340 CHACN SAN"
                           />
                         </div>
@@ -496,11 +497,11 @@
                       <div class="form-row">
                         <div class="form-group">
                           <label>Reg. Tribut.</label>
-                          <input type="text" value="10011472661" />
+                          <input type="text" value="10011472661" id="regNo" />
                         </div>
                         <div class="form-group">
                           <label>Tipo Cond.</label>
-                          <input type="text" value="Crédito" />
+                          <input type="text" value="Crédito" id="tipo" />
                         </div>
                       </div>
                     </div>
@@ -508,9 +509,9 @@
                     <div class="buttons">
                      
                       <button id="saveButton" class="btn btn-primary">
-  <i data-lucide="Save" class="icon"></i>
-  Guardar
-</button>
+                      <i data-lucide="Save" class="icon"></i>
+                      Guardar
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -760,29 +761,11 @@ document.getElementById("saveButton").addEventListener("click", async () => {
 
       // Sample data for different selection types
       const selectionData = {
-        vendor: [
-          { code: "014", name: "Ag Pre Prensa" },
-          { code: "015", name: "Ag Post Venta" },
-        ],
-        operFacil: [
-          { code: "PVD", name: "FACTURA DE VENTA DOLARES" },
-          { code: "PVS", name: "FACTURA DE VENTA SOLES" },
-        ],
-        condition: [
-          { code: "001", name: "CONTADO EFECTIVO" },
-          { code: "002", name: "CRÉDITO 30 DÍAS" },
-        ],
-        client: [
-          { code: "10011472661", name: "ROJAS RUIZ EMILIO" },
-          { code: "2010947", name: "SERVICIOS GRAFIC" },
-        ],
-        almacen: [
-          { code: "001", name: "AG ARECUPA" },
-          {
-            code: "002",
-            name: "AG ARECUPA",
-          },
-        ],
+        vendor: [],
+        operFacil: [],
+        condition: [],
+        client: [],
+        almacen: [],     
         //  doc serie
         docSerie: [
           { code: "CO", name: "Cotización" },
@@ -791,28 +774,52 @@ document.getElementById("saveButton").addEventListener("click", async () => {
       };
 
       // Function to open modal
-      function openModal(type, inputElement, descriptionElement) {
-        modalTitle.textContent = `Select ${type}`;
-        modalTableBody.innerHTML = "";
+      // Function to open modal
+function openModal(type, inputElement, descriptionElement,addressElement,regNoElement,typeElement) {
+  modalTitle.textContent = `Select ${type}`;
+  modalTableBody.innerHTML = "";
 
-        selectionData[type].forEach((item) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
+  // Clear existing headers and add new ones dynamically
+  const thead = modalTableBody.closest("table").querySelector("thead");
+  thead.innerHTML = `
+    <tr>
+      <th>Código</th>
+      <th>Nombre</th>
+      ${selectionData[type][0].address ? "<th>Dirección</th>" : ""}
+      ${selectionData[type][0].type ? "<th>Tipo</th>" : ""}
+    </tr>
+  `;
+
+  // Populate table rows
+  selectionData[type].forEach((item) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
       <td>${item.code}</td>
       <td>${item.name}</td>
+      ${item.address ? `<td>${item.address}</td>` : ""}
+      ${item.type ? `<td>${item.type}</td>` : ""}
     `;
-          row.onclick = () => {
-            inputElement.value = item.code;
-            if (descriptionElement) {
-              descriptionElement.value = item.name;
-            }
-            modal.style.display = "none";
-          };
-          modalTableBody.appendChild(row);
-        });
-
-        modal.style.display = "block";
+    row.onclick = () => {
+      inputElement.value = item.code;
+      if (descriptionElement) {
+        descriptionElement.value = item.name;
       }
+      if (addressElement) {
+        addressElement.value = item.address;
+      }
+      if (regNoElement) {
+        regNoElement.value = item.code;
+      }
+      if(typeElement){
+        typeElement.value = item.type;
+      }
+      modal.style.display = "none";
+    };
+    modalTableBody.appendChild(row);
+  });
+
+  modal.style.display = "block";
+}
 
       // Close modal when clicking the close button or outside the modal
       closeBtn.onclick = () => (modal.style.display = "none");
@@ -832,11 +839,17 @@ document.getElementById("saveButton").addEventListener("click", async () => {
             const descriptionElement =
               container.nextElementSibling?.querySelector("input");
 
+              //  ADDRESS FOR CLIENTE
+  const addressElement = document.getElementById("address");
+  const regNoElement = document.getElementById("regNo");
+               
+  //   FOR TIPO
+  const typeElement = document.getElementById("tipo");
             // Determine which type of selection to show
             if (
               container.querySelector("label").textContent.includes("Cliente")
             ) {
-              openModal("client", inputElement, descriptionElement);
+              openModal("client", inputElement, descriptionElement,addressElement,regNoElement);
             } else if (
               container.querySelector("label").textContent.includes("Vendedor")
             ) {
@@ -850,7 +863,7 @@ document.getElementById("saveButton").addEventListener("click", async () => {
             } else if (
               container.querySelector("label").textContent.includes("Condición")
             ) {
-              openModal("condition", inputElement, descriptionElement);
+              openModal("condition", inputElement, descriptionElement, undefined, undefined,typeElement);
             } else if (
               container.querySelector("label").textContent.includes("Almacén")
             ) {
@@ -895,91 +908,82 @@ document.getElementById("saveButton").addEventListener("click", async () => {
         window.location.href =
           "/transacciones/preventa/cotizaciones/detail-articulo.html";
       };
-      async function fetchClientData() {
-        try {
-          const response = await fetch('http://localhost:3000/clientes/datos'); // Send GET request to the endpoint
-          
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
+  
 
-          const data = await response.json(); // Parse the JSON response
-          const uniqueClients = Array.from(new Set(data.map(client => client.code)))
-            .map(code => data.find(client => client.code === code));
-          const clients = uniqueClients.map(client => ({ code: client.code, name: client.description, address: client.address }));
-          selectionData.client = clients;
-        } catch (error) {
-          console.error('Error fetching client data:', error);
-        }
-      }
+      async function fetchData(url, uniqueKey, mapFields) {
+  try {
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
 
-      // Call the function
-      fetchClientData();
+    const data = await response.json();
 
-      async function fetchSellerData() {
-        try {
-          const response = await fetch('http://localhost:3000/vendedores/datos'); // Send GET request to the endpoint
-          
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
+    console.log(data);
+    
+    return data.map(mapFields);
+  } catch (error) {
+    console.error('Error fetching data from:', url, error);
+    return [];
+  }
+}
 
-          const data = await response.json(); // Parse the JSON response
-          const uniqueSellers = Array.from(new Set(data.map(seller => seller.code)))
-            .map(code => data.find(seller => seller.code === code));
-          const sellers = uniqueSellers.map(seller => ({ code: seller.code, name: seller.description }));
-          selectionData.vendor = sellers;
-        } catch (error) {
-          console.error('Error fetching seller data:', error);
-        }
-      }
+// Fetch and map client data
+async function fetchClientData() {
+  selectionData.client = await fetchData(
+    'http://localhost:3000/clientes/datos',
+    'code',
+    client => ({
+      code: client.code,
+      name: client.description,
+      address: client.address
+    })
+  );
+}
 
-      // Call the function
-      fetchSellerData();
+// Fetch and map seller data
+async function fetchSellerData() {
+  selectionData.vendor = await fetchData(
+    'http://localhost:3000/vendedores/datos',
+    'code',
+    seller => ({
+      code: seller.code,
+      name: seller.description
+    })
+  );
+}
 
-      async function fetchOperationalData() {
-        try {
-          const response = await fetch('http://localhost:3000/operaciones-facturacion/datos'); // Send GET request to the endpoint
-          
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
+// Fetch and map operational data
+async function fetchOperationalData() {
+  selectionData.operFacil = await fetchData(
+    'http://localhost:3000/operaciones-facturacion/datos',
+    'Code',
+    operation => ({
+      code: operation.Code,
+      name: operation.Description
+    })
+  );
+}
 
-          const data = await response.json(); // Parse the JSON response
-          const uniqueOperations = Array.from(new Set(data.map(operation => operation.Code)))
-            .map(code => data.find(operation => operation.Code === code));
-          const operations = uniqueOperations.map(operation => ({ code: operation.Code, name: operation.Description }));
-          selectionData.operFacil = operations;
-        } catch (error) {
-          console.error('Error fetching operational data:', error);
-        }
-      }
+// Fetch and map conditional data
+async function fetchConditionalData() {
+  selectionData.condition = await fetchData(
+    'http://localhost:3000/condiciones-comerciales/datos',
+    'Code',
+    condition => ({
+      code: condition.code,
+      name: condition.description,
+      type: condition.type
+    })
+  );
+}
 
-      // Call the function
-      fetchOperationalData();
-
-
-
-       async function fetchConditionalData() {
-        try {
-          const response = await fetch('http://localhost:3000/condiciones-comerciales/datos'); // Send GET request to the endpoint
-          
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
-
-          const data = await response.json(); // Parse the JSON response
-          const uniqueConditions = Array.from(new Set(data.map(operation => operation.Code)))
-            .map(code => data.find(operation => operation.Code === code));
-          const conditions = uniqueConditions.map(operation => ({ code: operation.code, name: operation.description,type:operation.type }));
-          selectionData.condition = conditions;
-        } catch (error) {
-          console.error('Error fetching operational data:', error);
-        }
-      }
-
-      // Call the function
-      fetchConditionalData();
+// Call all fetch functions
+fetchClientData();
+fetchSellerData();
+fetchOperationalData();
+fetchConditionalData();
 
     </script>
 
