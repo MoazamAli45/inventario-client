@@ -640,6 +640,43 @@ app.post("/api/quotes-data", (req, res) => {
   });
 });
 
+//  FOR FETCHING QUOTES DATA
+
+app.get("/api/quotes-data", (req, res) => {
+  const query = `
+    SELECT 
+      id,
+      documentCode,
+      currency,
+      series,
+      DATE_FORMAT(issueDate, '%Y-%m-%d') as issueDate,
+      exchangeRate,
+      DATE_FORMAT(expiryDate, '%Y-%m-%d') as expiryDate,
+      documentNumber,
+      warehouse,
+      priority,
+      status,
+      description,
+      customer,
+      customerName,
+      address,
+      vendor,
+      vendorName,
+      conditions,
+      conditionDescription,
+      taxReg,
+      conditionType FROM quotes_data`;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error fetching data from MySQL:", err);
+      res.status(500).json({ error: "Error fetching data." });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

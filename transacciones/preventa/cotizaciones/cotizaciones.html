@@ -285,6 +285,7 @@
       }
     </style>
   </head>
+
   <body>
     <div class="layout">
       <header class="header">
@@ -661,7 +662,49 @@
                   </div>
                 </div>
 
-                <div id="tab3" class="tab-panel"></div>
+                <div id="tab5" class="tab-panel">
+
+                  <!--  LISTA -->
+                    <div class="billing-filter-container">
+  <input
+    type="text"
+    id="billing-filter"
+    class="billing-filter-input"
+    placeholder="Buscar en todos los campos..."
+  />
+</div>
+
+<div class="table-main-container">
+  <table class="billing-table">
+    <thead>
+      <tr>
+        <th class="billing-table-heading">Código Doc.</th>
+        <th class="billing-table-heading">Serie</th>
+        <th class="billing-table-heading">Número Doc.</th>
+        <th class="billing-table-heading">Fecha Emisión</th>
+        <th class="billing-table-heading">Fecha Venc.</th>
+        <th class="billing-table-heading">Cliente</th>
+        <th class="billing-table-heading">Nombre Cliente</th>
+        <th class="billing-table-heading">Dirección</th>
+        <th class="billing-table-heading">Vendedor</th>
+        <th class="billing-table-heading">Nombre Vendedor</th>
+        <th class="billing-table-heading">Almacén</th>
+        <th class="billing-table-heading">Moneda</th>
+        <th class="billing-table-heading">T.C.</th>
+        <th class="billing-table-heading">Prioridad</th>
+        <th class="billing-table-heading">Condición</th>
+        <th class="billing-table-heading">Desc. Condición</th>
+        <th class="billing-table-heading">Tipo Condición</th>
+        <th class="billing-table-heading">Reg. Impuesto</th>
+        <th class="billing-table-heading">Estado</th>
+      </tr>
+    </thead>
+    <tbody id="billing-data">
+      <!-- Data will be inserted here -->
+    </tbody>
+  </table>
+</div>
+                </div>
               </div>
             </div>
           </div>
@@ -984,6 +1027,307 @@ fetchClientData();
 fetchSellerData();
 fetchOperationalData();
 fetchConditionalData();
+
+
+
+
+//  LISTA TAB
+
+// DOM Elements
+const filterInput = document.getElementById('billing-filter');
+const billingData = document.getElementById('billing-data');
+const tableContainer = document.querySelector('.table-main-container');
+
+// Global variables
+let allQuotesData = [];
+
+// Main function to fetch and display data
+async function fetchAndDisplayQuotes() {
+  try {
+    // Show loading state
+    billingData.innerHTML = `
+      <tr>
+        <td colspan="19" style="text-align: center;">
+          <div class="loading-spinner"></div>
+          Cargando datos...
+        </td>
+      </tr>
+    `;
+
+    // Fetch data from API
+    const response = await fetch('http://localhost:3000/api/quotes-data');
+    console.log(response);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    // Store data globally for filtering
+    allQuotesData = data;
+
+    // Display the data
+    displayQuotes(data);
+    
+    // Setup filter functionality
+    setupFilter();
+
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    billingData.innerHTML = `
+      <tr>
+        <td colspan="19" style="text-align: center; color: #dc3545;">
+          Error al cargar los datos. Por favor, intente nuevamente.
+        </td>
+      </tr>
+    `;
+  }
+}
+
+// Function to display quotes
+function displayQuotes(quotes) {
+  if (!quotes.length) {
+    billingData.innerHTML = `
+      <tr>
+        <td colspan="19" style="text-align: center;">
+          No se encontraron registros
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  billingData.innerHTML = quotes.map(quote => `
+    <tr>
+      <td>${sanitizeHTML(quote.documentCode) || ''}</td>
+      <td>${sanitizeHTML(quote.series) || ''}</td>
+      <td>${sanitizeHTML(quote.documentNumber) || ''}</td>
+      <td>${formatDate(quote.issueDate)}</td>
+      <td>${formatDate(quote.expiryDate)}</td>
+      <td>${sanitizeHTML(quote.customer) || ''}</td>
+      <td>${sanitizeHTML(quote.customerName) || ''}</td>
+      <td>${sanitizeHTML(quote.address) || ''}</td>
+      <td>${sanitizeHTML(quote.vendor) || ''}</td>
+      <td>${sanitizeHTML(quote.vendorName) || ''}</td>
+      <td>${sanitizeHTML(quote.warehouse) || ''}</td>
+      <td>${formatCurrency(quote.currency)}</td>
+      <td>${formatNumber(quote.exchangeRate)}</td>
+      <td>${formatPriority(quote.priority)}</td>
+      <td>${sanitizeHTML(quote.conditions) || ''}</td>
+      <td>${sanitizeHTML(quote.conditionDescription) || ''}</td>
+      <td>${sanitizeHTML(quote.conditionType) || ''}</td>
+      <td>${sanitizeHTML(quote.taxReg) || ''}</td>
+      <td>${getStatusBadge(quote.status)}</td>
+    </tr>
+  `).join('');
+}
+
+// Setup filter functionality
+function setupFilter() {
+  filterInput.addEventListener('input', debounce((e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    
+    if (!searchTerm) {
+      displayQuotes(allQuotesData);
+      return;
+    }
+
+    const filteredData = allQuotesData.filter(quote => 
+      Object.entries(quote).some(([key, value]) => {
+        // Skip null values and non-searchable fields
+        if (value === null || value === undefined) return false;
+        if (key === 'id' || key === 'createdAt' || key === 'updatedAt') return false;
+        
+        return String(value).toLowerCase().includes(searchTerm);
+      })
+    );
+    
+    displayQuotes(filteredData);
+  }, 300));
+}
+
+// Helper Functions
+function sanitizeHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function formatDate(dateString) {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-PE', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+}
+
+function formatNumber(number) {
+  if (!number) return '';
+  return Number(number).toLocaleString('es-PE', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function formatCurrency(currency) {
+  const currencies = {
+    'PEN': 'Soles',
+    'USD': 'Dólares',
+    'EUR': 'Euros',
+    'GBP': 'Libras'
+  };
+  return currencies[currency] || currency || '';
+}
+
+function formatPriority(priority) {
+  const priorities = {
+    'HIGH': 'Alta',
+    'MEDIUM': 'Media',
+    'LOW': 'Baja'
+  };
+  return priorities[priority?.toUpperCase()] || priority || '';
+}
+
+function getStatusBadge(status) {
+  if (!status) return '';
+  
+  const statusMap = {
+    'ACTIVE': { class: 'status-active', text: 'Activo' },
+    'PENDING': { class: 'status-pending', text: 'Pendiente' },
+    'CANCELLED': { class: 'status-cancelled', text: 'Cancelado' },
+    'COMPLETED': { class: 'status-completed', text: 'Completado' }
+  };
+
+  const statusKey = status.toUpperCase();
+  const statusInfo = statusMap[statusKey] || { class: 'status-default', text: status };
+
+  return `<span class="status-badge ${statusInfo.class}">${statusInfo.text}</span>`;
+}
+
+// Debounce function for search optimization
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Add CSS Styles
+const style = document.createElement('style');
+style.textContent = `
+  .billing-filter-container {
+    margin: 20px 0;
+  }
+
+  .billing-filter-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .table-main-container {
+    overflow-x: auto;
+    max-height: 70vh;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+  }
+
+  .billing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .billing-table th,
+  .billing-table td {
+    padding: 12px 8px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+    white-space: nowrap;
+  }
+
+  .billing-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .billing-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+
+  .billing-table tbody tr:hover {
+    background-color: #f2f2f2;
+  }
+
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .status-active {
+    background-color: #e6f4ea;
+    color: #1e7e34;
+  }
+
+  .status-pending {
+    background-color: #fff3e0;
+    color: #f57c00;
+  }
+
+  .status-cancelled {
+    background-color: #fdecea;
+    color: #dc3545;
+  }
+
+  .status-completed {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+  }
+
+  .status-default {
+    background-color: #e9ecef;
+    color: #495057;
+  }
+
+  .loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+document.head.appendChild(style);
+
+// Initialize the table when the page loads
+document.addEventListener('DOMContentLoaded', fetchAndDisplayQuotes);
 
     </script>
 
