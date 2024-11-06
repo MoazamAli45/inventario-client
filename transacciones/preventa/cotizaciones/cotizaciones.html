@@ -336,7 +336,7 @@
                 <button class="tab-button active" id="tabButton1" data-tab="tab1">
                   Datos del Documento
                 </button>
-                <button class="tab-button disabled" data-tab="tab2" id="tabButton2" disabled>
+                <button class="tab-button " data-tab="tab2" id="tabButton2" >
                   Detalle del Documento
                 </button>
                 <button class="tab-button" data-tab="tab3">
@@ -832,11 +832,7 @@ document.getElementById("saveButton").addEventListener("click", async () => {
     localStorage.removeItem('dataLocal');
     localStorage.setItem('dataLocal', JSON.stringify(dataLocal));
 
-    // Activate Tab 2, disable Tab 1
-    document.getElementById('tabButton1').classList.add('disabled');
-    document.getElementById('tabButton1').disabled = true;
-    document.getElementById('tabButton2').classList.remove('disabled');
-    document.getElementById('tabButton2').disabled = false;
+    
 
     // Switch to Tab 2
     showTab('tab2');
@@ -848,13 +844,14 @@ const documentCodeField = document.getElementById('documentCode');
 const documentTypeField = document.getElementById('documentType');
 
 
+const dataLocalStorage=JSON.parse(localStorage.getItem('dataLocal'));
 
 // Populate the fields with the data
-if (dataLocal) {
-  customerField.value = dataLocal.customer;
-  customerNameField.value = dataLocal.customerName;
-  documentCodeField.value = dataLocal.documentCode;
-  documentTypeField.value = dataLocal.series;
+if (dataLocalStorage) {
+  customerField.value = dataLocalStorage.customer;
+  customerNameField.value = dataLocalStorage.customerName;
+  documentCodeField.value = dataLocalStorage.documentCode;
+  documentTypeField.value = dataLocalStorage.series;
 }
 
   });
