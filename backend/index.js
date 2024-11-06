@@ -79,7 +79,6 @@ app.get("/operaciones-facturacion/datos", (req, res) => {
           "Internal Server Error while retrieving data from billing_operation_data",
       });
     } else {
-      console.log(res);
       res.status(200).json(result);
     }
   });
