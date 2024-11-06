@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 const db = mysql.createConnection({
   host: "localhost",
-  port: 3306,
+  port: 3310,
   user: "root",
   password: "",
   database: "inventory",
@@ -79,7 +79,6 @@ app.get("/operaciones-facturacion/datos", (req, res) => {
           "Internal Server Error while retrieving data from billing_operation_data",
       });
     } else {
-      console.log(res);
       res.status(200).json(result);
     }
   });
