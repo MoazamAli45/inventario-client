@@ -846,6 +846,8 @@ const documentTypeField = document.getElementById('documentType');
 
 const dataLocalStorage=JSON.parse(localStorage.getItem('dataLocal'));
 
+console.log(dataLocalStorage,"DATA");
+
 // Populate the fields with the data
 if (dataLocalStorage) {
   customerField.value = dataLocalStorage.customer;
@@ -855,6 +857,27 @@ if (dataLocalStorage) {
 }
 
   });
+
+//   FOR 2nd Tab
+     //  DOCUMENTO DETAIL PAGE TAB 2
+  const customerField = document.getElementById('customer');
+const customerNameField = document.getElementById('customerName');
+const documentCodeField = document.getElementById('documentCode');
+const documentTypeField = document.getElementById('documentType');
+
+const dataLocalStorage=JSON.parse(localStorage.getItem('dataLocal'));
+
+console.log(dataLocalStorage,"DATA");
+
+// Populate the fields with the data
+if (dataLocalStorage) {
+  customerField.value = dataLocalStorage?.customer;
+  customerNameField.value = dataLocalStorage?.customerName;
+  documentCodeField.value = dataLocalStorage?.documentCode;
+  documentTypeField.value = dataLocalStorage?.series;
+}
+
+
 
 // Function to handle tab switching
   function showTab(tabId) {
