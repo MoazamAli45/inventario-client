@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 const db = mysql.createConnection({
   host: "localhost",
-  port: 3310,
+  port: 3306,
   user: "root",
   password: "",
   database: "inventory",
@@ -639,7 +639,7 @@ app.post("/api/quotes-data", (req, res) => {
   });
 });
 
-//  FOR FETCHING QUOTES DATA
+//  FOR FETCHING QUO TES DATA
 
 app.get("/api/quotes-data", (req, res) => {
   const query = `
@@ -674,6 +674,88 @@ app.get("/api/quotes-data", (req, res) => {
       res.status(200).json(results);
     }
   });
+});
+
+//POST Quotes Products
+
+app.post("/api/quotes-products", async (req, res) => {
+  try {
+    const {
+      article,
+      description,
+      warehouse,
+      warehouse_description,
+      vendor,
+      vendor_description,
+      model,
+      brand,
+      stock,
+      quantity,
+      price,
+      currency,
+      delivery_date,
+      perception,
+      usage_code,
+      cost_center,
+      project_code,
+    } = req.body;
+
+    // Input validation
+    if (!article || !description || !warehouse || !vendor) {
+      return res.status(400).json({
+        error: "Required fields are missing",
+      });
+    }
+
+    const insertQuery = `
+      INSERT INTO quotes_product (
+        article, description, warehouse, warehouse_description, 
+        vendor, vendor_description, model, brand,
+        stock, quantity, price, currency, delivery_date, perception,
+        usage_code, cost_center, project_code
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+      article,
+      description,
+      warehouse,
+      warehouse_description || null,
+      vendor,
+      vendor_description || null,
+      model || null,
+      brand || null,
+      stock || 0,
+      quantity || 0,
+      price || 0,
+      currency || "USD",
+      delivery_date || null,
+      perception || null,
+      usage_code || null,
+      cost_center || null,
+      project_code || null,
+    ];
+
+    // Promisify the query
+    const result = await new Promise((resolve, reject) => {
+      db.query(insertQuery, values, (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      });
+    });
+
+    res.status(201).json({
+      message: "Product quote created successfully",
+      id: result.insertId,
+    });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({
+      error: "Failed to create product quote",
+      details:
+        process.env.NODE_ENV === "development" ? error.message : undefined,
+    });
+  }
 });
 
 app.listen(port, () => {
