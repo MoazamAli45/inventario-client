@@ -100,6 +100,7 @@
                     type="number"
                     value="0"
                     class="input_field_p73 number_input_h28"
+                    id="stock"
                   />
                 </div>
               </div>
@@ -208,6 +209,7 @@
               <tr>
                 <th>Code</th>
                 <th id="nameHeader" style="display: none">Name</th>
+                <th id="stockHeader" style="display: none">Stock</th>
               </tr>
             </thead>
             <tbody id="modalTableBody">
@@ -243,24 +245,30 @@
       };
 
       // Function to open modal
-      function openModal(type, inputElement, descriptionElement) {
+      function openModal(type, inputElement, descriptionElement, stockElement) {
         modalTitle.textContent = `Select ${type}`;
         modalTableBody.innerHTML = "";
 
         // Check if the first item in the data has a name property
         const hasNameData = selectionData[type][0].hasOwnProperty("name");
+        const hasStockData = selectionData[type][0].hasOwnProperty("stock");
         nameHeader.style.display = hasNameData ? "table-cell" : "none";
+        stockHeader.style.display = hasStockData ? "table-cell" : "none";
 
         selectionData[type].forEach((item) => {
           const row = document.createElement("tr");
           row.innerHTML = `
         <td>${item.code}</td>
         ${item.name ? `<td>${item.name}</td>` : ""}
+        ${item.stock ? `<td>${item.stock}</td>` : ""}
       `;
           row.onclick = () => {
             inputElement.value = item.code;
             if (descriptionElement) {
               descriptionElement.value = item.name;
+            }
+            if (stockElement) {
+              stockElement.value = item.stock;
             }
             modal.style.display = "none";
           };
@@ -292,10 +300,17 @@
               ".description-field input"
             );
 
+            const stockElement = document.getElementById("stock");
+
             if (label.includes("artículo")) {
               openModal("article", inputElement, descriptionElement);
             } else if (label.includes("almacen")) {
-              openModal("warehouse", inputElement, descriptionElement);
+              openModal(
+                "warehouse",
+                inputElement,
+                descriptionElement,
+                stockElement
+              );
             } else if (label.includes("vendedor")) {
               openModal("vendedor", inputElement, descriptionElement);
             }
