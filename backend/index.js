@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 const db = mysql.createConnection({
   host: "localhost",
-  port: 3306,
+  port: 3310,
   user: "root",
   password: "",
   database: "inventory",

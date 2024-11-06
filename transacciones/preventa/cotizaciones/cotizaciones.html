@@ -283,6 +283,19 @@
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 15px;
       }
+
+
+      /*  TABS */
+       .tab-button.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    .tab-content .tab-panel {
+      display: none;
+    }
+    .tab-content .tab-panel.active {
+      display: block;
+    }
     </style>
   </head>
 
@@ -320,10 +333,10 @@
             <div class="container">
               <!-- Tab Navigation -->
               <div class="tabs">
-                <button class="tab-button active" data-tab="tab1">
+                <button class="tab-button active" id="tabButton1" data-tab="tab1">
                   Datos del Documento
                 </button>
-                <button class="tab-button" data-tab="tab2">
+                <button class="tab-button disabled" data-tab="tab2" id="tabButton2" disabled>
                   Detalle del Documento
                 </button>
                 <button class="tab-button" data-tab="tab3">
@@ -386,7 +399,8 @@
                       <div class="form-row">
                         <div class="form-group">
                           <label>Número</label>
-                          <input type="text" value="000000030" />
+
+                           <input type="text" id="uniqueNumber" readonly />
                         </div>
                         <div class="form-group">
                           <label>Almacén</label>
@@ -526,14 +540,14 @@
                         <div class="doc-form-row">
                           <div class="doc-form-group">
                             <label>Cliente</label>
-                            <input type="text" value="2010947" readonly />
+                            <input type="text"  readonly  id="customer" />
                           </div>
                           <div class="doc-form-group">
                             <label>&nbsp;</label>
                             <input
                               type="text"
-                              value="SERVICIOS GRAFIC"
                               readonly
+                              id="customerName"
                             />
                           </div>
                           <div class="doc-form-group">
@@ -541,15 +555,16 @@
                             <div style="display: flex; gap: 5px">
                               <input
                                 type="text"
-                                value="CO"
                                 style="width: 60px"
                                 readonly
+                                id="documentCode"
                               />
                               <input
                                 type="text"
-                                value="001"
                                 style="width: 60px"
                                 readonly
+
+                                id="documentType"
                               />
                             </div>
                           </div>
@@ -759,20 +774,26 @@
     <script>
 document.getElementById("saveButton").addEventListener("click", async () => {
  
+ const numero = document.getElementById('uniqueNumber').value;
+ const documentCode = document.querySelector("input[value='CO']").value;
+ const series = document.querySelector("input[value='001']").value;
+ const customerName = document.querySelector("input[value='ROJAS RUIZ EMILIO']").value;
+ const customer = document.querySelector("input[value='10011472661']").value;
+
     const data = {
-      documentCode: document.querySelector("input[value='CO']").value,
+      documentCode,
       currency: document.querySelector("input[value='Dolares Americanos']").value,
-      series: document.querySelector("input[value='001']").value,
+      series ,
       issueDate: document.querySelector("input[type='date'][value='2022-11-31']").value,
       exchangeRate: document.querySelector("input[value='3.8470']").value,
       expiryDate: document.querySelector("input[type='date'][value='2022-12-31']").value,
-      documentNumber: document.querySelector("input[value='000000030']").value,
+      documentNumber: numero,
       warehouse: document.querySelector("input[value='001']").value,
       priority: document.querySelector("select").value,
       status: document.querySelectorAll("select")[1].value,
       description: document.querySelector("input[type='text']").value,
-      customer: document.querySelector("input[value='10011472661']").value,
-      customerName: document.querySelector("input[value='ROJAS RUIZ EMILIO']").value,
+      customer,
+      customerName,
       address: document.querySelector("input[value='JR CABO ALBERTO LEVEAU NRO. 340 CHACN SAN']").value,
       vendor: document.querySelector("input[value='014']").value,
       vendorName: document.querySelector("input[value='Jua Pita Pineda']").value,
@@ -794,6 +815,70 @@ document.getElementById("saveButton").addEventListener("click", async () => {
       console.error("Error saving data:", error);
       alert("An error occurred while saving data.");
     }
+
+
+
+    //  REDIRECT TO NEW TAB
+   
+  const dataLocal={
+    numero:numero,
+    documentCode:documentCode,
+    series:series,
+    customerName:customerName,
+    customer:customer
+  }
+
+
+    localStorage.removeItem('dataLocal');
+    localStorage.setItem('dataLocal', JSON.stringify(dataLocal));
+
+    // Activate Tab 2, disable Tab 1
+    document.getElementById('tabButton1').classList.add('disabled');
+    document.getElementById('tabButton1').disabled = true;
+    document.getElementById('tabButton2').classList.remove('disabled');
+    document.getElementById('tabButton2').disabled = false;
+
+    // Switch to Tab 2
+    showTab('tab2');
+
+     //  DOCUMENTO DETAIL PAGE TAB 2
+  const customerField = document.getElementById('customer');
+const customerNameField = document.getElementById('customerName');
+const documentCodeField = document.getElementById('documentCode');
+const documentTypeField = document.getElementById('documentType');
+
+
+
+// Populate the fields with the data
+if (dataLocal) {
+  customerField.value = dataLocal.customer;
+  customerNameField.value = dataLocal.customerName;
+  documentCodeField.value = dataLocal.documentCode;
+  documentTypeField.value = dataLocal.series;
+}
+
+  });
+
+// Function to handle tab switching
+  function showTab(tabId) {
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    const tabButtons = document.querySelectorAll('.tab-button');
+
+    tabPanels.forEach(panel => panel.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+
+    tabButtons.forEach(button => button.classList.remove('active'));
+    document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+  }
+
+  // Event listener for tab buttons
+  document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', function() {
+      const tabId = this.getAttribute('data-tab');
+      if (!this.classList.contains('disabled')) {
+        showTab(tabId);
+      }
+    });
   });
 
 
@@ -808,7 +893,10 @@ document.getElementById("saveButton").addEventListener("click", async () => {
         operFacil: [],
         condition: [],
         client: [],
-        almacen: [],     
+        almacen: [
+          { code: "001", name: "Almacén 1" },
+          { code: "002", name: "Almacén 2" },
+        ],     
         //  doc serie
         docSerie: [
           { code: "CO", name: "Cotización" },
@@ -1028,6 +1116,21 @@ fetchClientData();
 fetchSellerData();
 fetchOperationalData();
 fetchConditionalData();
+
+//  GENERATE UNIQUE NUMBER
+function generateUniqueNumber() {
+    // Generate a random number between 1 and 99999999 and pad with leading zeros
+    const uniqueNumber = String(Math.floor(Math.random() * 100000000)).padStart(8, '0');
+    document.getElementById('uniqueNumber').value = uniqueNumber;
+  }
+
+  // Generate a unique number on page load
+  window.onload = generateUniqueNumber;
+
+
+
+
+ 
 
 
 
