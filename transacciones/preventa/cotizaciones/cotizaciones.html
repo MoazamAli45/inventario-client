@@ -993,7 +993,7 @@ async function fetchSellerData() {
     seller => ({
       code: seller.code,
       name: seller.description
-    })
+    }) 
   );
 }
 
@@ -1011,6 +1011,7 @@ async function fetchOperationalData() {
 
 // Fetch and map conditional data
 async function fetchConditionalData() {
+  console.log('gg')
   selectionData.condition = await fetchData(
     'http://localhost:3000/condiciones-comerciales/datos',
     'Code',
