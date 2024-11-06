@@ -760,6 +760,25 @@ app.post("/api/quotes-products", async (req, res) => {
   }
 });
 
+//  GET QUOTES PRODUCTS
+app.get("/api/quotes-products", (req, res) => {
+  const { numbers } = req.query;
+
+  const query = `
+    SELECT * 
+    FROM quotes_product 
+    WHERE numbers = ?`;
+
+  db.query(query, [numbers], (err, results) => {
+    if (err) {
+      console.error("Error fetching data from MySQL:", err);
+      res.status(500).json({ error: "Error fetching data." });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
