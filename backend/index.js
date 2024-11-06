@@ -571,6 +571,75 @@ app.get("/api/billing", (req, res) => {
     }
   });
 });
+
+//POST QOUTES
+
+app.post("/api/quotes-data", (req, res) => {
+  const {
+    documentCode,
+    currency,
+    series,
+    issueDate,
+    exchangeRate,
+    expiryDate,
+    documentNumber,
+    warehouse,
+    priority,
+    status,
+    description,
+    customer,
+    customerName,
+    address,
+    vendor,
+    vendorName,
+    condition,
+    conditionDescription,
+    taxReg,
+    conditionType,
+  } = req.body;
+
+  const insertQuery = `
+    INSERT INTO quotes_data (
+      documentCode, currency, series, issueDate, exchangeRate,
+      expiryDate, documentNumber, warehouse, priority, status,
+      description, customer, customerName, address, vendor,
+      vendorName, conditions, conditionDescription, taxReg, conditionType
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const values = [
+    documentCode,
+    currency,
+    series,
+    issueDate,
+    exchangeRate,
+    expiryDate,
+    documentNumber,
+    warehouse,
+    priority,
+    status,
+    description,
+    customer,
+    customerName,
+    address,
+    vendor,
+    vendorName,
+    condition,
+    conditionDescription,
+    taxReg,
+    conditionType,
+  ];
+
+  db.query(insertQuery, values, (err, result) => {
+    if (err) {
+      console.error("Error inserting data into MySQL:", err);
+      res.status(500).json({ error: "Error saving data." });
+    } else {
+      res.status(200).json({ message: "Data saved successfully!" });
+    }
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
