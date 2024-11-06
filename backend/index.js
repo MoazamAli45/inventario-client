@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 const db = mysql.createConnection({
   host: "localhost",
-  port: 3310,
+  port: 3306,
   user: "root",
   password: "",
   database: "inventory",
@@ -758,6 +758,25 @@ app.post("/api/quotes-products", async (req, res) => {
         process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
+});
+
+//  GET QUOTES PRODUCTS
+app.get("/api/quotes-products", (req, res) => {
+  const { numbers } = req.query;
+
+  const query = `
+    SELECT * 
+    FROM quotes_product 
+    WHERE numbers = ?`;
+
+  db.query(query, [numbers], (err, results) => {
+    if (err) {
+      console.error("Error fetching data from MySQL:", err);
+      res.status(500).json({ error: "Error fetching data." });
+    } else {
+      res.status(200).json(results);
+    }
+  });
 });
 
 app.listen(port, () => {
