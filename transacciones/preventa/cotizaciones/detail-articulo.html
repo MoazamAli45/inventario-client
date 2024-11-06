@@ -39,7 +39,7 @@
           </nav>
         </aside>
         <main class="content">
-          <div class="form_container_x92">
+          <form id="quoteForm" class="form_container_x92">
             <div class="section_header_k31">Detalle del Artículo</div>
             <div class="form_grid_j84">
               <div class="form-row">
@@ -52,7 +52,7 @@
                       class="input_field_p73"
                       readonly
                     />
-                    <button>...</button>
+                    <button type="button">...</button>
                   </div>
                 </div>
                 <div class="form_field_y62 description-field">
@@ -75,7 +75,7 @@
                       class="input_field_p73"
                       readonly
                     />
-                    <button>...</button>
+                    <button type="button">...</button>
                   </div>
                 </div>
                 <div class="form_field_y62 description-field">
@@ -98,7 +98,7 @@
                       class="input_field_p73"
                       readonly
                     />
-                    <button>...</button>
+                    <button type="button">...</button>
                   </div>
                 </div>
                 <div class="form_field_y62 description-field">
@@ -136,6 +136,7 @@
                     name="stock"
                     value="0"
                     class="input_field_p73 number_input_h28"
+                    id="stock"
                   />
                 </div>
               </div>
@@ -165,8 +166,6 @@
                 <label class="input_label_m45">Moneda</label>
                 <select name="currency" class="input_field_p73">
                   <option value="">Seleccionar moneda</option>
-                  <option value="PEN">PEN</option>
-                  <option value="USD">USD</option>
                 </select>
               </div>
               <div class="form_field_y62">
@@ -200,7 +199,7 @@
               <div class="form_field_y62">
                 <label class="input_label_m45">C.Costo</label>
                 <select name="cost_center" class="input_field_p73">
-                  <option value="AGPOVEN">AGPOVEN</option>
+                  <option value="">AGPOVEN</option>
                 </select>
               </div>
               <div class="form_field_y62">
@@ -212,9 +211,15 @@
             </div>
 
             <div class="button_container_v54">
-              <button class="button_n37">Guardar</button>
+              <button
+                type="submit"
+                style="background-color: black; color: white; padding: 10px"
+                class="button_n37"
+              >
+                Guardar
+              </button>
             </div>
-          </div>
+          </form>
         </main>
       </div>
 
@@ -252,6 +257,7 @@
               <tr>
                 <th>Code</th>
                 <th id="nameHeader" style="display: none">Name</th>
+                <th id="stockHeader" style="display: none">Stock</th>
               </tr>
             </thead>
             <tbody id="modalTableBody">
@@ -283,23 +289,29 @@
         vendedor: [{ code: "M001" }, { code: "M002" }],
       };
 
-      function openModal(type, inputElement, descriptionElement) {
+      function openModal(type, inputElement, descriptionElement, stockElement) {
         modalTitle.textContent = `Select ${type}`;
         modalTableBody.innerHTML = "";
 
         const hasNameData = selectionData[type][0].hasOwnProperty("name");
+        const hasStockData = selectionData[type][0].hasOwnProperty("stock");
         nameHeader.style.display = hasNameData ? "table-cell" : "none";
+        stockHeader.style.display = hasStockData ? "table-cell" : "none";
 
         selectionData[type].forEach((item) => {
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${item.code}</td>
-            ${item.name ? `<td>${item.name}</td>` : ""}
-          `;
+                    <td>${item.code}</td>
+                    ${item.name ? `<td>${item.name}</td>` : ""}
+                    ${item.stock ? `<td>${item.stock}</td>` : ""}
+                `;
           row.onclick = () => {
             inputElement.value = item.code;
             if (descriptionElement) {
-              descriptionElement.value = item.name || "";
+              descriptionElement.value = item.name;
+            }
+            if (stockElement) {
+              stockElement.value = item.stock;
             }
             modal.style.display = "none";
           };
@@ -325,13 +337,20 @@
             const label = container
               .querySelector("label")
               .textContent.toLowerCase();
-            const descriptionElement =
-              container.nextElementSibling?.querySelector("input");
+            const descriptionElement = container.querySelector(
+              ".description-field input"
+            );
+            const stockElement = document.getElementById("stock");
 
             if (label.includes("artículo")) {
               openModal("article", inputElement, descriptionElement);
             } else if (label.includes("almacen")) {
-              openModal("warehouse", inputElement, descriptionElement);
+              openModal(
+                "warehouse",
+                inputElement,
+                descriptionElement,
+                stockElement
+              );
             } else if (label.includes("vendedor")) {
               openModal("vendedor", inputElement, descriptionElement);
             }
@@ -347,6 +366,7 @@
             );
           }
           const data = await response.json();
+          console.log(data);
           return data.map(mapFields);
         } catch (error) {
           console.error("Error fetching data from:", url, error);
@@ -367,57 +387,44 @@
 
       fetchSellerData();
 
-      document.querySelector(".button_n37").addEventListener("click", saveData);
+      // Form submission handler
+      document
+        .getElementById("quoteForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
 
-      async function saveData() {
-        const formData = {
-          article: document.querySelector('[name="article"]').value,
-          description: document.querySelector('[name="description"]').value,
-          warehouse: document.querySelector('[name="warehouse"]').value,
-          warehouse_description: document.querySelector(
-            '[name="warehouse_description"]'
-          ).value,
-          vendor: document.querySelector('[name="vendor"]').value,
-          vendor_description: document.querySelector(
-            '[name="vendor_description"]'
-          ).value,
-          model: document.querySelector('[name="model"]').value,
-          brand: document.querySelector('[name="brand"]').value,
-          stock: document.querySelector('[name="stock"]').value,
-          quantity: document.querySelector('[name="quantity"]').value,
-          price: document.querySelector('[name="price"]').value,
-          currency: document.querySelector('[name="currency"]').value,
-          delivery_date: document.querySelector('[name="delivery_date"]').value,
-          perception: document.querySelector('[name="perception"]').value,
-          usage_code: document.querySelector('[name="usage_code"]').value,
-          cost_center: document.querySelector('[name="cost_center"]').value,
-          project_code: document.querySelector('[name="project_code"]').value,
-        };
+          const formData = new FormData(e.target);
+          const formDataObject = {};
+          formDataObject["numero"] = JSON.parse(
+            localStorage.getItem("dataLocal")
+          ).numero;
+          formData.forEach((value, key) => {
+            formDataObject[key] = value;
+          });
 
-        try {
-          const response = await fetch(
-            "http://localhost:3000/api/quotes-products",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formData),
+          try {
+            const response = await fetch(
+              "http://localhost:3000/api/quotes-products",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formDataObject),
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
             }
-          );
 
-          const result = await response.json();
-          if (response.ok) {
-            alert("Data saved successfully!");
-          } else {
-            console.error("Error saving data:", result.error);
-            alert("Error saving data");
+            const result = await response.json();
+            alert("Quote saved successfully!");
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to save quote");
           }
-        } catch (error) {
-          console.error("Fetch error:", error);
-          alert("An error occurred while saving data");
-        }
-      }
+        });
     </script>
   </body>
 </html>
