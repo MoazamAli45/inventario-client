@@ -681,6 +681,7 @@ app.get("/api/quotes-data", (req, res) => {
 app.post("/api/quotes-products", async (req, res) => {
   try {
     const {
+      numero,
       article,
       description,
       warehouse,
@@ -709,14 +710,15 @@ app.post("/api/quotes-products", async (req, res) => {
 
     const insertQuery = `
       INSERT INTO quotes_product (
-        article, description, warehouse, warehouse_description, 
+        numbers,article, description, warehouse, warehouse_description, 
         vendor, vendor_description, model, brand,
         stock, quantity, price, currency, delivery_date, perception,
         usage_code, cost_center, project_code
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
+      numero,
       article,
       description,
       warehouse,
