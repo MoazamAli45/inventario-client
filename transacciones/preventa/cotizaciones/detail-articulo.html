@@ -150,6 +150,8 @@
                   type="number"
                   name="quantity"
                   class="input_field_p73 number_input_h28"
+                  id="quantity"
+                  onchange="calculateTotals()"
                 />
               </div>
               <div class="form_field_y62">
@@ -158,8 +160,10 @@
                   type="number"
                   name="price"
                   value="0.00"
+                  id="price"
                   step="0.01"
                   class="input_field_p73 number_input_h28"
+                  onchange="calculateTotals()"
                 />
               </div>
               <div class="form_field_y62">
@@ -184,6 +188,134 @@
                   value="0.00"
                   step="0.01"
                   class="input_field_p73 number_input_h28"
+                />
+              </div>
+
+              <!--  NEW FIELDS ADDED -->
+
+              <div class="form_field_y62">
+                <label class="input_label_m45">Dólares Americanos</label>
+                <input
+                  type="number"
+                  name="amount"
+                  value="200.00"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  id="amount"
+                  readonly
+                />
+              </div>
+
+              <div class="form_field_y62">
+                <label class="input_label_m45">% Desc. 1</label>
+                <input
+                  type="number"
+                  name="discount1"
+                  value="0"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  id="discount1"
+                  onchange="calculateTotals()"
+                />
+              </div>
+
+              <div class="form_field_y62">
+                <label class="input_label_m45">% Desc. 2</label>
+                <input
+                  type="number"
+                  name="discount2"
+                  value="0"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  id="discount2"
+                  onchange="calculateTotals()"
+                />
+              </div>
+
+              <div class="form_field_y62">
+                <label class="input_label_m45">% Desc. 3</label>
+                <input
+                  type="number"
+                  name="discount3"
+                  value="0"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  id="discount3"
+                  onchange="calculateTotals()"
+                />
+              </div>
+
+              <div class="form_field_y62">
+                <label class="input_label_m45">Percepción</label>
+                <input
+                  type="number"
+                  name="perception"
+                  value="0"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  id="perception"
+                  onchange="calculateTotals()"
+                />
+              </div>
+
+              <div class="form_field_y62">
+                <label class="input_label_m45">Bruto:</label>
+                <input
+                  type="number"
+                  id="gross"
+                  name="gross"
+                  value="200.00"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  readonly
+                />
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Neto:</label>
+                <input
+                  type="number"
+                  id="net"
+                  name="net"
+                  value="200.00"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  readonly
+                />
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">ISC:</label>
+                <input
+                  type="number"
+                  id="isc"
+                  name="isc"
+                  value="0.00"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  readonly
+                />
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Impuesto:</label>
+                <input
+                  type="number"
+                  id="tax"
+                  name="tax"
+                  value="36.00"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  readonly
+                />
+              </div>
+              <div class="form_field_y62">
+                <label class="input_label_m45">Total Item:</label>
+                <input
+                  type="number"
+                  id="total"
+                  name="total"
+                  value="236.00"
+                  step="0.01"
+                  class="input_field_p73 number_input_h28"
+                  readonly
                 />
               </div>
             </div>
@@ -271,6 +403,46 @@
     <script src="/js/layout.js"></script>
     <script src="/js/tabs.js"></script>
     <script>
+      //   FOR CALCULATING TOTAL PRICE
+      function calculateTotals() {
+        const quantity =
+          parseFloat(document.getElementById("quantity").value) || 0;
+        const price = parseFloat(document.getElementById("price").value) || 0;
+        const discount1 =
+          parseFloat(document.getElementById("discount1").value) || 0;
+        const discount2 =
+          parseFloat(document.getElementById("discount2").value) || 0;
+        const discount3 =
+          parseFloat(document.getElementById("discount3").value) || 0;
+        const perception =
+          parseFloat(document.getElementById("perception").value) || 0;
+
+        // Calculate gross amount (quantity * price)
+        const gross = quantity * price;
+
+        // Calculate net amount after discounts
+        let net = gross;
+        net *= 1 - discount1 / 100;
+        net *= 1 - discount2 / 100;
+        net *= 1 - discount3 / 100;
+
+        // Calculate tax (18% IGV)
+        const tax = net * 0.18;
+
+        // Calculate total
+        const total = net + tax + perception;
+
+        // Update display
+        document.getElementById("gross").value = gross.toFixed(2);
+        document.getElementById("net").value = net.toFixed(2);
+        document.getElementById("isc").value = "0.00";
+        document.getElementById("tax").value = tax.toFixed(2);
+        document.getElementById("total").value = total.toFixed(2);
+      }
+
+      // Initial calculation
+      calculateTotals();
+
       const modal = document.getElementById("selectionModal");
       const modalTitle = document.getElementById("modalTitle");
       const modalTableBody = document.getElementById("modalTableBody");
