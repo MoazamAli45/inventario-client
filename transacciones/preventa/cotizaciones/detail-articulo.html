@@ -46,12 +46,22 @@
                 <div class="form_field_y62">
                   <label class="input_label_m45">Artículo</label>
                   <div class="input-with-button">
-                    <input type="text" class="input_field_p73" readonly />
+                    <input
+                      type="text"
+                      name="article"
+                      class="input_field_p73"
+                      readonly
+                    />
                     <button>...</button>
                   </div>
                 </div>
                 <div class="form_field_y62 description-field">
-                  <input type="text" class="input_field_p73" readonly />
+                  <input
+                    type="text"
+                    name="description"
+                    class="input_field_p73"
+                    readonly
+                  />
                 </div>
               </div>
               <br />
@@ -59,12 +69,22 @@
                 <div class="form_field_y62">
                   <label class="input_label_m45">Almacen</label>
                   <div class="input-with-button">
-                    <input type="text" class="input_field_p73" readonly />
+                    <input
+                      type="text"
+                      name="warehouse"
+                      class="input_field_p73"
+                      readonly
+                    />
                     <button>...</button>
                   </div>
                 </div>
                 <div class="form_field_y62 description-field">
-                  <input type="text" class="input_field_p73" readonly />
+                  <input
+                    type="text"
+                    name="warehouse_description"
+                    class="input_field_p73"
+                    readonly
+                  />
                 </div>
               </div>
               <br />
@@ -72,12 +92,22 @@
                 <div class="form_field_y62">
                   <label class="input_label_m45">vendedor</label>
                   <div class="input-with-button">
-                    <input type="text" class="input_field_p73" readonly />
+                    <input
+                      type="text"
+                      name="vendor"
+                      class="input_field_p73"
+                      readonly
+                    />
                     <button>...</button>
                   </div>
                 </div>
                 <div class="form_field_y62 description-field">
-                  <input type="text" class="input_field_p73" readonly />
+                  <input
+                    type="text"
+                    name="vendor_description"
+                    class="input_field_p73"
+                    readonly
+                  />
                 </div>
               </div>
               <br />
@@ -86,18 +116,24 @@
                   <div class="form_field_y62">
                     <label class="input_label_m45">Modelo</label>
                     <div class="input-with-button">
-                      <input type="text" class="input_field_p73" readonly />
+                      <input
+                        type="text"
+                        name="model"
+                        class="input_field_p73"
+                        readonly
+                      />
                     </div>
                   </div>
                 </div>
                 <div class="form_field_y62">
                   <label class="input_label_m45">Marca</label>
-                  <input type="text" class="input_field_p73" />
+                  <input type="text" name="brand" class="input_field_p73" />
                 </div>
                 <div class="form_field_y62">
                   <label class="input_label_m45">Stock</label>
                   <input
                     type="number"
+                    name="stock"
                     value="0"
                     class="input_field_p73 number_input_h28"
                   />
@@ -109,12 +145,17 @@
             <div class="form_grid_j84">
               <div class="form_field_y62">
                 <label class="input_label_m45">Cantidad</label>
-                <input type="number" class="input_field_p73 number_input_h28" />
+                <input
+                  type="number"
+                  name="quantity"
+                  class="input_field_p73 number_input_h28"
+                />
               </div>
               <div class="form_field_y62">
                 <label class="input_label_m45">Precio</label>
                 <input
                   type="number"
+                  name="price"
                   value="0.00"
                   step="0.01"
                   class="input_field_p73 number_input_h28"
@@ -122,18 +163,25 @@
               </div>
               <div class="form_field_y62">
                 <label class="input_label_m45">Moneda</label>
-                <select class="input_field_p73">
+                <select name="currency" class="input_field_p73">
                   <option value="">Seleccionar moneda</option>
+                  <option value="PEN">PEN</option>
+                  <option value="USD">USD</option>
                 </select>
               </div>
               <div class="form_field_y62">
                 <label class="input_label_m45">Fch Entrega</label>
-                <input type="date" class="input_field_p73 date_input_w91" />
+                <input
+                  type="date"
+                  name="delivery_date"
+                  class="input_field_p73 date_input_w91"
+                />
               </div>
               <div class="form_field_y62">
                 <label class="input_label_m45">Percepción</label>
                 <input
                   type="number"
+                  name="perception"
                   value="0.00"
                   step="0.01"
                   class="input_field_p73 number_input_h28"
@@ -145,28 +193,26 @@
             <div class="form_grid_j84">
               <div class="form_field_y62">
                 <label class="input_label_m45">Cod. Uso</label>
-                <select class="input_field_p73">
+                <select name="usage_code" class="input_field_p73">
                   <option value="">Seleccionar</option>
                 </select>
               </div>
               <div class="form_field_y62">
                 <label class="input_label_m45">C.Costo</label>
-                <select class="input_field_p73">
-                  <option value="">AGPOVEN</option>
+                <select name="cost_center" class="input_field_p73">
+                  <option value="AGPOVEN">AGPOVEN</option>
                 </select>
               </div>
               <div class="form_field_y62">
                 <label class="input_label_m45">Cod. Proy</label>
-                <select class="input_field_p73">
+                <select name="project_code" class="input_field_p73">
                   <option value="">Seleccionar</option>
                 </select>
               </div>
             </div>
 
             <div class="button_container_v54">
-              <button class="button_n37">Nuevo</button>
               <button class="button_n37">Guardar</button>
-              <button class="button_n37">Imprimir</button>
             </div>
           </div>
         </main>
@@ -194,8 +240,6 @@
       </footer>
     </div>
 
-    <!--  MODAL -->
-    <!-- Add this modal HTML right before the closing body tag -->
     <div id="selectionModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
@@ -220,8 +264,6 @@
 
     <script src="/js/layout.js"></script>
     <script src="/js/tabs.js"></script>
-    <!--  MODAL JAVASRCIPT -->
-    <!-- Add this script before closing body tag -->
     <script>
       const modal = document.getElementById("selectionModal");
       const modalTitle = document.getElementById("modalTitle");
@@ -229,7 +271,6 @@
       const closeBtn = document.querySelector(".close");
       const nameHeader = document.getElementById("nameHeader");
 
-      // Sample data for different selection types
       const selectionData = {
         article: [
           { code: "001", name: "Artículo 1" },
@@ -242,25 +283,23 @@
         vendedor: [{ code: "M001" }, { code: "M002" }],
       };
 
-      // Function to open modal
       function openModal(type, inputElement, descriptionElement) {
         modalTitle.textContent = `Select ${type}`;
         modalTableBody.innerHTML = "";
 
-        // Check if the first item in the data has a name property
         const hasNameData = selectionData[type][0].hasOwnProperty("name");
         nameHeader.style.display = hasNameData ? "table-cell" : "none";
 
         selectionData[type].forEach((item) => {
           const row = document.createElement("tr");
           row.innerHTML = `
-        <td>${item.code}</td>
-        ${item.name ? `<td>${item.name}</td>` : ""}
-      `;
+            <td>${item.code}</td>
+            ${item.name ? `<td>${item.name}</td>` : ""}
+          `;
           row.onclick = () => {
             inputElement.value = item.code;
             if (descriptionElement) {
-              descriptionElement.value = item.name;
+              descriptionElement.value = item.name || "";
             }
             modal.style.display = "none";
           };
@@ -270,7 +309,6 @@
         modal.style.display = "block";
       }
 
-      // Close modal when clicking the close button or outside the modal
       closeBtn.onclick = () => (modal.style.display = "none");
       window.onclick = (event) => {
         if (event.target === modal) {
@@ -278,7 +316,6 @@
         }
       };
 
-      // Add click handlers to all selection buttons
       document
         .querySelectorAll(".input-with-button button")
         .forEach((button) => {
@@ -288,9 +325,8 @@
             const label = container
               .querySelector("label")
               .textContent.toLowerCase();
-            const descriptionElement = container.querySelector(
-              ".description-field input"
-            );
+            const descriptionElement =
+              container.nextElementSibling?.querySelector("input");
 
             if (label.includes("artículo")) {
               openModal("article", inputElement, descriptionElement);
@@ -305,17 +341,12 @@
       async function fetchData(url, uniqueKey, mapFields) {
         try {
           const response = await fetch(url);
-
           if (!response.ok) {
             throw new Error(
               "Network response was not ok " + response.statusText
             );
           }
-
           const data = await response.json();
-
-          console.log(data);
-
           return data.map(mapFields);
         } catch (error) {
           console.error("Error fetching data from:", url, error);
@@ -335,6 +366,61 @@
       }
 
       fetchSellerData();
+
+      document.querySelector(".button_n37").addEventListener("click", saveData);
+
+      async function saveData() {
+        const formData = {
+          numero:localStorage.getItem(JSON.parse(dataLocal.numero))
+          article: document.querySelector('[name="article"]').value,
+          description: document.querySelector('[name="description"]').value,
+          warehouse: document.querySelector('[name="warehouse"]').value,
+          warehouse_description: document.querySelector(
+            '[name="warehouse_description"]'
+          ).value,
+          vendor: document.querySelector('[name="vendor"]').value,
+          vendor_description: document.querySelector(
+            '[name="vendor_description"]'
+          ).value,
+          model: document.querySelector('[name="model"]').value,
+          brand: document.querySelector('[name="brand"]').value,
+          stock: document.querySelector('[name="stock"]').value,
+          quantity: document.querySelector('[name="quantity"]').value,
+          price: document.querySelector('[name="price"]').value,
+          currency: document.querySelector('[name="currency"]').value,
+          delivery_date: document.querySelector('[name="delivery_date"]').value,
+          perception: document.querySelector('[name="perception"]').value,
+          usage_code: document.querySelector('[name="usage_code"]').value,
+          cost_center: document.querySelector('[name="cost_center"]').value,
+          project_code: document.querySelector('[name="project_code"]').value,
+        };
+
+        console.log(formData);
+
+        try {
+          const response = await fetch(
+            "http://localhost:3000/api/quotes-products",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            }
+          );
+
+          const result = await response.json();
+          if (response.ok) {
+            alert("Data saved successfully!");
+          } else {
+            console.error("Error saving data:", result.error);
+            alert("Error saving data");
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
+          alert("An error occurred while saving data");
+        }
+      }
     </script>
   </body>
 </html>
