@@ -54,7 +54,7 @@
                   <input type="text" class="input_field_p73" readonly />
                 </div>
               </div>
-
+              <br />
               <div class="form-row">
                 <div class="form_field_y62">
                   <label class="input_label_m45">Almacen</label>
@@ -67,27 +67,41 @@
                   <input type="text" class="input_field_p73" readonly />
                 </div>
               </div>
-
+              <br />
               <div class="form-row">
                 <div class="form_field_y62">
-                  <label class="input_label_m45">Modelo</label>
+                  <label class="input_label_m45">vendedor</label>
                   <div class="input-with-button">
                     <input type="text" class="input_field_p73" readonly />
                     <button>...</button>
                   </div>
                 </div>
+                <div class="form_field_y62 description-field">
+                  <input type="text" class="input_field_p73" readonly />
+                </div>
               </div>
-              <div class="form_field_y62">
-                <label class="input_label_m45">Marca</label>
-                <input type="text" class="input_field_p73" />
-              </div>
-              <div class="form_field_y62">
-                <label class="input_label_m45">Stock</label>
-                <input
-                  type="number"
-                  value="0"
-                  class="input_field_p73 number_input_h28"
-                />
+              <br />
+              <div style="display: flex; flex-direction: row; gap: 5px">
+                <div class="form-row">
+                  <div class="form_field_y62">
+                    <label class="input_label_m45">Modelo</label>
+                    <div class="input-with-button">
+                      <input type="text" class="input_field_p73" readonly />
+                    </div>
+                  </div>
+                </div>
+                <div class="form_field_y62">
+                  <label class="input_label_m45">Marca</label>
+                  <input type="text" class="input_field_p73" />
+                </div>
+                <div class="form_field_y62">
+                  <label class="input_label_m45">Stock</label>
+                  <input
+                    type="number"
+                    value="0"
+                    class="input_field_p73 number_input_h28"
+                  />
+                </div>
               </div>
             </div>
 
@@ -222,10 +236,10 @@
           { code: "002", name: "Artículo 2" },
         ],
         warehouse: [
-          { code: "002", name: "AG AREQUIPA" },
-          { code: "003", name: "AG LIMA" },
+          { code: "002", name: "AG AREQUIPA", stock: 500 },
+          { code: "003", name: "AG LIMA", stock: 700 },
         ],
-        model: [{ code: "M001" }, { code: "M002" }],
+        vendedor: [{ code: "M001" }, { code: "M002" }],
       };
 
       // Function to open modal
@@ -282,11 +296,45 @@
               openModal("article", inputElement, descriptionElement);
             } else if (label.includes("almacen")) {
               openModal("warehouse", inputElement, descriptionElement);
-            } else if (label.includes("modelo")) {
-              openModal("model", inputElement, null);
+            } else if (label.includes("vendedor")) {
+              openModal("vendedor", inputElement, descriptionElement);
             }
           };
         });
+
+      async function fetchData(url, uniqueKey, mapFields) {
+        try {
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            throw new Error(
+              "Network response was not ok " + response.statusText
+            );
+          }
+
+          const data = await response.json();
+
+          console.log(data);
+
+          return data.map(mapFields);
+        } catch (error) {
+          console.error("Error fetching data from:", url, error);
+          return [];
+        }
+      }
+
+      async function fetchSellerData() {
+        selectionData.vendedor = await fetchData(
+          "http://localhost:3000/vendedores/datos",
+          "code",
+          (seller) => ({
+            code: seller.code,
+            name: seller.description,
+          })
+        );
+      }
+
+      fetchSellerData();
     </script>
   </body>
 </html>
