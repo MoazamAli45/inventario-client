@@ -420,6 +420,8 @@
 
             const result = await response.json();
             alert("Quote saved successfully!");
+            window.location.href =
+              "/transacciones/preventa/cotizaciones/cotizaciones.html";
           } catch (error) {
             console.error("Error:", error);
             alert("Failed to save quote");

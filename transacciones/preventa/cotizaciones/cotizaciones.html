@@ -603,6 +603,7 @@
                       <div class="doc-detail-section">
                         <div id="doc-bienes-section" class="doc-detail-header">
                           <h3>Detalle del Documento - Bienes</h3>
+                          
                           <div class="doc-action-buttons">
                             <button class="doc-btn-icon" id="plus-button">
                               <i data-lucide="plus" class="icon"></i>
@@ -619,19 +620,7 @@
                           </div>
                         </div>
 
-                        <table class="doc-table">
-                          <thead>
-                            <tr>
-                              <th>Alm</th>
-                              <th>Artículo</th>
-                              <th>Descripción</th>
-                              <th>U. Med</th>
-                              <th>Descripción</th>
-                              <th>Vendedor</th>
-                              <th>Acciones</th>
-                            </tr>
-                          </thead>
-                        </table>
+                        <div style="overflow-x: auto;" id="product-table"></div>
 
                         <button class="doc-btn doc-btn-primary">
                           Agregar Bien
@@ -1048,7 +1037,7 @@ function openModal(type, inputElement, descriptionElement,addressElement,regNoEl
 
     const data = await response.json();
 
-    console.log(data);
+
     
     return data.map(mapFields);
   } catch (error) {
@@ -1096,7 +1085,7 @@ async function fetchOperationalData() {
 
 // Fetch and map conditional data
 async function fetchConditionalData() {
-  console.log('gg')
+ 
   selectionData.condition = await fetchData(
     'http://localhost:3000/condiciones-comerciales/datos',
     'Code',
@@ -1157,7 +1146,7 @@ async function fetchAndDisplayQuotes() {
 
     // Fetch data from API
     const response = await fetch('http://localhost:3000/api/quotes-data');
-    console.log(response);
+   
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -1429,6 +1418,92 @@ document.head.appendChild(style);
 
 // Initialize the table when the page loads
 document.addEventListener('DOMContentLoaded', fetchAndDisplayQuotes);
+
+const url = `http://localhost:3000/api/quotes-products?numbers=${encodeURIComponent(JSON.parse(
+            localStorage.getItem("dataLocal")
+          ).numero)}`;
+          
+// Get the existing div
+const tableContainers = document.getElementById('product-table'); // Replace 'your-div-id' with your actual div id
+
+// Use fetch to send a GET request to the server
+fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Create table element
+        const table = document.createElement('table');
+        table.style.width = '100%';
+        table.style.borderCollapse = 'collapse';
+        table.style.marginTop = '20px';
+
+        // Create table header
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        
+        // Get headers from first data object
+        const headers = Object.keys(data[0] || {});
+        
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText.charAt(0).toUpperCase() + headerText.slice(1);
+            th.style.padding = '12px';
+            th.style.backgroundColor = '#f2f2f2';
+            th.style.borderBottom = '2px solid #ddd';
+            headerRow.appendChild(th);
+        });
+        
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Create table body
+        const tbody = document.createElement('tbody');
+        
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            
+            headers.forEach(header => {
+                const cell = document.createElement('td');
+                cell.textContent = item[header];
+                cell.style.padding = '12px';
+                cell.style.borderBottom = '1px solid #ddd';
+                row.appendChild(cell);
+            });
+            
+            // Add hover effect
+            row.addEventListener('mouseover', () => {
+                row.style.backgroundColor = '#f5f5f5';
+            });
+            
+            row.addEventListener('mouseout', () => {
+                row.style.backgroundColor = '';
+            });
+            
+            tbody.appendChild(row);
+        });
+        
+        table.appendChild(tbody);
+        
+        // Clear previous content and add new table
+        tableContainers.innerHTML = '';
+        tableContainers.appendChild(table);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        
+        // Show error message in container
+        tableContainers.innerHTML = `
+            <div style="color: red; padding: 20px; text-align: center;">
+                Error loading data: ${error.message}
+            </div>
+        `;
+    });
+
+
 
     </script>
 
