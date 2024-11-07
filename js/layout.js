@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 {
                   name: "Pedidos desde Cotización",
-                  href: "/transacciones/preventa/pedidos/registro-de-pedidos.html",
+                  href: "/transacciones/preventa/pedidos/pedidos-desde-cotizacion.html",
                 },
                 {
                   name: "Aprobación de Pedidos",
