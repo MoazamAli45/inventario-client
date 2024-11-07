@@ -355,7 +355,7 @@
                       <div class="form-row">
                         <div class="form-group">
                           <label>Doc</label>
-                          <input type="text" value="CO" readonly />
+                          <input type="text" id="docInput" readonly />
                         </div>
                         <div class="form-group">
                             <button id="customButton" class="btn btn-primary">
@@ -366,17 +366,17 @@
                           <label>Moneda</label>
                           <input
                             type="text"
-                            value="Dolares Americanos"
+                           id="monedaInput"
                             readonly
                           />
                         </div>
                          <div class="form-group">
                           <label>Serie</label>
-                          <input type="text" value="001" />
+                          <input type="text" id="serieInput" />
                         </div>
                         <div class="form-group">
                           <label>Fch Emisión</label>
-                          <input type="date" value="2022-11-31" />
+                          <input type="date" id="fchInput" />
                         </div>
                       </div>
 
@@ -384,11 +384,11 @@
                        
                         <div class="form-group">
                           <label>T. Cambio</label>
-                          <input type="text" value="3.8470" />
+                          <input type="text" id="cambioInput" />
                         </div>
                         <div class="form-group">
                           <label>Fch Venc.</label>
-                          <input type="date" value="2022-12-31" />
+                          <input type="date" id="vencInput" />
                         </div>
                       </div>
                    
@@ -405,7 +405,7 @@
                         <div class="form-group">
                           <label>Almacén</label>
                           <div class="input-with-button">
-                            <input type="text" value="001" />
+                            <input type="text"  id="almacenInput" />
                             <button>...</button>
                           </div>
                         </div>
@@ -417,7 +417,7 @@
                       <div class="form-row">
                         <div class="form-group">
                           <label>Prioridad</label>
-                          <select>
+                          <select name="prioridad">
                             <option value="baja">Baja</option>
                             <option value="media">Media</option>
                             <option value="alta">Alta</option>
@@ -425,7 +425,7 @@
                         </div>
                         <div class="form-group">
                           <label>Estado</label>
-                          <select>
+                          <select name="estado">
                             <option value="pendiente">Pendiente</option>
                             <option value="aprobado">Aprobado</option>
                             <option value="rechazado">Rechazado</option>
@@ -446,13 +446,13 @@
                         <div class="form-group">
                           <label>Cliente</label>
                           <div class="input-with-button">
-                            <input type="text" value="10011472661" />
+                            <input type="text" id="clientInput" />
                             <button>...</button>
                           </div>
                         </div>
                         <div class="form-group">
                           <label>Nombre del Cliente</label>
-                          <input type="text" value="ROJAS RUIZ EMILIO" />
+                          <input type="text" id="nombreInput" />
                         </div>
                       </div>
 
@@ -461,8 +461,7 @@
                           <label>Dirección</label>
                           <input
                             type="text"
-                            id="address"
-                            value="JR CABO ALBERTO LEVEAU NRO. 340 CHACN SAN"
+                         id="address"
                           />
                         </div>
                       </div>
@@ -471,13 +470,13 @@
                         <div class="form-group">
                           <label>Oper Facil</label>
                           <div class="input-with-button">
-                            <input type="text" value="PVD" />
+                            <input type="text" id="operFacilInput" />
                             <button>...</button>
                           </div>
                         </div>
                         <div class="form-group">
                           <label>Descripción Oper Facil</label>
-                          <input type="text" value="FACTURA DE VENTA DOLARES" />
+                          <input type="text"  id="descripciónInput" />
                         </div>
                       </div>
 
@@ -485,13 +484,13 @@
                         <div class="form-group">
                           <label>Vendedor</label>
                           <div class="input-with-button">
-                            <input type="text" value="014" />
+                            <input type="text" id="vendedorInput" />
                             <button>...</button>
                           </div>
                         </div>
                         <div class="form-group">
                           <label>Nombre del Vendedor</label>
-                          <input type="text" value="Jua Pita Pineda" />
+                          <input type="text" id="nombreVendedor" />
                         </div>
                       </div>
 
@@ -499,33 +498,33 @@
                         <div class="form-group">
                           <label>Condición</label>
                           <div class="input-with-button">
-                            <input type="text" value="001" />
+                            <input type="text" id="CondiciónInput" />
                             <button>...</button>
                           </div>
                         </div>
                         <div class="form-group">
                           <label>Descripción Condición</label>
-                          <input type="text" value="CONTADO EFECTIVO" />
+                          <input type="text" id="descripciónCondicionInput" />
                         </div>
                       </div>
 
                       <div class="form-row">
                         <div class="form-group">
                           <label>Reg. Tribut.</label>
-                          <input type="text" value="10011472661" id="regNo" />
+                          <input type="text"  id="regNo" />
                         </div>
                         <div class="form-group">
                           <label>Tipo Cond.</label>
-                          <input type="text" value="Crédito" id="tipo" />
+                          <input type="text"  id="tipo" />
                         </div>
                       </div>
                     </div>
 
                     <div class="buttons">
 
-                       <button id="saveButton" class="btn "
+                       <button  class="btn "
                        onclick="window.location.href='/transacciones/preventa/cotizaciones/cotizaciones-pendientes.html'">
-                       >
+                       
                      Cotizaciones Pendientes
                       </button>
                      
@@ -728,52 +727,54 @@
     <!-- Add this script before closing body tag -->
     <script>
 document.getElementById("saveButton").addEventListener("click", async () => {
- 
- const numero = document.getElementById('uniqueNumber').value;
- const documentCode = document.querySelector("input[value='CO']").value;
- const series = document.querySelector("input[value='001']").value;
- const customerName = document.querySelector("input[value='ROJAS RUIZ EMILIO']").value;
- const customer = document.querySelector("input[value='10011472661']").value;
+  const docInput = document.getElementById('docInput').value ;
+  const monedaInput = document.getElementById('monedaInput').value;
+  const serieInput = document.getElementById('serieInput').value;
+  const fchInput = document.getElementById('fchInput').value;
+  const cambioInput = document.getElementById('cambioInput').value;
+  const vencInput = document.getElementById('vencInput').value;
+  const uniqueNumber = document.getElementById('uniqueNumber').value;
+  const almacenInput = document.getElementById('almacenInput').value;
+  const clientInput = document.getElementById('clientInput').value;
+  const nombreInput = document.getElementById('nombreInput').value;
+  const direccionInput = document.getElementById('address').value;
+  const operFacilInput = document.getElementById('operFacilInput').value;
+  const descripciónInput = document.getElementById('descripciónInput').value;
+  const vendedorInput = document.getElementById('vendedorInput').value;
+  const nombreVendedor = document.getElementById('nombreVendedor').value;
+  const CondiciónInput = document.getElementById('CondiciónInput').value;
+  const descripciónCondicionInput = document.getElementById('descripciónCondicionInput').value;
+  const regNo = document.getElementById('regNo').value;
+  const tipo = document.getElementById('tipo').value;
+  const prioridad = document.querySelector('select[name="prioridad"]').value;
+  const estado = document.querySelector('select[name="estado"]').value;
 
-    const data = {
-      documentCode,
-      currency: document.querySelector("input[value='Dolares Americanos']").value,
-      series ,
-      issueDate: document.querySelector("input[type='date'][value='2022-11-31']").value,
-      exchangeRate: document.querySelector("input[value='3.8470']").value,
-      expiryDate: document.querySelector("input[type='date'][value='2022-12-31']").value,
-      documentNumber: numero,
-      warehouse: document.querySelector("input[value='001']").value,
-      priority: document.querySelector("select").value,
-      status: document.querySelectorAll("select")[1].value,
-      description: document.querySelector("input[type='text']").value,
-      customer,
-      customerName,
-      address: document.querySelector("input[value='JR CABO ALBERTO LEVEAU NRO. 340 CHACN SAN']").value,
-      vendor: document.querySelector("input[value='014']").value,
-      vendorName: document.querySelector("input[value='Jua Pita Pineda']").value,
-      condition: document.querySelector("input[value='001']").value,
-      conditionDescription: document.querySelector("input[value='CONTADO EFECTIVO']").value,
-      taxReg: document.querySelector("input[value='10011472661']").value,
-      conditionType: document.querySelector("input[value='Crédito']").value,
-    };
-
-    try {
-      const response = await fetch("http://localhost:3000/api/quotes-data", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
-      alert( "Data saved successfully!");
-    } catch (error) {
-      console.error("Error saving data:", error);
-      alert("An error occurred while saving data.");
-    }
-
-
+  console.log({
+    docInput,
+    monedaInput,
+    serieInput,
+    fchInput,
+    cambioInput,
+    vencInput,
+    uniqueNumber,
+    almacenInput,
+    clientInput,
+    nombreInput,
+    direccionInput,
+    operFacilInput,
+    descripciónInput,
+    vendedorInput,
+    nombreVendedor,
+    CondiciónInput,
+    descripciónCondicionInput,
+    regNo,
+    tipo,
+    prioridad,
+    estado
+  });
 
    
+
 
     // Switch to Tab 2
     showTab('tab2');
@@ -933,9 +934,9 @@ function openModal(type, inputElement, descriptionElement,addressElement,regNoEl
 
 //   DOC SERIE
  document.getElementById("customButton").onclick = () => {
-                          const docInput = document.querySelector('input[value="CO"]');
-                          const serieInput = document.querySelector('input[value="001"]');
-                          openModal("docSerie", docInput, serieInput);
+                       const documentCode = document.getElementById('docInput');
+                        const series = document.getElementById('serieInput');  
+                          openModal("docSerie", documentCode,series);
                         };
 
 
