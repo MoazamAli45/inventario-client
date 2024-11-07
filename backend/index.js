@@ -639,8 +639,7 @@ app.post("/api/quotes-data", (req, res) => {
   });
 });
 
-//  FOR FETCHING QUO TES DATA
-
+//  GET QUOTES DATA
 app.get("/api/quotes-data", (req, res) => {
   const query = `
     SELECT 
@@ -677,7 +676,6 @@ app.get("/api/quotes-data", (req, res) => {
 });
 
 //POST Quotes Products
-
 app.post("/api/quotes-products", async (req, res) => {
   try {
     const {
@@ -786,6 +784,230 @@ app.get("/api/quotes-products", (req, res) => {
   const query = `
     SELECT * 
     FROM quotes_product 
+    WHERE numbers = ?`;
+
+  db.query(query, [numbers], (err, results) => {
+    if (err) {
+      console.error("Error fetching data from MySQL:", err);
+      res.status(500).json({ error: "Error fetching data." });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
+//POST ORDERS
+app.post("/api/orders-data", (req, res) => {
+  const {
+    documentCode,
+    currency,
+    series,
+    issueDate,
+    exchangeRate,
+    expiryDate,
+    documentNumber,
+    warehouse,
+    priority,
+    status,
+    description,
+    customer,
+    customerName,
+    address,
+    vendor,
+    vendorName,
+    condition,
+    conditionDescription,
+    taxReg,
+    conditionType,
+  } = req.body;
+
+  const insertQuery = `
+    INSERT INTO orders_data (
+      documentCode, currency, series, issueDate, exchangeRate,
+      expiryDate, documentNumber, warehouse, priority, status,
+      description, customer, customerName, address, vendor,
+      vendorName, conditions, conditionDescription, taxReg, conditionType
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const values = [
+    documentCode,
+    currency,
+    series,
+    issueDate,
+    exchangeRate,
+    expiryDate,
+    documentNumber,
+    warehouse,
+    priority,
+    status,
+    description,
+    customer,
+    customerName,
+    address,
+    vendor,
+    vendorName,
+    condition,
+    conditionDescription,
+    taxReg,
+    conditionType,
+  ];
+
+  db.query(insertQuery, values, (err, result) => {
+    if (err) {
+      console.error("Error inserting data into MySQL:", err);
+      res.status(500).json({ error: "Error saving data." });
+    } else {
+      res.status(200).json({ message: "Data saved successfully!" });
+    }
+  });
+});
+
+//  GET ORDERS DATA
+app.get("/api/orders-data", (req, res) => {
+  const query = `
+    SELECT 
+      id,
+      documentCode,
+      currency,
+      series,
+      DATE_FORMAT(issueDate, '%Y-%m-%d') as issueDate,
+      exchangeRate,
+      DATE_FORMAT(expiryDate, '%Y-%m-%d') as expiryDate,
+      documentNumber,
+      warehouse,
+      priority,
+      status,
+      description,
+      customer,
+      customerName,
+      address,
+      vendor,
+      vendorName,
+      conditions,
+      conditionDescription,
+      taxReg,
+      conditionType FROM orders_data`;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error fetching data from MySQL:", err);
+      res.status(500).json({ error: "Error fetching data." });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
+//POST ORDER Products
+app.post("/api/orders-products", async (req, res) => {
+  try {
+    const {
+      numero,
+      article,
+      description,
+      warehouse,
+      warehouse_description,
+      vendor,
+      vendor_description,
+      model,
+      brand,
+      stock,
+      quantity,
+      price,
+      currency,
+      delivery_date,
+      perception,
+      usage_code,
+      cost_center,
+      project_code,
+      discount1,
+      discount2,
+      discount3,
+      gross,
+      net,
+      isc,
+      tax,
+      total,
+      amount,
+    } = req.body;
+
+    // Input validation
+    if (!article || !description || !warehouse || !vendor) {
+      return res.status(400).json({
+        error: "Required fields are missing",
+      });
+    }
+
+    const insertQuery = `
+      INSERT INTO orders_product (
+        numbers, article, description, warehouse, warehouse_description, 
+        vendor, vendor_description, model, brand,
+        stock, quantity, price, currency, delivery_date, perception,
+        usage_code, cost_center, project_code,
+        discount1, discount2, discount3, gross, net, isc, tax, total, amount
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+      numero,
+      article,
+      description,
+      warehouse,
+      warehouse_description || null,
+      vendor,
+      vendor_description || null,
+      model || null,
+      brand || null,
+      stock || 0,
+      quantity || 0,
+      price || 0,
+      currency || "USD",
+      delivery_date || null,
+      perception || null,
+      usage_code || null,
+      cost_center || null,
+      project_code || null,
+      discount1 || 0,
+      discount2 || 0,
+      discount3 || 0,
+      gross || 0,
+      net || 0,
+      isc || 0,
+      tax || 0,
+      total || 0,
+      amount || 0,
+    ];
+
+    // Promisify the query
+    const result = await new Promise((resolve, reject) => {
+      db.query(insertQuery, values, (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      });
+    });
+
+    res.status(201).json({
+      message: "Product order created successfully",
+      id: result.insertId,
+    });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({
+      error: "Failed to create product order",
+      details:
+        process.env.NODE_ENV === "development" ? error.message : undefined,
+    });
+  }
+});
+
+//  GET ORDERS PRODUCTS
+app.get("/api/orders-products", (req, res) => {
+  const { numbers } = req.query;
+
+  const query = `
+    SELECT * 
+    FROM orders_product 
     WHERE numbers = ?`;
 
   db.query(query, [numbers], (err, results) => {
