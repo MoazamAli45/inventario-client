@@ -7,6 +7,7 @@
     <title>Guias De Pedidos</title>
     <link rel="stylesheet" href="/style/layout.css" />
     <link rel="stylesheet" href="/style/tabs.css" />
+      <link rel="stylesheet" href="/style/registro-de-pedidos.css" />
     <link rel="stylesheet" href="/style/modal.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -343,7 +344,7 @@
                 <button class="tab-button" data-tab="tab3">
                   Datos Complementarios
                 </button>
-                <button class="tab-button" data-tab="tab4">Doc. Anexos</button>
+                <button class="tab-button" data-tab="tab4">   Datos de Transporte</button>
                 <button class="tab-button" data-tab="tab5">Lista</button>
               </div>
 
@@ -669,6 +670,238 @@
                     </div>
                   </div>
                 </div>
+
+  <div id="tab4" class="tab-panel">
+       <div class="container_k47">
+                    <div class="section_x92">
+                      <div class="section_title_m34">Datos Envío</div>
+                      <div class="form_grid_p78">
+                        <div class="form_field_j56">
+                          <label class="field_label_h89"
+                            >Punto de Partida</label
+                          >
+                          <input
+                            type="text"
+                            class="input_field_y45"
+                            value="Av. Minka N° 2356 Lima - Lima - Lima"
+                          />
+                        </div>
+                        <div class="form_field_j56">
+                          <label class="field_label_h89">Ubigeo</label>
+                          <input
+                            type="text"
+                            class="input_field_y45"
+                            value="150116"
+                          />
+                        </div>
+                      </div>
+                      <div class="form_grid_p78">
+                        <div class="form_field_j56">
+                          <label class="field_label_h89">Destinatario</label>
+                          <div class="destinatorio-fields">
+                            <input
+                              type="text"
+                              class="input_field_y45"
+                              value="10011472601"
+                            />
+                            <input
+                              type="text"
+                              class="input_field_y45"
+                              value="ROJAS RUIZ EMILIO"
+                            />
+                          </div>
+                        </div>
+                        <div class="form_field_j56">
+                          <label class="field_label_h89"
+                            >Punto de Llegada</label
+                        >
+                        <select class="input_field_y45">
+                            <option value="JR. CABO ALBERTO LEVEAU NRO. 342 (MZ-3) SAN - TARAPOTO SAN MARTIN">JR. CABO ALBERTO LEVEAU NRO. 342 (MZ-3) SAN - TARAPOTO SAN MARTIN</option>
+                            <option value="Av. Minka N° 2356 Lima - Lima - Lima">Av. Minka N° 2356 Lima - Lima - Lima</option>
+                            <option value="Av. Los Incas 1234 Cusco - Cusco - Cusco">Av. Los Incas 1234 Cusco - Cusco - Cusco</option>
+                        </select>
+                        </div>
+                      </div>
+                      <div class="form_grid_p78">
+                        <div class="form_field_j56">
+                          <label class="field_label_h89">Ubigeo</label>
+                          <input
+                            type="text"
+                            class="input_field_y45"
+                            value="220901"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="section_x92">
+                      <div class="section_title_m34">Mod. de Transporte</div>
+                      <div class="radio_group_t23">
+                        <label class="radio_label_w67">
+                          <input
+                            type="radio"
+                            name="transporte"
+                            value="publico"
+                          />
+                          <span> Público </span>
+                        </label>
+                        <label class="radio_label_w67">
+                          <input
+                            type="radio"
+                            name="transporte"
+                            value="privado"
+                          />
+                          <span> Privado </span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="section_x92">
+                      <div class="section_title_m34">Transportista</div>
+                      <div class="form_field_j56">
+                        <label class="field_label_h89">Empresa</label>
+                       
+                    <select class="input_field_y45 input-unique">
+                        <option value="LINDER INGENIEROS GRAFICOS CONSULTORES S.A.C.">LINDER INGENIEROS GRAFICOS CONSULTORES S.A.C.</option>
+                        <option value="TRANSPORTES Y LOGISTICA S.A.">TRANSPORTES Y LOGISTICA S.A.</option>
+                        <option value="SERVICIOS GENERALES S.R.L.">SERVICIOS GENERALES S.R.L.</option>
+                    </select>
+                      </div>
+                      <div class="form_field_j56">
+                        <label class="field_label_h89">RUC</label>
+                        <input
+                          type="text"
+                          class="input_field_y45 input-unique"
+                          value="20205797599"
+                        />
+                      </div>
+                      <div class="form_field_j56">
+                        <label class="field_label_h89">Dirección</label>
+                     
+                        <select class="input_field_y45 input-unique">
+                            <option value="Av. Minka N° 2356 Urb. Pro. Lotizador - LINCE - LIMA - LIMA">Av. Minka N° 2356 Urb. Pro. Lotizador - LINCE - LIMA - LIMA</option>
+                            <option value="JR. CABO ALBERTO LEVEAU NRO. 342 (MZ-3) SAN - TARAPOTO SAN MARTIN">JR. CABO ALBERTO LEVEAU NRO. 342 (MZ-3) SAN - TARAPOTO SAN MARTIN</option>
+                            <option value="Av. Los Incas 1234 Cusco - Cusco - Cusco">Av. Los Incas 1234 Cusco - Cusco - Cusco</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="section_x92">
+                      <div class="section_title_m34">
+                        Datos de Chofer/Vehículo
+                      </div>
+                      <div class="form_grid_p78">
+                        <div class="form_field_j56">
+                          <label class="field_label_h89"
+                            >Nombres y Apellidos</label
+                          >
+                          <select class="input_field_y45 option-chofer">
+                            <option>Seleccionar chofer</option>
+                          </select>
+                        </div>
+                        <div class="form_field_j56">
+                          <label class="field_label_h89">Doc. Identidad</label>
+                          <input type="text" class="input_field_y45" />
+                        </div>
+                        <div class="form_field_j56">
+                          <label class="field_label_h89"> Tip Doc. Identidad</label>
+                          <select class="input_field_y45 option-chofer">
+                            <option value="test1">Test 1</option>
+
+                          </select>                      
+                          </div>
+                            <div class="form_field_j56 ">
+                          <label class="field_label_h89"
+                            >Marca de Vehículo</label
+                          >
+                          <input type="text" class="input_field_y45" />
+                        </div>
+                      </div>
+                      <div class="form_grid_p78">
+                      
+                        <div class="form_field_j56">
+                          <label class="field_label_h89">Placa Vehículo</label>
+                          <input type="text" class="input_field_y45" />
+                        </div>
+                      
+
+        <div class="form_field_j56">
+            <label class="field_label_h89">Brevete</label>
+            <input type="text" class="input_field_y45" placeholder="Q42359040"/>
+        </div>
+
+        <div class="form_field_j56">
+            <label class="field_label_h89">No C. Circulación</label>
+            <input type="text" class="input_field_y45" placeholder="0"/>
+        </div>
+        <div class="form_field_j56"></div>
+            <label class="field_label_h89">Certificado de Inspección</label>
+            <input type="text" class="input_field_y45" placeholder="1234567890" />
+        </div>
+                      </div>
+                    </div>
+
+                    <div class="section_x92">
+                      <div class="section_title_m34">Motivo de Traslado</div>
+                      <div class="checkbox_group_q34">
+                        <label class="radio_label_w67">
+                          <input type="radio" name="motivo" value="compra" />
+                          <span> Compra</span>
+                        </label>
+
+                        <label class="radio_label_w67">
+                          <input
+                            type="radio"
+                            name="motivo"
+                            value="transformacion"
+                          />
+                          <span> Transformación</span>
+                        </label>
+                        <label class="radio_label_w67">
+                          <input
+                            type="radio"
+                            name="motivo"
+                            value="devolucion"
+                          />
+                          <span> Devolución </span>
+                        </label>
+                        <label class="radio_label_w67">
+                          <input type="radio" name="motivo" value="traslado" />
+                          <span>
+                            Traslado entre establecimientos de una misma
+                            empresa</span
+                          >
+                        </label>
+                        <label class="radio_label_w67">
+                          <input
+                            type="radio"
+                            name="motivo"
+                            value="importacion"
+                          />
+                          <span> Importación </span>
+                        </label>
+                        <label class="radio_label_w67">
+                          <input
+                            type="radio"
+                            name="motivo"
+                            value="exportacion"
+                          />
+                          <span> Exportación</span>
+                        </label>
+                        <label class="radio_label_w67">
+                          <input type="radio" name="motivo" value="venta" />
+                          <span> Venta con entrega a terceros</span>
+                        </label>
+                        <label class="radio_label_w67">
+                          <input type="radio" name="motivo" value="otros" />
+                          <span> Otros </span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <button class="save_button_v89">Guardar</button>
+                  </div>
+  </div>
 
                 <div id="tab5" class="tab-panel">
 
