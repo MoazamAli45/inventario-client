@@ -699,6 +699,15 @@ app.post("/api/quotes-products", async (req, res) => {
       usage_code,
       cost_center,
       project_code,
+      discount1,
+      discount2,
+      discount3,
+      gross,
+      net,
+      isc,
+      tax,
+      total,
+      amount,
     } = req.body;
 
     // Input validation
@@ -710,11 +719,12 @@ app.post("/api/quotes-products", async (req, res) => {
 
     const insertQuery = `
       INSERT INTO quotes_product (
-        numbers,article, description, warehouse, warehouse_description, 
+        numbers, article, description, warehouse, warehouse_description, 
         vendor, vendor_description, model, brand,
         stock, quantity, price, currency, delivery_date, perception,
-        usage_code, cost_center, project_code
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        usage_code, cost_center, project_code,
+        discount1, discount2, discount3, gross, net, isc, tax, total, amount
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -736,6 +746,15 @@ app.post("/api/quotes-products", async (req, res) => {
       usage_code || null,
       cost_center || null,
       project_code || null,
+      discount1 || 0,
+      discount2 || 0,
+      discount3 || 0,
+      gross || 0,
+      net || 0,
+      isc || 0,
+      tax || 0,
+      total || 0,
+      amount || 0,
     ];
 
     // Promisify the query

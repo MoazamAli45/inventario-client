@@ -1,0 +1,216 @@
+CREATE TABLE billing_operation_data (
+    Code VARCHAR(255),
+    Description VARCHAR(255),
+    DocumentTypeCode VARCHAR(255),
+    DocumentType VARCHAR(255),
+    Tax VARCHAR(255),
+    CurrencyCode VARCHAR(255),
+    Currency VARCHAR(255),
+    State VARCHAR(255)
+);
+
+
+CREATE TABLE billing_operation_configuration (
+    BillingCode VARCHAR(255),
+    BillingDescription VARCHAR(255),
+    LogOutCode VARCHAR(255),
+    LogOutDescription VARCHAR(255),
+    LogCancellationCode VARCHAR(255),
+    LogCancellationDescription VARCHAR(255),
+    NoteCreditCode VARCHAR(255),
+    NoteCreditCodeDescription VARCHAR(255),
+    IsShowOnApp BOOLEAN
+);
+
+
+CREATE TABLE sellers_data (
+    code VARCHAR(255),
+    description VARCHAR(255),
+    address VARCHAR(255),
+    telephone VARCHAR(255),
+    state VARCHAR(255),
+    classification VARCHAR(255),
+    commission VARCHAR(255),
+    discountMax FLOAT,
+    validationDiscount FLOAT,
+    claveAuthorization VARCHAR(255),
+    zoneSaleCode VARCHAR(255),
+    zoneSaleDescription VARCHAR(255)
+);
+
+
+
+CREATE TABLE clients_data (
+    code VARCHAR(255),
+    classification VARCHAR(255),
+    document VARCHAR(255),
+    personType VARCHAR(255),
+    docType VARCHAR(255),
+    description VARCHAR(255),
+    taxId VARCHAR(255),
+    birthDate DATE,
+    state VARCHAR(255),
+    streetType VARCHAR(255),
+    street VARCHAR(255),
+    streetNumber VARCHAR(255),
+    zoneType VARCHAR(255),
+    address VARCHAR(255),
+    nationality VARCHAR(255),
+    country VARCHAR(255),
+    department VARCHAR(255),
+    province VARCHAR(255),
+    district VARCHAR(255),
+    ubigeo VARCHAR(255)
+);
+
+
+
+CREATE TABLE commercial_conditions_data (
+    code VARCHAR(255),
+    description VARCHAR(255),
+    type VARCHAR(255),
+    state VARCHAR(255),
+    expirationDays INT,
+    toleranceDays INT,
+    generatePayroll Bool
+);
+
+CREATE TABLE aux_code (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(20),
+    classification VARCHAR(50),
+    document VARCHAR(50),
+    docType VARCHAR(50),
+    ruc VARCHAR(50),
+    birthDate DATE,
+    status VARCHAR(50),
+    active VARCHAR(50),
+    streetType VARCHAR(50),
+    street VARCHAR(50),
+    streetNumber VARCHAR(20),
+    zoneType VARCHAR(50),
+    zone VARCHAR(50),
+    interiorNumber VARCHAR(20),
+    address VARCHAR(100),
+    country VARCHAR(50),
+    department VARCHAR(50),
+    province VARCHAR(50),
+    district VARCHAR(50),
+    ubigeo VARCHAR(20)
+);
+CREATE TABLE general_data (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    monedaCodigo VARCHAR(10),
+    moneda VARCHAR(10),
+    fecha DATE,
+    tipoCambioCompra DECIMAL(10, 3),
+    tipoCambioVenta DECIMAL(10, 3),
+    tipoCambioComercial DECIMAL(10, 3),
+    estado VARCHAR(10)
+);
+
+
+
+CREATE TABLE billing_parameters (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  line VARCHAR(255),
+  lineDescription VARCHAR(255),
+  invoiceType VARCHAR(255),
+  invoiceTypeDescription VARCHAR(255),
+  subDiary VARCHAR(255),
+  subDiaryDescription VARCHAR(255),
+  fileNumber VARCHAR(255),
+  fileNumberDescription VARCHAR(255),
+  grossAmountDebit DECIMAL(10, 2),
+  discountAmountDebit DECIMAL(10, 2),
+  discountAmount2Debit DECIMAL(10, 2),
+  discountAmount3Debit DECIMAL(10, 2),
+  taxAmountDebit DECIMAL(10, 2),
+  exciseTaxAmountDebit DECIMAL(10, 2),
+  totalAmountDebit DECIMAL(10, 2),
+  perceptionAmountDebit DECIMAL(10, 2),
+  grossAmountCredit DECIMAL(10, 2),
+  discountAmountCredit DECIMAL(10, 2),
+  discountAmount2Credit DECIMAL(10, 2),
+  discountAmount3Credit DECIMAL(10, 2),
+  taxAmountCredit DECIMAL(10, 2),
+  exciseTaxAmountCredit DECIMAL(10, 2),
+  totalAmountCredit DECIMAL(10, 2),
+  perceptionAmountCredit DECIMAL(10, 2)
+);
+
+
+CREATE TABLE environment_data (
+    year VARCHAR(10) NOT NULL,
+    month1 BOOLEAN,
+    month2 BOOLEAN,
+    month3 BOOLEAN,
+    month4 BOOLEAN,
+    month5 BOOLEAN,
+    month6 BOOLEAN,
+    month7 BOOLEAN,
+    month8 BOOLEAN,
+    month9 BOOLEAN,
+    month10 BOOLEAN,
+    month11 BOOLEAN,
+    month12 BOOLEAN,
+    UNIQUE (year)
+);
+
+
+CREATE TABLE quotes_data (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  documentCode VARCHAR(50),
+  currency VARCHAR(50),
+  series VARCHAR(50),
+  issueDate DATE,
+  exchangeRate DECIMAL(10, 4),
+  expiryDate DATE,
+  documentNumber VARCHAR(50),
+  warehouse VARCHAR(50),
+  priority VARCHAR(50),
+  status VARCHAR(50),
+  description TEXT,
+  customer VARCHAR(50),
+  customerName VARCHAR(100),
+  address VARCHAR(255),
+  vendor VARCHAR(50),
+  vendorName VARCHAR(100),
+  conditions VARCHAR(50),
+  conditionDescription VARCHAR(100),
+  taxReg VARCHAR(50),
+  conditionType VARCHAR(50)
+);
+
+
+
+CREATE TABLE quotes_product (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  numbers VARCHAR(50),
+  article VARCHAR(100) NOT NULL,
+  description TEXT NOT NULL,
+  warehouse VARCHAR(50) NOT NULL,
+  warehouse_description TEXT,
+  vendor VARCHAR(50) NOT NULL,
+  vendor_description TEXT,
+  model VARCHAR(50),
+  brand VARCHAR(50),
+  stock INT DEFAULT 0,
+  quantity INT DEFAULT 0,
+  price DECIMAL(10, 2) DEFAULT 0.00,
+  currency VARCHAR(10) DEFAULT 'USD',
+  delivery_date DATE,
+  perception DECIMAL(10, 2),
+  usage_code VARCHAR(50),
+  cost_center VARCHAR(50),
+  project_code VARCHAR(50),
+  discount1 DECIMAL(10, 2) DEFAULT 0.00,
+  discount2 DECIMAL(10, 2) DEFAULT 0.00,
+  discount3 DECIMAL(10, 2) DEFAULT 0.00,
+  gross DECIMAL(10, 2) DEFAULT 0.00,
+  net DECIMAL(10, 2) DEFAULT 0.00,
+  isc DECIMAL(10, 2) DEFAULT 0.00,
+  tax DECIMAL(10, 2) DEFAULT 0.00,
+  total DECIMAL(10, 2) DEFAULT 0.00,
+  amount DECIMAL(10, 2) DEFAULT 0.00
+);
