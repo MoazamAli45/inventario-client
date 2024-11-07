@@ -622,31 +622,29 @@
 
                         <div style="overflow-x: auto;" id="product-table"></div>
 
-                        <button class="doc-btn doc-btn-primary">
-                          Agregar Bien
-                        </button>
+                        
                       </div>
 
                       <div class="doc-footer">
                         <div class="doc-form-group">
                           <label>Neto</label>
-                          <input type="text" readonly />
+                          <input type="text" id="neto" readonly />
                         </div>
                         <div class="doc-form-group">
                           <label>ISC</label>
-                          <input type="text" readonly />
+                          <input type="text" id="isc" readonly />
                         </div>
                         <div class="doc-form-group">
                           <label>Impuesto</label>
-                          <input type="text" readonly />
+                          <input type="text" id="tax" readonly />
                         </div>
                         <div class="doc-form-group">
                           <label>Total</label>
-                          <input type="text" readonly />
+                          <input type="text" id="total" readonly />
                         </div>
                         <div class="doc-form-group">
                           <label>Percepción</label>
-                          <input type="text" readonly />
+                          <input type="text" id="perception" readonly />
                         </div>
                       </div>
 
@@ -844,6 +842,94 @@ if (dataLocalStorage) {
   documentCodeField.value = dataLocalStorage.documentCode;
   documentTypeField.value = dataLocalStorage.series;
 }
+
+
+const url = `http://localhost:3000/api/quotes-products?numbers=${encodeURIComponent(JSON.parse(
+            localStorage.getItem("dataLocal")
+          ).numero)}`;
+          
+// Get the existing div
+const tableContainers = document.getElementById('product-table'); // Replace 'your-div-id' with your actual div id
+
+// Use fetch to send a GET request to the server
+fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Create table element
+        const table = document.createElement('table');
+        table.style.width = '100%';
+        table.style.borderCollapse = 'collapse';
+        table.style.marginTop = '20px';
+
+        // Create table header
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        
+        // Get headers from first data object
+        const headers = Object.keys(data[0] || {});
+        
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText.charAt(0).toUpperCase() + headerText.slice(1);
+            th.style.padding = '12px';
+            th.style.backgroundColor = '#f2f2f2';
+            th.style.borderBottom = '2px solid #ddd';
+            headerRow.appendChild(th);
+        });
+        
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Create table body
+        const tbody = document.createElement('tbody');
+        
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            
+            headers.forEach(header => {
+                const cell = document.createElement('td');
+                cell.textContent = item[header];
+                cell.style.padding = '12px';
+                cell.style.borderBottom = '1px solid #ddd';
+                row.appendChild(cell);
+            });
+            
+            // Add hover effect
+            row.addEventListener('mouseover', () => {
+                row.style.backgroundColor = '#f5f5f5';
+            });
+            
+            row.addEventListener('mouseout', () => {
+                row.style.backgroundColor = '';
+            });
+            
+            tbody.appendChild(row);
+        });
+        
+        table.appendChild(tbody);
+        
+        // Clear previous content and add new table
+        tableContainers.innerHTML = '';
+        tableContainers.appendChild(table);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        
+        // Show error message in container
+        tableContainers.innerHTML = `
+            <div style="color: red; padding: 20px; text-align: center;">
+                Error loading data: ${error.message}
+            </div>
+        `;
+    });
+
+
+
 
   });
 
@@ -1446,10 +1532,8 @@ const url = `http://localhost:3000/api/quotes-products?numbers=${encodeURICompon
             localStorage.getItem("dataLocal")
           ).numero)}`;
           
-// Get the existing div
-const tableContainers = document.getElementById('product-table'); // Replace 'your-div-id' with your actual div id
+const tableContainers = document.getElementById('product-table');
 
-// Use fetch to send a GET request to the server
 fetch(url)
     .then(response => {
         if (!response.ok) {
@@ -1458,6 +1542,27 @@ fetch(url)
         return response.json();
     })
     .then(data => {
+        // Calculate sums
+        const sums = {
+            net: 0,
+            isc: 0,
+            tax: 0,
+            perception: 0
+        };
+
+        data.forEach(item => {
+            sums.net += Number(item.net) || 0;
+            sums.isc += Number(item.isc) || 0;
+            sums.tax += Number(item.tax) || 0;
+            sums.perception += Number(item.perception) || 0;
+        });
+document.getElementById('neto').value = sums.net.toFixed(2);
+document.getElementById('isc').value = sums.isc.toFixed(2);
+document.getElementById('tax').value = sums.tax.toFixed(2);
+document.getElementById('perception').value = sums.perception.toFixed(2);
+document.getElementById('total').value = (sums.net + sums.isc + sums.tax + sums.perception).toFixed(2);
+        
+
         // Create table element
         const table = document.createElement('table');
         table.style.width = '100%';
@@ -1468,7 +1573,6 @@ fetch(url)
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
         
-        // Get headers from first data object
         const headers = Object.keys(data[0] || {});
         
         headers.forEach(headerText => {
@@ -1497,7 +1601,6 @@ fetch(url)
                 row.appendChild(cell);
             });
             
-            // Add hover effect
             row.addEventListener('mouseover', () => {
                 row.style.backgroundColor = '#f5f5f5';
             });
@@ -1508,17 +1611,30 @@ fetch(url)
             
             tbody.appendChild(row);
         });
+
+        // Add totals row
+        const totalsRow = document.createElement('tr');
+        headers.forEach(header => {
+            const cell = document.createElement('td');
+            if (['net', 'isc', 'tax', 'perception'].includes(header)) {
+                cell.textContent = sums[header].toFixed(2);
+                cell.style.fontWeight = 'bold';
+            }
+            cell.style.padding = '12px';
+            cell.style.borderBottom = '1px solid #ddd';
+            cell.style.backgroundColor = '#f2f2f2';
+            totalsRow.appendChild(cell);
+        });
+        tbody.appendChild(totalsRow);
         
         table.appendChild(tbody);
         
-        // Clear previous content and add new table
         tableContainers.innerHTML = '';
         tableContainers.appendChild(table);
     })
     .catch(error => {
         console.error('Error fetching data:', error);
         
-        // Show error message in container
         tableContainers.innerHTML = `
             <div style="color: red; padding: 20px; text-align: center;">
                 Error loading data: ${error.message}
