@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ventas por Periodos</title>
+    <!-- Add jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <style>
+      /* Previous styles remain the same */
       .main-container {
         text-align: center;
       }
@@ -68,6 +72,7 @@
     </style>
   </head>
   <body>
+    <!-- Previous HTML remains the same -->
     <div class="main-container">
       <h1>Ventas por Periodos</h1>
       <div class="form-container">
@@ -98,14 +103,13 @@
               <th>Name</th>
             </tr>
           </thead>
-          <tbody id="modalTableBody">
-            <!-- Data will be dynamically inserted here -->
-          </tbody>
+          <tbody id="modalTableBody"></tbody>
         </table>
       </div>
     </div>
 
     <script>
+      // Previous JavaScript remains the same until printData function
       const modal = document.getElementById("selectionModal");
       const modalTitle = document.getElementById("modalTitle");
       const modalTableBody = document.getElementById("modalTableBody");
@@ -167,26 +171,262 @@
         openModal("client", inputElement, descriptionElement);
       };
 
-      function printData() {
-        async function fetchData() {
-          try {
-            const response = await fetch(
-              "http://localhost:3000/api/combined-data"
-            );
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            const data = await response.json();
-            console.log(data);
-          } catch (error) {
-            console.error(
-              "There was a problem with the fetch operation:",
-              error
+      // Spanish column translations
+      const spanishColumns = {
+        documentNumber: "Número de Documento",
+        customer: "Cliente",
+        customerName: "Nombre del Cliente",
+        address: "Dirección",
+        documentCode: "Código de Documento",
+        issueDate: "Fecha de Emisión",
+        delivery_date: "Fecha de Entrega",
+        expiryDate: "Fecha de Vencimiento",
+        article: "Artículo",
+        quote_description: "Descripción de Cotización",
+        product_description: "Descripción del Producto",
+        quantity: "Cantidad",
+        price: "Precio",
+        discount1: "Descuento 1",
+        discount2: "Descuento 2",
+        discount3: "Descuento 3",
+        gross: "Bruto",
+        net: "Neto",
+        tax: "Impuesto",
+        total: "Total",
+        currency: "Moneda",
+        exchangeRate: "Tipo de Cambio",
+        conditions: "Condiciones",
+        conditionType: "Tipo de Condición",
+        conditionDescription: "Descripción de Condición",
+        vendor: "Vendedor",
+        vendorName: "Nombre del Vendedor",
+        vendor_description: "Descripción del Vendedor",
+        warehouse: "Almacén",
+        warehouse_description: "Descripción del Almacén",
+        cost_center: "Centro de Costo",
+        model: "Modelo",
+        series: "Serie",
+        priority: "Prioridad",
+        state: "Estado",
+        status: "Estado",
+        stock: "Stock",
+        perception: "Percepción",
+        isc: "ISC",
+        amount: "Monto",
+        project_code: "Código de Proyecto",
+        usage_code: "Código de Uso",
+        numbers: "Números",
+      };
+
+      async function printData() {
+        try {
+          const response = await fetch(
+            "http://localhost:3000/api/combined-data"
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+
+          // Create PDF in landscape mode with a larger page size
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF("landscape", "mm", "a3");
+
+          // Add header
+          doc.setFontSize(18);
+          doc.text(
+            "Reporte Detallado de Ventas",
+            doc.internal.pageSize.width / 2,
+            15,
+            { align: "center" }
+          );
+
+          doc.setFontSize(10);
+          doc.text(
+            `Fecha de Generación: ${new Date().toLocaleDateString("es-ES")}`,
+            15,
+            25
+          );
+          doc.text(
+            `Cliente: ${document.getElementById("clientInput").value}`,
+            15,
+            30
+          );
+          doc.text(
+            `Nombre: ${document.getElementById("nombreInput").value}`,
+            15,
+            35
+          );
+
+          // Define all columns to show
+          const tableColumns = [
+            { header: "N° Documento", dataKey: "documentNumber" },
+            { header: "Cliente", dataKey: "customer" },
+            { header: "Nombre Cliente", dataKey: "customerName" },
+            { header: "Dirección", dataKey: "address" },
+            { header: "Código Doc.", dataKey: "documentCode" },
+            { header: "Fecha Emisión", dataKey: "issueDate" },
+            { header: "Fecha Entrega", dataKey: "delivery_date" },
+            { header: "Fecha Venc.", dataKey: "expiryDate" },
+            { header: "Artículo", dataKey: "article" },
+            { header: "Desc. Cotización", dataKey: "quote_description" },
+            { header: "Desc. Producto", dataKey: "product_description" },
+            { header: "Cantidad", dataKey: "quantity" },
+            { header: "Precio", dataKey: "price" },
+            { header: "Desc. 1", dataKey: "discount1" },
+            { header: "Desc. 2", dataKey: "discount2" },
+            { header: "Desc. 3", dataKey: "discount3" },
+            { header: "Bruto", dataKey: "gross" },
+            { header: "Neto", dataKey: "net" },
+            { header: "Impuesto", dataKey: "tax" },
+            { header: "Total", dataKey: "total" },
+            { header: "Moneda", dataKey: "currency" },
+            { header: "T. Cambio", dataKey: "exchangeRate" },
+            { header: "Condiciones", dataKey: "conditions" },
+            { header: "Tipo Cond.", dataKey: "conditionType" },
+            { header: "Desc. Cond.", dataKey: "conditionDescription" },
+            { header: "Vendedor", dataKey: "vendor" },
+            { header: "Nombre Vendedor", dataKey: "vendorName" },
+            { header: "Desc. Vendedor", dataKey: "vendor_description" },
+            { header: "Almacén", dataKey: "warehouse" },
+            { header: "Desc. Almacén", dataKey: "warehouse_description" },
+            { header: "Centro Costo", dataKey: "cost_center" },
+            { header: "Modelo", dataKey: "model" },
+            { header: "Serie", dataKey: "series" },
+            { header: "Prioridad", dataKey: "priority" },
+            { header: "Estado", dataKey: "state" },
+            { header: "Stock", dataKey: "stock" },
+            { header: "Percepción", dataKey: "perception" },
+            { header: "ISC", dataKey: "isc" },
+            { header: "Monto", dataKey: "amount" },
+            { header: "Cód. Proyecto", dataKey: "project_code" },
+            { header: "Cód. Uso", dataKey: "usage_code" },
+          ];
+
+          // Format data for the table
+          const tableRows = data.map((row) => {
+            // Format dates
+            const formatDate = (dateString) => {
+              return dateString
+                ? new Date(dateString).toLocaleDateString("es-ES")
+                : "";
+            };
+
+            // Format numbers
+            const formatNumber = (num) => {
+              return num ? Number(num).toFixed(2) : "";
+            };
+
+            return {
+              documentNumber: row.documentNumber || "",
+              customer: row.customer || "",
+              customerName: row.customerName || "",
+              address: row.address || "",
+              documentCode: row.documentCode || "",
+              issueDate: formatDate(row.issueDate),
+              delivery_date: formatDate(row.delivery_date),
+              expiryDate: formatDate(row.expiryDate),
+              article: row.article || "",
+              quote_description: row.quote_description || "",
+              product_description: row.product_description || "",
+              quantity: formatNumber(row.quantity),
+              price: formatNumber(row.price),
+              discount1: formatNumber(row.discount1),
+              discount2: formatNumber(row.discount2),
+              discount3: formatNumber(row.discount3),
+              gross: formatNumber(row.gross),
+              net: formatNumber(row.net),
+              tax: formatNumber(row.tax),
+              total: formatNumber(row.total),
+              currency: row.currency || "",
+              exchangeRate: formatNumber(row.exchangeRate),
+              conditions: row.conditions || "",
+              conditionType: row.conditionType || "",
+              conditionDescription: row.conditionDescription || "",
+              vendor: row.vendor || "",
+              vendorName: row.vendorName || "",
+              vendor_description: row.vendor_description || "",
+              warehouse: row.warehouse || "",
+              warehouse_description: row.warehouse_description || "",
+              cost_center: row.cost_center || "",
+              model: row.model || "",
+              series: row.series || "",
+              priority: row.priority || "",
+              state: row.state || "",
+              stock: formatNumber(row.stock),
+              perception: formatNumber(row.perception),
+              isc: formatNumber(row.isc),
+              amount: formatNumber(row.amount),
+              project_code: row.project_code || "",
+              usage_code: row.usage_code || "",
+            };
+          });
+
+          // Add table with custom styling
+          doc.autoTable({
+            columns: tableColumns,
+            body: tableRows,
+            startY: 40,
+            styles: {
+              fontSize: 6,
+              cellPadding: 1,
+            },
+            headStyles: {
+              fillColor: [41, 128, 185],
+              textColor: 255,
+              fontSize: 6,
+              fontStyle: "bold",
+              halign: "center",
+            },
+            columnStyles: {
+              // Align number columns to right
+              quantity: { halign: "right" },
+              price: { halign: "right" },
+              discount1: { halign: "right" },
+              discount2: { halign: "right" },
+              discount3: { halign: "right" },
+              gross: { halign: "right" },
+              net: { halign: "right" },
+              tax: { halign: "right" },
+              total: { halign: "right" },
+              exchangeRate: { halign: "right" },
+              stock: { halign: "right" },
+              perception: { halign: "right" },
+              isc: { halign: "right" },
+              amount: { halign: "right" },
+            },
+            margin: { top: 40 },
+            didDrawPage: function (data) {
+              // Add page number at the bottom
+              doc.setFontSize(8);
+              doc.text(
+                "Página " + doc.internal.getCurrentPageInfo().pageNumber,
+                doc.internal.pageSize.width - 20,
+                doc.internal.pageSize.height - 10
+              );
+            },
+          });
+
+          // Add report footer
+          const pageCount = doc.internal.getNumberOfPages();
+          doc.setFont("helvetica", "italic");
+          doc.setFontSize(8);
+          for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.text(
+              `Reporte generado el ${new Date().toLocaleDateString(
+                "es-ES"
+              )} a las ${new Date().toLocaleTimeString("es-ES")}`,
+              15,
+              doc.internal.pageSize.height - 10
             );
           }
-        }
 
-        fetchData();
+          // Save PDF
+          doc.save("reporte-detallado-ventas.pdf");
+        } catch (error) {
+          console.error("There was a problem generating the PDF:", error);
+        }
       }
     </script>
   </body>
