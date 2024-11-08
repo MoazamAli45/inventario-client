@@ -330,7 +330,7 @@
         <main class="content">
           <div class="container-aux">
             <h1>
-              Registro de Guía de Bienes y Servicios</h1>
+                Facturación de guías de pedidos</h1>
             <div class="container">
               <!-- Tab Navigation -->
               <div class="tabs">
@@ -524,9 +524,9 @@
                     <div class="buttons">
 
                        <button  class="btn "
-                       onclick="window.location.href='/transacciones/facturacion/pending_orders.html'">
+                       onclick="window.location.href='/transacciones/facturacion/pending_guides.html'">
                        
-                     Pedidos Pendientes
+                       Guía de pedidos Pendientes
                       </button>
                      
                       <button id="saveButton" class="btn btn-primary">
@@ -1295,7 +1295,7 @@ fetchProductData()
     const url = "http://localhost:3000/api/quotes-data"; // Update this URL if your endpoint is different
     const data = {
       documentNumber: documentNumber,
-      state: 'guide'
+      state: 'ready'
     };
 
     fetch(url, {
@@ -1312,7 +1312,7 @@ fetchProductData()
       return response.json();
     })
     .then(data => {
-      alert('El pedido se convierte en guía.servicios'); 
+      alert('La Guía queda lista para facturación.'); 
       localStorage.removeItem("selectedDocumentNumber");
       window.location.href = "/transacciones/facturacion/guias-de-pedidos.html";
     })
@@ -1349,7 +1349,7 @@ async function fetchAndDisplayQuotes() {
     `;
 
     // Fetch data from API
-    const response = await fetch('http://localhost:3000/api/orders-data');
+    const response = await fetch('http://localhost:3000/api/guides-data');
    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

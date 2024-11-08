@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cotizaciones Pendientes</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 100%;
+        overflow-x: auto;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        min-width: 150px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #f2f2f2;
+        position: sticky;
+        top: 0;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      .filter-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .filter-select,
+      .filter-input {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .filter-input {
+        width: 200px;
+      }
+
+      .submit-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+      }
+
+      .submit-btn {
+        background-color: black;
+        margin-left: auto;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .loader {
+        text-align: center;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="filter-container">
+        <select id="filterColumn" class="filter-select">
+          <option value="documentNumber">Número de Documento</option>
+          <option value="documentCode">Código de Documento</option>
+          <option value="currency">Moneda</option>
+          <option value="series">Serie</option>
+          <option value="customerName">Nombre del Cliente</option>
+          <option value="vendorName">Nombre del Proveedor</option>
+        </select>
+        <input
+          type="text"
+          id="filterInput"
+          class="filter-input"
+          placeholder="Filtrar..."
+        />
+      </div>
+      <div id="loader" class="loader">Cargando...</div>
+      <div style="overflow-x: auto; margin: 20px; max-height: 80%">
+        <table>
+          <thead>
+            <tr>
+              <th>Seleccionar</th>
+              <th>Código de Documento</th>
+              <th>Moneda</th>
+              <th>Serie</th>
+              <th>Fecha de Emisión</th>
+              <th>Tipo de Cambio</th>
+              <th>Fecha de Vencimiento</th>
+              <th>Número de Documento</th>
+              <th>Almacén</th>
+              <th>Prioridad</th>
+              <th>Estado</th>
+              <th>Descripción</th>
+              <th>Cliente</th>
+              <th>Nombre del Cliente</th>
+              <th>Dirección</th>
+              <th>Proveedor</th>
+              <th>Nombre del Proveedor</th>
+              <th>Condiciones</th>
+              <th>Descripción de Condición</th>
+              <th>Registro Fiscal</th>
+              <th>Tipo de Condición</th>
+            </tr>
+          </thead>
+          <tbody id="quotesTableBody"></tbody>
+        </table>
+      </div>
+      <div class="submit-container">
+        <button id="submitBtn" class="submit-btn">Guardar</button>
+      </div>
+    </div>
+
+    <script>
+      let quotesData = [];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchQuotesData();
+
+        document
+          .getElementById("submitBtn")
+          .addEventListener("click", saveSelectedDocumentNumber);
+
+        document
+          .getElementById("filterInput")
+          .addEventListener("input", filterTable);
+      });
+
+      function fetchQuotesData() {
+        fetch("http://localhost:3000/api/guides-data")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            quotesData = data;
+            displayQuotesData(data);
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("quotesTable").style.display = "table";
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            document.getElementById("loader").textContent =
+              "Error al cargar los datos";
+          });
+      }
+
+      function filterTable() {
+        const filterValue = document
+          .getElementById("filterInput")
+          .value.toLowerCase();
+        const filterColumn = document.getElementById("filterColumn").value;
+
+        const filteredData = quotesData.filter((quote) => {
+          const cellValue = String(quote[filterColumn] || "").toLowerCase();
+          return cellValue.includes(filterValue);
+        });
+
+        displayQuotesData(filteredData);
+      }
+
+      function displayQuotesData(data) {
+        const tbody = document.getElementById("quotesTableBody");
+        tbody.innerHTML = "";
+
+        data.forEach((quote) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>
+                        <input type="radio" name="quoteSelect" value="${
+                          quote.documentNumber
+                        }">
+                    </td>
+                    <td>${quote.documentCode || ""}</td>
+                    <td>${quote.currency || ""}</td>
+                    <td>${quote.series || ""}</td>
+                    <td>${quote.issueDate || ""}</td>
+                    <td>${quote.exchangeRate || ""}</td>
+                    <td>${quote.expiryDate || ""}</td>
+                    <td>${quote.documentNumber || ""}</td>
+                    <td>${quote.warehouse || ""}</td>
+                    <td>${quote.priority || ""}</td>
+                    <td>${quote.status || ""}</td>
+                    <td>${quote.description || ""}</td>
+                    <td>${quote.customer || ""}</td>
+                    <td>${quote.customerName || ""}</td>
+                    <td>${quote.address || ""}</td>
+                    <td>${quote.vendor || ""}</td>
+                    <td>${quote.vendorName || ""}</td>
+                    <td>${quote.conditions || ""}</td>
+                    <td>${quote.conditionDescription || ""}</td>
+                    <td>${quote.taxReg || ""}</td>
+                    <td>${quote.conditionType || ""}</td>
+                `;
+          tbody.appendChild(row);
+        });
+      }
+
+      function saveSelectedDocumentNumber() {
+        const selectedRadio = document.querySelector(
+          'input[name="quoteSelect"]:checked'
+        );
+
+        if (selectedRadio) {
+          const documentNumber = selectedRadio.value;
+          localStorage.setItem("selectedDocumentNumber", documentNumber);
+          alert("Número de documento guardado: " + documentNumber);
+          window.location.href =
+            "/transacciones/facturacion/facturacion-de-guias-de-pedidos.html";
+        } else {
+          alert("Por favor seleccione una cotización primero");
+        }
+      }
+    </script>
+  </body>
+</html>
