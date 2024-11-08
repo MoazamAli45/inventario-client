@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pedidos desde Cotización</title>
+    <title>Guias de Pedidos </title>
     <link rel="stylesheet" href="/style/layout.css" />
     <link rel="stylesheet" href="/style/tabs.css" />
     <link rel="stylesheet" href="/style/modal.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
+       <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
       .container-aux {
         max-width: 800px;
@@ -28,6 +30,11 @@
         color: #333;
         border-bottom: 1px solid #ddd;
         padding-bottom: 5px;
+      }
+        .btn-print{
+        display: flex;
+        align-items: center;
+        gap: 5px;
       }
 
       .form-row {
@@ -330,7 +337,7 @@
         <main class="content">
           <div class="container-aux">
             <h1>
-              Registro de Guía de Bienes y Servicios</h1>
+              Guias De Pedidos</h1>
             <div class="container">
               <!-- Tab Navigation -->
               <div class="tabs">
@@ -654,10 +661,10 @@
                         <button class="doc-btn-icon">
                           <i data-lucide="minus" class="icon"></i>
                         </button>
-
-                        <button class="doc-btn-icon">
-                          <i data-lucide="file" class="icon"></i>
-                        </button>
+ <button class="doc-btn-icon btn-print" id="printButton" >
+                              <span>Print</span>
+                              <i data-lucide="file" class="icon"></i>
+                            </button>
                       </div>
                     </div>
                   </div>
@@ -1119,7 +1126,8 @@ function setReadOnlyValue(elementId, value) {
 }
 
 
-
+//  PRINT DATA
+let printData;
 
 
 function fetchProductData() {
@@ -1141,6 +1149,10 @@ function fetchProductData() {
         document.getElementById('total').value = '0.00';
         return;
     }
+
+    
+
+
 
     const url = `http://localhost:3000/api/quotes-products?numbers=${selectedDocumentNumber}`;
     const tableContainers = document.getElementById('product-table');
@@ -1183,6 +1195,9 @@ function fetchProductData() {
                 sums.tax += Number(item.tax) || 0;
                 sums.perception += Number(item.perception) || 0;
             });
+
+
+            printData=data;
 
             document.getElementById('neto').value = sums.net.toFixed(2);
             document.getElementById('isc').value = sums.isc.toFixed(2);
@@ -1277,6 +1292,106 @@ function fetchProductData() {
         });
 }
 fetchProductData()
+
+//  GET Print
+const printButton=document.getElementById('printButton');
+printButton.addEventListener('click',()=>{
+
+  console.log(printData,"Print")
+
+  const dataLocalStorage=JSON.parse(localStorage.getItem('dataLocal'));
+  console.log(dataLocalStorage,"LOCAL",printData);
+ generatePdfInvoice(printData);
+})
+
+
+    function generatePdfInvoice(data) {
+const jsPDF = window.jspdf.jsPDF;
+
+const doc = new jsPDF();
+
+// Document title and other details
+doc.setFontSize(18);
+doc.setFont('helvetica', 'bold');
+doc.text('Pedidos', 140, 20);
+doc.setFontSize(12);
+doc.text(` ${JSON.parse(localStorage.getItem('dataLocal')).numero}`, 140, 28);
+
+// Customer and Contact Information
+const localData = JSON.parse(localStorage.getItem('dataLocal'));
+doc.setFont('helvetica', 'normal');
+doc.setFontSize(10);
+doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 35);
+doc.text(`Cliente: ${localData.customerName}`, 20, 42);
+doc.text(`RUC: ${localData.customer}`, 20, 49);
+doc.text(`Documento: ${localData.documentCode} ${localData.series}-${localData.numero}`, 20, 56);
+
+// Table headers
+let yPos = 70;
+const headers = ['Artículo', 'Descripción', 'Cantidad', 'Precio Unitario', 'Subtotal'];
+const columnWidths = [30, 80, 30, 30, 30];
+
+headers.forEach((header, index) => {
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.text(header, 20 + columnWidths.slice(0, index).reduce((a, b) => a + b, 0), yPos);
+});
+
+yPos += 8;
+
+// Add table data
+const productData = data ;// Renamed from 'data' to 'productData'
+const sums = { net: 0, isc: 0, tax: 0, perception: 0 };
+
+productData.forEach(item => {
+  const row = [
+    item.article,
+    item.description,
+    item.quantity,
+    item.price.toFixed(2),
+    (item.quantity * item.price).toFixed(2)
+  ];
+
+  row.forEach((text, index) => {
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text(String(text), 20 + columnWidths.slice(0, index).reduce((a, b) => a + b, 0), yPos);
+  });
+  
+  // Calculate sums
+  sums.net += Number(item.net) || 0;
+  sums.isc += Number(item.isc) || 0;
+  sums.tax += Number(item.tax) || 0;
+  sums.perception += Number(item.perception) || 0;
+
+  yPos += 8;
+});
+
+// Totals section
+const grandTotal = sums.net + sums.isc + sums.tax + sums.perception;
+
+yPos += 10;
+doc.setFontSize(10);
+doc.setFont('helvetica', 'bold');
+doc.text('Total Neto:', 140, yPos);
+doc.text(sums.net.toFixed(2), 180, yPos);
+yPos += 8;
+doc.text('ISC:', 140, yPos);
+doc.text(sums.isc.toFixed(2), 180, yPos);
+yPos += 8;
+doc.text('IGV (Impuesto):', 140, yPos);
+doc.text(sums.tax.toFixed(2), 180, yPos);
+yPos += 8;
+doc.text('Percepción:', 140, yPos);
+doc.text(sums.perception.toFixed(2), 180, yPos);
+yPos += 8;
+doc.text('Total a Pagar:', 140, yPos);
+doc.text(grandTotal.toFixed(2), 180, yPos);
+
+// Save the PDF
+doc.save(`cotizacion_${localData.numero}.pdf`);
+
+    }
 
 
 
