@@ -157,7 +157,6 @@ CREATE TABLE environment_data (
     UNIQUE (year)
 );
 
-
 CREATE TABLE quotes_data (
   id INT PRIMARY KEY AUTO_INCREMENT,
   documentCode VARCHAR(50),
@@ -179,7 +178,8 @@ CREATE TABLE quotes_data (
   conditions VARCHAR(50),
   conditionDescription VARCHAR(100),
   taxReg VARCHAR(50),
-  conditionType VARCHAR(50)
+  conditionType VARCHAR(50),
+  state VARCHAR(20)
 );
 
 
