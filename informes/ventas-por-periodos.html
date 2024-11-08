@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ventas por Periodos</title>
+    <style>
+      .main-container {
+        text-align: center;
+      }
+      .form-container {
+        margin: 60px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+      .input-with-button {
+        display: flex;
+        gap: 5px;
+      }
+      .input-with-button input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .selection-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .selection-table th,
+      .selection-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <h1>Ventas por Periodos</h1>
+      <div class="form-container">
+        <div class="input-with-button">
+          <input type="text" id="clientInput" placeholder="Cliente" />
+          <button class="select-button">...</button>
+        </div>
+        <input
+          type="text"
+          style="width: 30%"
+          readonly
+          id="nombreInput"
+          placeholder="Nombre"
+        />
+      </div>
+      <div class="form-container">
+        <button onclick="printData()" class="printButton">Imprimir</button>
+      </div>
+    </div>
+    <div id="selectionModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="modalTitle">Select Value</h3>
+        <table class="selection-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody id="modalTableBody">
+            <!-- Data will be dynamically inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById("selectionModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalTableBody = document.getElementById("modalTableBody");
+      const closeBtn = document.querySelector(".close");
+
+      let selectionData = {
+        client: [],
+      };
+
+      async function fetchClientData() {
+        try {
+          const response = await fetch("http://localhost:3000/clientes/datos");
+          if (!response.ok) throw new Error("Network response was not ok");
+          const data = await response.json();
+          selectionData.client = data.map((client) => ({
+            code: client.code,
+            name: client.description,
+          }));
+        } catch (error) {
+          console.error("Failed to fetch client data:", error);
+        }
+      }
+
+      function openModal(type, inputElement, descriptionElement) {
+        fetchClientData().then(() => {
+          modalTitle.textContent = `Select ${type}`;
+          modalTableBody.innerHTML = "";
+
+          selectionData[type].forEach((item) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                        <td>${item.code}</td>
+                        <td>${item.name}</td>
+                    `;
+            row.onclick = () => {
+              inputElement.value = item.code;
+              if (descriptionElement) {
+                descriptionElement.value = item.name;
+              }
+              modal.style.display = "none";
+            };
+            modalTableBody.appendChild(row);
+          });
+
+          modal.style.display = "block";
+        });
+      }
+
+      closeBtn.onclick = () => (modal.style.display = "none");
+      window.onclick = (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      document.querySelector(".select-button").onclick = () => {
+        const inputElement = document.getElementById("clientInput");
+        const descriptionElement = document.getElementById("nombreInput");
+        openModal("client", inputElement, descriptionElement);
+      };
+
+      function printData() {
+        async function fetchData() {
+          try {
+            const response = await fetch(
+              "http://localhost:3000/api/combined-data"
+            );
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            const data = await response.json();
+            console.log(data);
+          } catch (error) {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+          }
+        }
+
+        fetchData();
+      }
+    </script>
+  </body>
+</html>

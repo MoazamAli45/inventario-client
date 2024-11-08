@@ -229,7 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       name: "Informes",
       subitems: [
-        { name: "Report 1", href: "/informes/report-1.html" },
+        {
+          name: "ventas por periodos",
+          href: "/informes/ventas-por-periodos.html",
+        },
         { name: "Report 2", href: "/informes/report-2.html" },
         { name: "Report 3", href: "/informes/report-3.html" },
       ],
