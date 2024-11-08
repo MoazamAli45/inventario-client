@@ -523,7 +523,7 @@
                     <div class="buttons">
 
                        <button  class="btn "
-                       onclick="window.location.href='/transacciones/preventa/cotizaciones/cotizaciones-pendientes.html'">
+                       onclick="window.location.href='/transacciones/preventa/pedidos/cotizaciones-pendientes.html'">
                        
                      Cotizaciones Pendientes
                       </button>
@@ -554,7 +554,7 @@
                               readonly
                               id="customerName"
                             />
-                          </div>
+                          </div><br/>
                           <div class="doc-form-group">
                             <label>Documento</label>
                             <div style="display: flex; gap: 5px">
@@ -566,26 +566,18 @@
                               />
                               <input
                                 type="text"
-                                style="width: 60px"
+                                style="width: 120px"
                                 readonly
 
                                 id="documentType"
                               />
                             </div>
                           </div>
-                          <div class="doc-form-group">
-                            <label>&nbsp;</label>
-                            <input type="text" value="Extra" readonly />
-                          </div>
+                         
                           <div class="doc-form-group">
                             <label>Moneda</label>
                             <div style="display: flex; gap: 5px">
-                              <input
-                                type="text"
-                                value="02"
-                                style="width: 60px"
-                                readonly
-                              />
+                           
                               <input
                                 type="text"
                                 value="Dólares Americanos"
@@ -603,8 +595,9 @@
                         <button class="doc-tab" data-tab="servicios">
                           Servicios
                         </button>
+                       
                       </div>
-
+                      <div style="overflow-x: auto;" id="product-table"></div>
                       <div class="doc-detail-section">
                         <div id="doc-bienes-section" class="doc-detail-header">
                           <h3>Detalle del Documento - Bienes</h3>
@@ -625,11 +618,11 @@
                           </div>
                         </div>
 
-                        <div style="overflow-x: auto;" id="product-table"></div>
+                        
 
                         
                       </div>
-
+                      
                       <div class="doc-footer">
                         <div class="doc-form-group">
                           <label>Neto</label>
@@ -722,6 +715,7 @@
           </table>
         </div>
       </div>
+     
     </div>
 
     <!-- Add this script before closing body tag -->
@@ -1056,14 +1050,254 @@ function generateUniqueNumber() {
   window.onload = generateUniqueNumber;
 
 
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get document number from localStorage
+    const documentNumber = localStorage.getItem("selectedDocumentNumber");
+    
+    if (!documentNumber) {
+        console.error("No document number found in localStorage");
+        return;
+    }
+
+    // Fetch data from API
+    fetch(`http://localhost:3000/api/quotes-data-specific?documentNumber=${documentNumber}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.length > 0) {
+                const quoteData = data[0];
+                
+                // Populate form fields and make them readonly
+                // Document Data Section
+                setReadOnlyValue('docInput', quoteData.documentCode);
+                setReadOnlyValue('monedaInput', quoteData.currency);
+                setReadOnlyValue('serieInput', quoteData.series);
+                setReadOnlyValue('fchInput', quoteData.issueDate);
+                setReadOnlyValue('cambioInput', quoteData.exchangeRate);
+                setReadOnlyValue('vencInput', quoteData.expiryDate);
+                setReadOnlyValue('uniqueNumber', quoteData.documentNumber);
+                setReadOnlyValue('almacenInput', quoteData.warehouse);
+
+                // Set select fields and make them disabled
+                const prioritySelect = document.querySelector('select[name="prioridad"]');
+                const estadoSelect = document.querySelector('select[name="estado"]');
+                
+                if (prioritySelect) {
+                    prioritySelect.value = quoteData.priority;
+                    prioritySelect.disabled = true;
+                }
+                
+                if (estadoSelect) {
+                    estadoSelect.value = quoteData.status;
+                    estadoSelect.disabled = true;
+                }
+
+                // Client Data Section
+                setReadOnlyValue('clientInput', quoteData.customer);
+                setReadOnlyValue('nombreInput', quoteData.customerName);
+                setReadOnlyValue('address', quoteData.address);
+                setReadOnlyValue('vendedorInput', quoteData.vendor);
+                setReadOnlyValue('nombreVendedor', quoteData.vendorName);
+                setReadOnlyValue('CondiciónInput', quoteData.conditions);
+                setReadOnlyValue('descripciónCondicionInput', quoteData.conditionDescription);
+                setReadOnlyValue('regNo', quoteData.taxReg);
+                setReadOnlyValue('tipo', quoteData.conditionType);
+
+                setReadOnlyValue('customer', quoteData.customer);
+                setReadOnlyValue('customerName', quoteData.customerName);
+                setReadOnlyValue('documentCode', quoteData.documentCode);
+                setReadOnlyValue('documentType', quoteData.series);
+
+                // Disable all buttons with "..." 
+                document.querySelectorAll('.input-with-button button').forEach(button => {
+                    button.disabled = true;
+                });
+
+                document.getElementById("customButton").disabled=true;
+
+                // Disable save button
+                const saveButton = document.getElementById('saveButton');
+                if (saveButton) {
+                    saveButton.disabled = true;
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching quote data:', error);
+        });
+});
+
+function setReadOnlyValue(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.value = value || '';
+        element.readOnly = true;
+    }
+}
 
 
- 
 
 
 
+function fetchProductData() {
+    const selectedDocumentNumber = localStorage.getItem('selectedDocumentNumber');
+    
+    if (!selectedDocumentNumber) {
+        const tableContainers = document.getElementById('product-table');
+        tableContainers.innerHTML = `
+            <div style="color: red; padding: 20px; text-align: center;">
+                No se ha seleccionado ningún número de documento
+            </div>
+        `;
+        
+        // Clear input fields
+        document.getElementById('neto').value = '0.00';
+        document.getElementById('isc').value = '0.00';
+        document.getElementById('tax').value = '0.00';
+        document.getElementById('perception').value = '0.00';
+        document.getElementById('total').value = '0.00';
+        return;
+    }
 
+    const url = `http://localhost:3000/api/quotes-products?numbers=${selectedDocumentNumber}`;
+    const tableContainers = document.getElementById('product-table');
 
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data || data.length === 0) {
+                tableContainers.innerHTML = `
+                    <div style="color: red; padding: 20px; text-align: center;">
+                        No se encontraron registros
+                    </div>
+                `;
+                
+                // Clear input fields when no records found
+                document.getElementById('neto').value = '0.00';
+                document.getElementById('isc').value = '0.00';
+                document.getElementById('tax').value = '0.00';
+                document.getElementById('perception').value = '0.00';
+                document.getElementById('total').value = '0.00';
+                return;
+            }
+
+            // Calculate sums
+            const sums = {
+                net: 0,
+                isc: 0,
+                tax: 0,
+                perception: 0
+            };
+
+            data.forEach(item => {
+                sums.net += Number(item.net) || 0;
+                sums.isc += Number(item.isc) || 0;
+                sums.tax += Number(item.tax) || 0;
+                sums.perception += Number(item.perception) || 0;
+            });
+
+            document.getElementById('neto').value = sums.net.toFixed(2);
+            document.getElementById('isc').value = sums.isc.toFixed(2);
+            document.getElementById('tax').value = sums.tax.toFixed(2);
+            document.getElementById('perception').value = sums.perception.toFixed(2);
+            document.getElementById('total').value = (sums.net + sums.isc + sums.tax + sums.perception).toFixed(2);
+
+            // Create table element
+            const table = document.createElement('table');
+            table.style.width = '100%';
+            table.style.borderCollapse = 'collapse';
+            table.style.marginTop = '20px';
+
+            // Create table header
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            const headers = Object.keys(data[0] || {});
+            
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText.charAt(0).toUpperCase() + headerText.slice(1);
+                th.style.padding = '12px';
+                th.style.backgroundColor = '#f2f2f2';
+                th.style.borderBottom = '2px solid #ddd';
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Create table body
+            const tbody = document.createElement('tbody');
+            
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                
+                headers.forEach(header => {
+                    const cell = document.createElement('td');
+                    cell.textContent = item[header];
+                    cell.style.padding = '12px';
+                    cell.style.borderBottom = '1px solid #ddd';
+                    row.appendChild(cell);
+                });
+                
+                row.addEventListener('mouseover', () => {
+                    row.style.backgroundColor = '#f5f5f5';
+                });
+                
+                row.addEventListener('mouseout', () => {
+                    row.style.backgroundColor = '';
+                });
+                
+                tbody.appendChild(row);
+            });
+
+            // Add totals row
+            const totalsRow = document.createElement('tr');
+            headers.forEach(header => {
+                const cell = document.createElement('td');
+                if (['net', 'isc', 'tax', 'perception'].includes(header)) {
+                    cell.textContent = sums[header].toFixed(2);
+                    cell.style.fontWeight = 'bold';
+                }
+                cell.style.padding = '12px';
+                cell.style.borderBottom = '1px solid #ddd';
+                cell.style.backgroundColor = '#f2f2f2';
+                totalsRow.appendChild(cell);
+            });
+            tbody.appendChild(totalsRow);
+            
+            table.appendChild(tbody);
+            
+            tableContainers.innerHTML = '';
+            tableContainers.appendChild(table);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            
+            tableContainers.innerHTML = `
+                <div style="color: red; padding: 20px; text-align: center;">
+                    Error al cargar los datos: ${error.message}
+                </div>
+            `;
+            
+            // Clear input fields on error
+            document.getElementById('neto').value = '0.00';
+            document.getElementById('isc').value = '0.00';
+            document.getElementById('tax').value = '0.00';
+            document.getElementById('perception').value = '0.00';
+            document.getElementById('total').value = '0.00';
+        });
+}
+fetchProductData()
     </script>
 
     <script src="/js/layout.js"></script>

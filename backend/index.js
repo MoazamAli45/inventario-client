@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 const db = mysql.createConnection({
   host: "localhost",
-  port: 3310,
+  port: 3306,
   user: "root",
   password: "",
   database: "inventory",
@@ -666,6 +666,51 @@ app.get("/api/quotes-data", (req, res) => {
       conditionType FROM quotes_data`;
 
   db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error fetching data from MySQL:", err);
+      res.status(500).json({ error: "Error fetching data." });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
+// GET SPECIFIED QUOTE DATA
+app.get("/api/quotes-data-specific", (req, res) => {
+  const { documentNumber } = req.query;
+
+  if (!documentNumber) {
+    return res.status(400).json({ error: "documentNumber is required." });
+  }
+
+  const query = `
+    SELECT 
+      id, 
+      documentCode, 
+      currency, 
+      series, 
+      DATE_FORMAT(issueDate, '%Y-%m-%d') as issueDate, 
+      exchangeRate, 
+      DATE_FORMAT(expiryDate, '%Y-%m-%d') as expiryDate, 
+      documentNumber, 
+      warehouse, 
+      priority, 
+      status, 
+      description, 
+      customer, 
+      customerName, 
+      address, 
+      vendor, 
+      vendorName, 
+      conditions, 
+      conditionDescription, 
+      taxReg, 
+      conditionType 
+    FROM quotes_data 
+    WHERE documentNumber = ?
+  `;
+
+  db.query(query, [documentNumber], (err, results) => {
     if (err) {
       console.error("Error fetching data from MySQL:", err);
       res.status(500).json({ error: "Error fetching data." });
