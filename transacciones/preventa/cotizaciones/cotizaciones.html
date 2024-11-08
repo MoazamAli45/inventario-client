@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/style/tabs.css" />
     <link rel="stylesheet" href="/style/modal.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
+  
+      <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
       .container-aux {
         max-width: 800px;
@@ -63,6 +66,12 @@
 
       .form-group input[type="date"] {
         padding: 6px 8px;
+      }
+
+      .btn-print{
+        display: flex;
+        align-items: center;
+        gap: 5px;
       }
 
       .full-width {
@@ -656,7 +665,8 @@
                           <i data-lucide="minus" class="icon"></i>
                         </button>
 
-                        <button class="doc-btn-icon">
+                        <button class="doc-btn-icon btn-print" id="printButton" >
+                         <span> Print</span>
                           <i data-lucide="file" class="icon"></i>
                         </button>
                       </div>
@@ -943,7 +953,6 @@ const documentTypeField = document.getElementById('documentType');
 
 const dataLocalStorage=JSON.parse(localStorage.getItem('dataLocal'));
 
-console.log(dataLocalStorage,"DATA");
 
 // Populate the fields with the data
 if (dataLocalStorage) {
@@ -1418,6 +1427,13 @@ function debounce(func, wait) {
   };
 }
 
+
+//   PRINT DATA 
+
+
+let printData;
+
+
 // Add CSS Styles
 const style = document.createElement('style');
 style.textContent = `
@@ -1546,6 +1562,8 @@ fetch(url)
             perception: 0
         };
 
+
+
         data.forEach(item => {
             sums.net += Number(item.net) || 0;
             sums.isc += Number(item.isc) || 0;
@@ -1558,6 +1576,9 @@ document.getElementById('tax').value = sums.tax.toFixed(2);
 document.getElementById('perception').value = sums.perception.toFixed(2);
 document.getElementById('total').value = (sums.net + sums.isc + sums.tax + sums.perception).toFixed(2);
         
+
+  printData=data;
+
 
         // Create table element
         const table = document.createElement('table');
@@ -1585,6 +1606,8 @@ document.getElementById('total').value = (sums.net + sums.isc + sums.tax + sums.
 
         // Create table body
         const tbody = document.createElement('tbody');
+
+        
         
         data.forEach(item => {
             const row = document.createElement('tr');
@@ -1638,6 +1661,107 @@ document.getElementById('total').value = (sums.net + sums.isc + sums.tax + sums.
         `;
     });
 
+
+
+//  GET Print
+const printButton=document.getElementById('printButton');
+printButton.addEventListener('click',()=>{
+
+  console.log(printData,"Print")
+
+  const dataLocalStorage=JSON.parse(localStorage.getItem('dataLocal'));
+  console.log(dataLocalStorage,"LOCAL",printData);
+ generatePdfInvoice(printData);
+})
+
+
+    function generatePdfInvoice(data) {
+const jsPDF = window.jspdf.jsPDF;
+
+const doc = new jsPDF();
+
+// Document title and other details
+doc.setFontSize(18);
+doc.setFont('helvetica', 'bold');
+doc.text('COTIZACIÓN', 140, 20);
+doc.setFontSize(12);
+doc.text(`N°: ${JSON.parse(localStorage.getItem('dataLocal')).numero}`, 140, 28);
+
+// Customer and Contact Information
+const localData = JSON.parse(localStorage.getItem('dataLocal'));
+doc.setFont('helvetica', 'normal');
+doc.setFontSize(10);
+doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 35);
+doc.text(`Cliente: ${localData.customerName}`, 20, 42);
+doc.text(`RUC: ${localData.customer}`, 20, 49);
+doc.text(`Documento: ${localData.documentCode} ${localData.series}-${localData.numero}`, 20, 56);
+
+// Table headers
+let yPos = 70;
+const headers = ['Artículo', 'Descripción', 'Cantidad', 'Precio Unitario', 'Subtotal'];
+const columnWidths = [30, 80, 30, 30, 30];
+
+headers.forEach((header, index) => {
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.text(header, 20 + columnWidths.slice(0, index).reduce((a, b) => a + b, 0), yPos);
+});
+
+yPos += 8;
+
+// Add table data
+const productData = data ;// Renamed from 'data' to 'productData'
+const sums = { net: 0, isc: 0, tax: 0, perception: 0 };
+
+productData.forEach(item => {
+  const row = [
+    item.article,
+    item.description,
+    item.quantity,
+    item.price.toFixed(2),
+    (item.quantity * item.price).toFixed(2)
+  ];
+
+  row.forEach((text, index) => {
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text(String(text), 20 + columnWidths.slice(0, index).reduce((a, b) => a + b, 0), yPos);
+  });
+  
+  // Calculate sums
+  sums.net += Number(item.net) || 0;
+  sums.isc += Number(item.isc) || 0;
+  sums.tax += Number(item.tax) || 0;
+  sums.perception += Number(item.perception) || 0;
+
+  yPos += 8;
+});
+
+// Totals section
+const grandTotal = sums.net + sums.isc + sums.tax + sums.perception;
+
+yPos += 10;
+doc.setFontSize(10);
+doc.setFont('helvetica', 'bold');
+doc.text('Total Neto:', 140, yPos);
+doc.text(sums.net.toFixed(2), 180, yPos);
+yPos += 8;
+doc.text('ISC:', 140, yPos);
+doc.text(sums.isc.toFixed(2), 180, yPos);
+yPos += 8;
+doc.text('IGV (Impuesto):', 140, yPos);
+doc.text(sums.tax.toFixed(2), 180, yPos);
+yPos += 8;
+doc.text('Percepción:', 140, yPos);
+doc.text(sums.perception.toFixed(2), 180, yPos);
+yPos += 8;
+doc.text('Total a Pagar:', 140, yPos);
+doc.text(grandTotal.toFixed(2), 180, yPos);
+
+// Save the PDF
+doc.save(`cotizacion_${localData.numero}.pdf`);
+
+    }
 
 
     </script>
