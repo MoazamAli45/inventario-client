@@ -935,6 +935,71 @@ app.get("/api/guides-data", (req, res) => {
   });
 });
 
+//GET COMBINED DATA
+app.get("/api/combined-data", (req, res) => {
+  const query = `
+    SELECT 
+    documentNumber, 
+    customer, 
+    customerName, 
+    address, 
+    documentCode, 
+    issueDate, 
+    delivery_date, 
+    expiryDate, 
+    article, 
+    q.description AS quote_description,  -- Specify the table alias
+    p.description AS product_description,  -- Specify the table alias
+    quantity, 
+    price, 
+    discount1, 
+    discount2, 
+    discount3, 
+    gross, 
+    net, 
+    tax, 
+    total, 
+    q.currency, 
+    p.currency,
+    exchangeRate, 
+    conditions, 
+    conditionType, 
+    conditionDescription, 
+    q.vendor, 
+    p.vendor, 
+    vendorName, 
+    vendor_description, 
+    q.warehouse, 
+    p.warehouse,
+    warehouse_description, 
+    cost_center, 
+    model, 
+    series, 
+    priority, 
+    state, 
+    status, 
+    stock, 
+    perception, 
+    isc, 
+    amount, 
+    project_code, 
+    usage_code, 
+    numbers
+    FROM quotes_data AS q 
+    RIGHT JOIN quotes_product AS p 
+    ON q.documentNumber = p.numbers 
+    `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error fetching data from MySQL:", err);
+      res.status(500).json({ error: "Error fetching data." });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
