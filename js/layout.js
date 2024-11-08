@@ -150,18 +150,51 @@ document.addEventListener("DOMContentLoaded", () => {
           name: "Facturación",
           subitems: [
             {
-              name: "Facturas Directas",
-              href: "/transacciones/facturacion/facturas-directas.html",
+              name: "Facturación de Preventa",
+              href: "/transacciones/facturacion/facturacion-de-preventa.html",
             },
             {
-              name: "Facturación de Anticipos",
-              href: "/transacciones/facturacion/facturacion-de-anticipos.html",
+              name: "Facturación con Guía de Remisión",
+              subitems: [
+                {
+                  name: "Guías de Pedidos",
+                  href: "/transacciones/facturacion/guias-de-pedidos.html",
+                },
+                {
+                  name: "Facturación de Guías de Pedidos",
+                  href: "/transacciones/facturacion/facturacion-de-guias-de-pedidos.html",
+                },
+                {
+                  name: "Guías Directas",
+                  href: "/transacciones/facturacion/guias-directas.html",
+                },
+                {
+                  name: "Facturación de Guías Directas",
+                  href: "/transacciones/facturacion/facturacion-de-guias-directas.html",
+                },
+                {
+                  name: "Guías Administrativas",
+                  href: "/transacciones/facturacion/guias-administrativas.html",
+                },
+              ],
             },
             {
-              name: "Facturación POS",
-              href: "/transacciones/facturacion/facturacion-pos.html",
+              name: "Facturación Adelantada",
+              href: "/transacciones/facturacion/facturacion-adelantada.html",
             },
           ],
+        },
+        {
+          name: "Facturas Directas",
+          href: "/transacciones/facturacion/facturas-directas.html",
+        },
+        {
+          name: "Facturación de Anticipos",
+          href: "/transacciones/facturacion/facturacion-de-anticipos.html",
+        },
+        {
+          name: "Facturación POS",
+          href: "/transacciones/facturacion/facturacion-pos.html",
         },
         {
           name: "Notas de Débito/Crédito",
